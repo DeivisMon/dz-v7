@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@200..800&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poiret+One&family=Sevillana&family=Syne:wght@400..800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap");
+@import url("https://db.onlinewebfonts.com/c/62123f44beddc6527e8ed8403f7d6198?family=Thomas+Mag+Regular");
+@import url('https://fonts.cdnfonts.com/css/gretha');
+@import url('https://fonts.cdnfonts.com/css/mirage-2');
+@import url('https://fonts.cdnfonts.com/css/aventi');
+@import url('https://fonts.cdnfonts.com/css/kaldera');
+@import url('https://fonts.cdnfonts.com/css/neroit-mission');
+@import url('https://fonts.cdnfonts.com/css/mories');
+@import url('https://fonts.cdnfonts.com/css/lt-binary-neue');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poiret+One&family=Sevillana&family=Syne:wght@400..800&display=swap');
+@import url(https://db.onlinewebfonts.com/c/384a6031928e262848e4e7ef80037466?family=Kudryashev+Display+Sans);
+@import "tailwindcss";
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* hide scrollbar for all browsers */
+html {
+  overflow: -moz-scrollbar-none; /* Old Firefox */
+  scrollbar-width: none; /* New Firefox */
+  -ms-overflow-style: none; /* IE & Edge */
+}
+
+/* html, body {
+  cursor: none;
+} */
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none; 
+}
+
+::selection {
+  background: transparent;
+}
+
+body {
+        /* font-family: "Roboto", sans-serif; */
+    /* font-family: "Thomas Mag Regular", sans-serif; */
+    /* font-family: 'Gretha', sans-serif; */
+    /* font-family: 'Mirage', sans-serif; */
+    /* font-family: 'Aventi', sans-serif; */
+    /* font-family: 'Kaldera', sans-serif; */
+    /* font-family: 'Neroit Mission', sans-serif; */
+    font-family: 'Mories', sans-serif;
+    /* font-family: 'LT Binary Neue', sans-serif; */
+    /* font-family: 'Syne', sans-serif; */
+    /* font-family: 'Anton', sans-serif; */
+    /* font-family: "Kudryashev Display Sans", sans-serif; */
+    background-color: black;
+}
