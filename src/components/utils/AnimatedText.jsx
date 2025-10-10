@@ -53,7 +53,7 @@ const AnimatedText = ({
   return (
     <div className={`inline-block ${className}`}>
       <Motion.span
-        className="inline-flex overflow-hidden relative z-10"
+        className="inline-flex overflow-hidden relative"
         variants={container}
         initial="hidden"
         animate="show"

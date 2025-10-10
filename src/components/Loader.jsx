@@ -1,21 +1,21 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 
 // Import all images
-import img1 from '../assets/img1.avif';
-import img2 from '../assets/img2.avif';
-import img3 from '../assets/img3.avif';
-import img4 from '../assets/img4.avif';
-import img5 from '../assets/img5.avif';
-import img6 from '../assets/img6.avif';
-import img7 from '../assets/img7.avif';
-import img8 from '../assets/img8.avif';
-import img9 from '../assets/img9.avif';
-import img10 from '../assets/img10.avif';
-import img11 from '../assets/img11.avif';
-import img12 from '../assets/img12.avif';
-import img13 from '../assets/img13.avif';
-import img15 from '../assets/img15.avif';
+import img1 from "../assets/img1.avif";
+import img2 from "../assets/img2.avif";
+import img3 from "../assets/img3.avif";
+import img4 from "../assets/img4.avif";
+import img5 from "../assets/img5.avif";
+import img6 from "../assets/img6.avif";
+import img7 from "../assets/img7.avif";
+import img8 from "../assets/img8.avif";
+import img9 from "../assets/img9.avif";
+import img10 from "../assets/img10.avif";
+import img11 from "../assets/img11.avif";
+import img12 from "../assets/img12.avif";
+import img13 from "../assets/img13.avif";
+import img15 from "../assets/img15.avif";
 
 const images = {
   img1,
@@ -31,7 +31,7 @@ const images = {
   img11,
   img12,
   img13,
-  img15
+  img15,
 };
 
 export default function Loader({ onComplete }) {
@@ -39,11 +39,11 @@ export default function Loader({ onComplete }) {
 
   // Image data structure using keys from images object
   const columns = [
-    { class: 'c-1', images: ['img1', 'img2', 'img3', 'img4', 'img5'] },
-    { class: 'c-2', images: ['img6', 'img7', 'img8', 'img9', 'img10'] },
-    { class: 'c-3', images: ['img11', 'img12', null, 'img13', 'img15'] },
-    { class: 'c-4', images: ['img1', 'img2', 'img3', 'img4', 'img5'] },
-    { class: 'c-5', images: ['img6', 'img7', 'img8', 'img9', 'img10'] }
+    { class: "c-1", images: ["img1", "img2", "img3", "img4", "img5"] },
+    { class: "c-2", images: ["img6", "img7", "img8", "img9", "img10"] },
+    { class: "c-3", images: ["img11", "img12", null, "img13", "img15"] },
+    { class: "c-4", images: ["img1", "img2", "img3", "img4", "img5"] },
+    { class: "c-5", images: ["img6", "img7", "img8", "img9", "img10"] },
   ];
 
   useEffect(() => {
@@ -51,56 +51,80 @@ export default function Loader({ onComplete }) {
 
     tl.to(".col", {
       top: "0",
-      duration: 1,
-      delay: 1,
-      ease: "power4.inOut"
+      duration: 2.5,
+      // delay: 0.5,
+      ease: "power4.inOut",
     });
 
-    tl.to(".c-1 .item", {
-      top: "0",
-      stagger: 0.25,
-      duration: 3,
-      ease: "expo.inOut"
-    }, "-=2");
+    tl.to(
+      ".c-1 .item",
+      {
+        top: "0",
+        stagger: 0.25,
+        duration: 3,
+        ease: "expo.inOut",
+      },
+      "-=2"
+    );
 
-    tl.to(".c-5 .item", {
-      top: "0",
-      stagger: 0.25,
-      duration: 3,
-      ease: "expo.inOut"
-    }, "-=");
+    tl.to(
+      ".c-5 .item",
+      {
+        top: "0",
+        stagger: 0.25,
+        duration: 3,
+        ease: "expo.inOut",
+      },
+      "<"
+    );
 
-    tl.to(".c-2 .item", {
-      top: "0",
-      stagger: -0.2,
-      duration: 3,
-      ease: "expo.inOut"
-    }, "-=4");
+    tl.to(
+      ".c-2 .item",
+      {
+        top: "0",
+        stagger: -0.2,
+        duration: 3,
+        ease: "expo.inOut",
+      },
+      "-=4"
+    );
 
-    tl.to(".c-4 .item", {
-      top: "0",
-      stagger: -0.2,
-      duration: 3,
-      ease: "expo.inOut"
-    }, "-=4");
+    tl.to(
+      ".c-4 .item",
+      {
+        top: "0",
+        stagger: -0.2,
+        duration: 3,
+        ease: "expo.inOut",
+      },
+      "-=4"
+    );
 
-    tl.to(".c-3 .item", {
-      top: "0",
-      stagger: 0.1,
-      duration: 3,
-      ease: "expo.inOut"
-    }, "-=4");
+    tl.to(
+      ".c-3 .item",
+      {
+        top: "0",
+        stagger: 0.1,
+        duration: 3,
+        ease: "expo.inOut",
+      },
+      "-=4"
+    );
 
-    tl.to(".grid-container", {
-      scale: 5,
-      duration: 3,
-      ease: "expo.inOut",
-            onComplete: () => {
-      if (onComplete) {
-        setTimeout(() => onComplete(), 0); 
-      }
-}
-    }, "<2");
+    tl.to(
+      ".grid-container",
+      {
+        scale: 5,
+        duration: 2,
+        ease: "expo.inOut",
+        onComplete: () => {
+          if (onComplete) {
+            setTimeout(() => onComplete(), 0);
+          }
+        },
+      },
+      "<2.5"
+    );
 
     timelineRef.current = tl;
 
@@ -118,14 +142,19 @@ export default function Loader({ onComplete }) {
         {columns.map((col, colIndex) => (
           <div
             key={colIndex}
-            className={`col ${col.class} relative flex-1 w-full flex flex-col gap-[0.2em] ${
-              colIndex % 2 === 0 ? 'top-full' : '-top-full'
+            className={`col ${
+              col.class
+            } relative flex-1 w-full flex flex-col gap-[0.2em] ${
+              colIndex % 2 === 0 ? "top-full" : "-top-full"
             }`}
           >
             {col.images.map((imgKey, imgIndex) => (
-              <div key={imgIndex} className={`item relative flex-1 w-full overflow-hidden ${
-                colIndex % 2 === 0 ? 'top-full' : '-top-full'
-              }`}>
+              <div
+                key={imgIndex}
+                className={`item relative flex-1 w-full overflow-hidden ${
+                  colIndex % 2 === 0 ? "top-full" : "-top-full"
+                }`}
+              >
                 {imgKey && images[imgKey] && (
                   <img
                     src={images[imgKey]}
@@ -161,9 +190,9 @@ export default function Loader({ onComplete }) {
         </nav>
 
       </div> */}
-        <footer className="absolute bottom-0 w-full">
-          {/* Footer content can go here */}
-        </footer>
+      <footer className="absolute bottom-0 w-full">
+        {/* Footer content can go here */}
+      </footer>
     </div>
   );
 }

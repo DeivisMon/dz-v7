@@ -23,9 +23,9 @@ html {
   -ms-overflow-style: none; /* IE & Edge */
 }
 
-/* html, body {
+html, body {
   cursor: none;
-} */
+}
 
 html::-webkit-scrollbar,
 body::-webkit-scrollbar {
@@ -50,4 +50,10 @@ body {
     /* font-family: 'Anton', sans-serif; */
     /* font-family: "Kudryashev Display Sans", sans-serif; */
     background-color: black;
+}
+
+.logo {
+  /* font-family: 'Mories', sans-serif; */
+    /* font-family: 'Syne', sans-serif; */
+  
 }

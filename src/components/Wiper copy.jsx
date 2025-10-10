@@ -14,17 +14,17 @@ export default function Wiper() {
     const tl = gsap.timeline();
     tl.to(tiles, {
       keyframes: [
-    { scale: 0.8, rotateX: 180, duration: 0.2 },
-    { scale: 1, rotateX: 0, duration: 0.3 },
-    { scale: 0.5, rotateY: -180, duration: 0.3 },
-    { scale: 0.2, rotateX: 180, duration: 0.2 },
-    { scale: 0, rotateX: 0, duration: 0.4 },
-  ],
+        { scale: 0.8, rotateX: 180, duration: 0.2 },
+        { scale: 1, rotateX: 0, duration: 0.3 },
+        { scale: 0.5, rotateY: -180, duration: 0.3 },
+        { scale: 0.2, rotateX: 180, duration: 0.2 },
+        { scale: 0, rotateX: 0, duration: 0.4 },
+      ],
       ease: "power2.inOut",
       stagger: {
         // create a wave pattern
         grid: [rows, cols],
-        from: "right center", // can be "edges", "random", "end", etc.
+        from: "top", // can be "edges", "random", "end", etc.
         amount: 1.25, // total stagger duration
       },
     });

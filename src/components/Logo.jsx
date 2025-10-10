@@ -23,7 +23,7 @@ export default function Logo() {
           <div className="nav-item overflow-hidden">
             <a
               href=""
-              className="relative top-[-100px] text-[38px] font-extrabold no-underline text-black capitalize opacity-100"
+              className="relative top-[-100px] text-[78px] font-extrabold no-underline text-black capitalize opacity-100"
             >
               Darius Žvinklys |
             </a>
