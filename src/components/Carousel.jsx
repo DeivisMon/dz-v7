@@ -22,6 +22,7 @@ export default function Carousel() {
       "/src/assets/img11.avif",
       "/src/assets/img12.avif",
       "/src/assets/img13.avif",
+      "/src/assets/img14.jpg",
       "/src/assets/img15.avif",
     ];
     const totalSlides = images.length;;
@@ -30,7 +31,7 @@ export default function Carousel() {
     const indicators = document.querySelectorAll(".carousel-indicator");
     indicators.forEach((indicator, i) => {
       gsap.to(indicator, {
-        scaleX: i === index ? 1 : 0.5,
+        scaleY: i === index ? 1.25 : 0.5,
         duration: 1.5,
         ease: "power4.inOut",
       });
@@ -103,7 +104,7 @@ export default function Carousel() {
           scale: 2,
           top: "4em",
           duration: 1.8,
-          ease: "power3.inOut",
+          ease: "power4.inOut",
         },
         0
       )
@@ -122,7 +123,7 @@ export default function Carousel() {
           scale: 1,
           top: "0",
           duration: 1.8,
-          ease: "power3.inOut",
+          ease: "power4.inOut",
         },
         0
       );
@@ -201,7 +202,7 @@ export default function Carousel() {
             <img
               src={src}
               alt={`Slide ${index + 1}`}
-              className="w-full h-full object-cover will-change-transform"
+              className="w-full h-full object-cover will-change-transform "
             />
           </div>
         ))}
@@ -211,7 +212,7 @@ export default function Carousel() {
       <div
         onClick={() => handleArrowClick("prev")}
         disabled={isAnimating.current}
-        className="fixed left-0 top-1/2 -translate-y-1/2 z-50 w-1/2 h-full flex items-center justify-center hover:bg-white/20 transition-all duration-300 group disabled:opacity-50 disabled:cursor-not-allowed"
+        className="fixed left-0 top-1/2 -translate-y-1/2 z-10 w-1/2 h-full flex items-center justify-center hover:bg-white/ transition-all duration-300 group disabled:opacity-50 disabled:cursor-not-allowed"
       >
         <svg
           className="w-6 h-6 text-black group-hover:scale-110 transition-transform"
@@ -232,7 +233,7 @@ export default function Carousel() {
       <button
         onClick={() => handleArrowClick("next")}
         disabled={isAnimating.current}
-        className="fixed right-8 top-1/2 -translate-y-1/2 z-50 w-12 h-12 flex items-center justify-center bg-white/10 backdrop-blur-sm border border-white/20 rounded-full hover:bg-white/20 transition-all duration-300 group disabled:opacity-50 disabled:cursor-not-allowed"
+        className="fixed right-0 top-1/2 -translate-y-1/2 z-10 w-1/2 h-full flex items-center justify-center hover:bg-white/ transition-all duration-300 group disabled:opacity-50 disabled:cursor-not-allowed"
       >
         <svg
           className="w-6 h-6 text-white group-hover:scale-110 transition-transform"
@@ -250,12 +251,14 @@ export default function Carousel() {
       </button>
 
       {/* Bottom Indicators */}
-      <div className="fixed bottom-8 left-1/2 -translate-x-1/2 flex gap-4 z-50">
+      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 flex gap-28 z-50 mix-blend-exclusion ">
         {images.map((_, i) => (
           <div
             key={i}
-            className={`carousel-indicator h-16 w-2 bg-white/80 rounded-full origin-center ${
-              i === currentSlideIndex ? "scale-y-100" : "scale-y-50"
+            onClick={() => changeSlide(i)}
+            data-cursor-type="link"
+            className={`carousel-indicator cursor-trigger h-20 w-2 bg-white/80 rounded-full origin-center  ${
+              i === currentSlideIndex ? "scale-y-125" : "scale-y-50"
             }`}
           />
         ))}
