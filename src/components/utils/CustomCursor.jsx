@@ -1,12 +1,12 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 
-// Linear interpolation utility
+// Lerp
 const lerp = (a, b, n) => (1 - n) * a + n * b;
 
-// Global cursor position (like the original)
+// Global cursor position
 let globalCursor = { x: 0, y: 0 };
 
-// Individual cursor element component
+// Cursor element
 const CursorElement = ({
   size,
   viewBox,
@@ -94,14 +94,10 @@ const CursorElement = ({
 
       // Show element
       setIsVisible(true);
-    //   if (elementRef.current) {
-    //     elementRef.current.style.opacity = 1;
-    //   }
 
       // Start animation loop
       animate();
 
-      // Remove this listener
       window.removeEventListener("mousemove", handleFirstMove);
     };
 
@@ -221,6 +217,42 @@ const CursorElement = ({
             />
           </g>
         );
+
+case "prev":
+  return (
+    <path
+      d={`
+        M${centerX + 4},${centerY - 6}
+        L${centerX - 4},${centerY}
+        L${centerX + 4},${centerY + 6}
+      `}
+      stroke="white"
+      strokeWidth="1.5"
+      fill="none"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="mix-blend-difference"
+    />
+  );
+
+case "next":
+  return (
+    <path
+      d={`
+        M${centerX - 4},${centerY - 6}
+        L${centerX + 4},${centerY}
+        L${centerX - 4},${centerY + 6}
+      `}
+      stroke="white"
+      strokeWidth="1.5"
+      fill="none"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="mix-blend-difference"
+    />
+  );
+
+
       default:
         return null;
     }
@@ -278,7 +310,7 @@ useEffect(() => {
 }, []);
 
 
-  // Track global mouse position
+  // Global mouse position
   useEffect(() => {
     const updateCursor = (e) => {
       globalCursor.x = e.clientX;
@@ -315,6 +347,10 @@ useEffect(() => {
           ? "link"
           : triggerElement.classList.contains("cursor-up")
           ? "up"
+          : triggerElement.classList.contains("cursor-next")
+          ? "next"
+          : triggerElement.classList.contains("cursor-prev")
+          ? "prev"
           : null);
 
       setIconType(cursorType);
@@ -346,6 +382,10 @@ useEffect(() => {
           ? "link"
           : element.classList.contains("cursor-up")
           ? "up"
+          : element.classList.contains("cursor-next")
+          ? "next"
+          : element.classList.contains("cursor-prev")
+          ? "prev"
           : null);
 
       setIconType(cursorType);

@@ -22,7 +22,7 @@ export default function Carousel() {
       "/src/assets/img11.avif",
       "/src/assets/img12.avif",
       "/src/assets/img13.avif",
-      "/src/assets/img14.jpg",
+      "/src/assets/img14.avif",
       "/src/assets/img15.avif",
     ];
     const totalSlides = images.length;;
@@ -212,43 +212,19 @@ export default function Carousel() {
       <div
         onClick={() => handleArrowClick("prev")}
         disabled={isAnimating.current}
-        className="fixed left-0 top-1/2 -translate-y-1/2 z-10 w-1/2 h-full flex items-center px-8 transition-all duration-300 group disabled:opacity-50 disabled:cursor-not-allowed"
+        className="cursor-trigger fixed left-0 top-1/2 -translate-y-1/2 z-10 w-1/2 h-full flex items-center px-8 transition-all duration-300 group"
+        data-cursor-type="prev"
       >
-        <svg
-          className="w-18 h-18 text-black group-hover:scale-110 transition-transform"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M15 19l-7-7 7-7"
-          />
-        </svg>
       </div>
 
       {/* Right Arrow */}
-      <button
+      <div
         onClick={() => handleArrowClick("next")}
         disabled={isAnimating.current}
-        className="fixed right-0 top-1/2 -translate-y-1/2 z-10 w-1/2 h-full flex items-center justify-end px-8 transition-all duration-300 group disabled:opacity-50 disabled:cursor-not-allowed"
+        className="cursor-trigger fixed right-0 top-1/2 -translate-y-1/2 z-10 w-1/2 h-full flex items-center justify-end px-8 transition-all duration-300 group"
+        data-cursor-type="next"
       >
-        <svg
-          className="w-18 h-18 text-black group-hover:scale-110 transition-transform"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M9 5l7 7-7 7"
-          />
-        </svg>
-      </button>
+      </div>
 
       {/* Bottom Indicators */}
       <div className="fixed bottom-6 left-1/2 -translate-x-1/2 flex gap-28 z-50 mix-blend-exclusion ">

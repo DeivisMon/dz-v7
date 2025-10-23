@@ -22,7 +22,7 @@ export default function NavBar() {
       
       // Animate overlay in
       tl.to(overlayRef.current, {
-        clipPath: "circle(100% at 0% 50%)",
+        clipPath: "circle(150% at 100% 0%)",
         duration: 0.8,
         ease: "power4.inOut"
       });
@@ -43,8 +43,8 @@ export default function NavBar() {
         },
         "-=0.4"
       );
-    } else if (overlayRef.current) {
-      // Close animation
+    } else if (overlayRef.current && menuLinksRef.current.length > 0) {
+      // Close animation - only if menu links exist
       const tl = gsap.timeline();
       
       // Animate links out
@@ -76,12 +76,12 @@ export default function NavBar() {
   return (
     <>
       <div
-        className={`navbar fixed z-[150] top-0 left-0 w-full flex px-8 m-0 transition-all backdrop-blur-[5px] mix-blend-difference duration-700 ease-in-out select-none`}
+        className={`navbar fixed z-[150] top-0 left-0 w-full flex px-8 m-0 transition-all mix-blend-difference duration-700 ease-in-out select-none`}
       >
         <div className={`w-full flex`}>
           {/* Desktop Navigation */}
           <div
-            className={`nav-links relative z-1 nav-item hidden md:flex items-start gap-4 font-bold tracking-widest text-[20px] backdrop-blur bg-black/50 transition-all duration-500 ease-in-out`}
+            className={`nav-links relative z-1 nav-item hidden md:flex items-center gap-4 font-bold tracking-widest text-[20px] backdrop-blur bg-black/50 transition-all duration-500 ease-in-out`}
           >
             <Link
               className={`cursor-trigger flex justify-center items-center p-1 cursor-none ${
@@ -123,7 +123,8 @@ export default function NavBar() {
           {/* Mobile Menu Button */}
           <button
             onClick={toggleMenu}
-            className="md:hidden relative z-[160] w-10 h-10 flex flex-col justify-center items-center gap-1.5"
+            className={`md:hidden relative z-[160] w-10 h-10 flex flex-col justify-center items-center gap-1.5`}
+            
             aria-label="Toggle menu"
           >
             <span
