@@ -212,10 +212,10 @@ export default function Carousel() {
       <div
         onClick={() => handleArrowClick("prev")}
         disabled={isAnimating.current}
-        className="fixed left-0 top-1/2 -translate-y-1/2 z-10 w-1/2 h-full flex items-center justify-center hover:bg-white/ transition-all duration-300 group disabled:opacity-50 disabled:cursor-not-allowed"
+        className="fixed left-0 top-1/2 -translate-y-1/2 z-10 w-1/2 h-full flex items-center px-8 transition-all duration-300 group disabled:opacity-50 disabled:cursor-not-allowed"
       >
         <svg
-          className="w-6 h-6 text-black group-hover:scale-110 transition-transform"
+          className="w-18 h-18 text-black group-hover:scale-110 transition-transform"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -233,10 +233,10 @@ export default function Carousel() {
       <button
         onClick={() => handleArrowClick("next")}
         disabled={isAnimating.current}
-        className="fixed right-0 top-1/2 -translate-y-1/2 z-10 w-1/2 h-full flex items-center justify-center hover:bg-white/ transition-all duration-300 group disabled:opacity-50 disabled:cursor-not-allowed"
+        className="fixed right-0 top-1/2 -translate-y-1/2 z-10 w-1/2 h-full flex items-center justify-end px-8 transition-all duration-300 group disabled:opacity-50 disabled:cursor-not-allowed"
       >
         <svg
-          className="w-6 h-6 text-white group-hover:scale-110 transition-transform"
+          className="w-18 h-18 text-black group-hover:scale-110 transition-transform"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -258,7 +258,7 @@ export default function Carousel() {
             onClick={() => changeSlide(i)}
             data-cursor-type="link"
             className={`carousel-indicator cursor-trigger h-20 w-2 bg-white/80 rounded-full origin-center  ${
-              i === currentSlideIndex ? "scale-y-125" : "scale-y-50"
+              i === currentSlideIndex ? "scale-y-115" : "scale-y-50"
             }`}
           />
         ))}

@@ -17,6 +17,7 @@ import img12 from "../assets/img12.avif";
 import img13 from "../assets/img13.avif";
 import img15 from "../assets/img15.avif";
 
+
 const images = {
   img1,
   img2,
@@ -167,32 +168,6 @@ export default function Loader({ onComplete }) {
           </div>
         ))}
       </div>
-
-      {/* Content Overlay */}
-      {/* <div className="content relative w-full h-full z-10">
-        <nav className="fixed w-full py-2 px-4 flex justify-start items-center">
-          <div className="nav-item overflow-hidden">
-            <a
-              href=""
-              className="relative top-[100px] text-[38px] font-extrabold no-underline text-[#3a3a3a] capitalize opacity-100"
-              style={{ mixBlendMode: 'difference' }}
-            >
-              Darius Žvinklys |{' '}
-            </a>
-            <a
-              href=""
-              className="relative top-[100px] text-[38px] font-extrabold no-underline text-[#3a3a3a] capitalize opacity-50"
-              style={{ mixBlendMode: 'difference' }}
-            >
-              Photography
-            </a>
-          </div>
-        </nav>
-
-      </div> */}
-      <footer className="absolute bottom-0 w-full">
-        {/* Footer content can go here */}
-      </footer>
     </div>
   );
 }
