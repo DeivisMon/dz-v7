@@ -1,7 +1,8 @@
+// Loader.jsx
 import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 
-// Import all images
+// Import images
 import img1 from "../assets/img1.avif";
 import img2 from "../assets/img2.avif";
 import img3 from "../assets/img3.avif";
@@ -17,28 +18,20 @@ import img12 from "../assets/img12.avif";
 import img13 from "../assets/img13.avif";
 import img15 from "../assets/img15.avif";
 
-
 const images = {
-  img1,
-  img2,
-  img3,
-  img4,
-  img5,
-  img6,
-  img7,
-  img8,
-  img9,
-  img10,
-  img11,
-  img12,
-  img13,
-  img15,
+  img1, img2, img3, img4, img5,
+  img6, img7, img8, img9, img10,
+  img11, img12, img13, img15,
 };
+
+const NUMBER_SEQUENCE = [5, 23, 48, 71, 88, 100];
 
 export default function Loader({ onComplete }) {
   const timelineRef = useRef(null);
+  const numberRef = useRef(null);
+  const circleRef = useRef(null);
+  const counterContainerRef = useRef(null);
 
-  // Image data structure using keys from images object
   const columns = [
     { class: "c-1", images: ["img1", "img2", "img3", "img4", "img5"] },
     { class: "c-2", images: ["img6", "img7", "img8", "img9", "img10"] },
@@ -48,104 +41,153 @@ export default function Loader({ onComplete }) {
   ];
 
   useEffect(() => {
-    const tl = gsap.timeline({ delay: 0 });
+    const radius = 45;
+    const circumference = 2 * Math.PI * radius;
+
+    const tl = gsap.timeline({ delay: 0.3 });
+
+    // =============
+    // COUNTER + CIRCLE ANIMATION
+    // =============
+
+    NUMBER_SEQUENCE.forEach((num, i) => {
+      const progress = num / 100;
+
+      // Animate number
+      tl.to(numberRef.current, {
+        innerText: num,
+        duration: 0.8,
+        snap: { innerText: 1 },
+        ease: "power2.out",
+      }, i * 1.1);
+
+      // Animate circle
+      tl.to(
+        circleRef.current,
+        {
+          strokeDashoffset: circumference * (1 - progress),
+          duration: 0.9,
+          ease: "power3.out",
+        },
+        i * 1.1
+      );
+    });
+
+    tl.to({}, { duration: 0.1},);
+
+    tl.to(counterContainerRef.current, {
+      opacity: 0,
+      duration: 1,
+      scale: 0.8,
+      ease: "power2.in",
+    });
+
+    // =============
+    // IMAGE GRID ANIMATION 
+    // =============
 
     tl.to(".col", {
       top: "0",
       duration: 2.5,
-      // delay: 0.5,
       ease: "power4.inOut",
-    });
+    }, "-=1.5");
 
-    tl.to(
-      ".c-1 .item",
-      {
-        top: "0",
-        stagger: 0.25,
-        duration: 3,
-        ease: "expo.inOut",
-      },
-      "-=2"
-    );
+    tl.to(".c-1 .item", {
+      top: "0",
+      stagger: 0.25,
+      duration: 3,
+      ease: "expo.inOut",
+    }, "-=2");
 
-    tl.to(
-      ".c-5 .item",
-      {
-        top: "0",
-        stagger: 0.25,
-        duration: 3,
-        ease: "expo.inOut",
-      },
-      "<"
-    );
+    tl.to(".c-5 .item", {
+      top: "0",
+      stagger: 0.25,
+      duration: 3,
+      ease: "expo.inOut",
+    }, "<");
 
-    tl.to(
-      ".c-2 .item",
-      {
-        top: "0",
-        stagger: -0.2,
-        duration: 3,
-        ease: "expo.inOut",
-      },
-      "-=4"
-    );
+    tl.to(".c-2 .item", {
+      top: "0",
+      stagger: -0.2,
+      duration: 3,
+      ease: "expo.inOut",
+    }, "-=4");
 
-    tl.to(
-      ".c-4 .item",
-      {
-        top: "0",
-        stagger: -0.2,
-        duration: 3,
-        ease: "expo.inOut",
-      },
-      "-=4"
-    );
+    tl.to(".c-4 .item", {
+      top: "0",
+      stagger: -0.2,
+      duration: 3,
+      ease: "expo.inOut",
+    }, "-=4");
 
-    tl.to(
-      ".c-3 .item",
-      {
-        top: "0",
-        stagger: 0.1,
-        duration: 3,
-        ease: "expo.inOut",
-      },
-      "-=4"
-    );
+    tl.to(".c-3 .item", {
+      top: "0",
+      stagger: 0.1,
+      duration: 3,
+      ease: "expo.inOut",
+    }, "-=4");
 
-    tl.to(
-      ".grid-container",
-      {
-        scale: 5,
-        duration: 2,
-        ease: "expo.inOut",
-        onComplete: () => {
-          if (onComplete) {
-            setTimeout(() => onComplete(), 0);
-          }
-        },
+    tl.to(".grid-container", {
+      scale: 5,
+      duration: 2,
+      ease: "expo.inOut",
+      onComplete: () => {
+        if (onComplete) onComplete();
       },
-      "<2.5"
-    );
+    }, "<2.5");
 
     timelineRef.current = tl;
 
     return () => {
-      if (timelineRef.current) {
-        timelineRef.current.kill();
-      }
+      if (timelineRef.current) timelineRef.current.kill();
     };
-  }, []);
+  }, [onComplete]);
+
+  const radius = 45;
+  const circumference = 2 * Math.PI * radius;
 
   return (
-    <div className="w-screen h-screen overflow-hidden bg-black">
-      {/* Background Image Container */}
+    <div className="fixed inset-0 z-50 w-screen h-screen overflow-hidden bg-black">
+      {/* 🔢 Counter with Circle (on top) */}
+      <div
+        ref={counterContainerRef}
+        className="absolute inset-0 flex items-center justify-center pointer-events-none"
+      >
+        <div className="relative flex items-center justify-center">
+          <svg
+            width="200"
+            height="200"
+            viewBox="0 0 100 100"
+            className="absolute -z-10"
+          >
+            <circle
+              ref={circleRef}
+              cx="50"
+              cy="50"
+              r={radius}
+              fill="none"
+              stroke="#fff"
+              strokeWidth="1.4"
+              strokeLinecap="round"
+              strokeDasharray={circumference}
+              strokeDashoffset={circumference}
+            />
+          </svg>
+          <div
+            ref={numberRef}
+            className="text-white text-5xl md:text-6xl font-bold tabular-nums"
+          >
+            0
+          </div>
+        </div>
+      </div>
+
+      {/* 🖼️ Image Grid (behind counter initially) */}
       <div className="grid-container fixed w-full h-full flex gap-[0.2em]">
         {columns.map((col, colIndex) => (
           <div
             key={colIndex}
-            className={`col ${
-              col.class
-            } relative flex-1 w-full flex flex-col gap-[0.2em] ${
+            className={`col ${col.class} relative flex-1 w-full flex flex-col gap-[0.2em] ${
               colIndex % 2 === 0 ? "top-full" : "-top-full"
             }`}
           >
