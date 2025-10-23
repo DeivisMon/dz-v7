@@ -24,7 +24,7 @@ const images = {
   img11, img12, img13, img15,
 };
 
-const NUMBER_SEQUENCE = [5, 23, 48, 71, 88, 100];
+const NUMBER_SEQUENCE = [0, 23, 48, 71, 100];
 
 export default function Loader({ onComplete }) {
   const timelineRef = useRef(null);
@@ -52,14 +52,22 @@ export default function Loader({ onComplete }) {
 
     NUMBER_SEQUENCE.forEach((num, i) => {
       const progress = num / 100;
-
       // Animate number
       tl.to(numberRef.current, {
+        opacity: 0.5,
         innerText: num,
-        duration: 0.8,
+        duration: 0.4,
         snap: { innerText: 1 },
-        ease: "power2.out",
-      }, i * 1.1);
+        ease: "power2.inOut",
+      }, i * 0.5);
+
+      tl.to(numberRef.current, {
+        opacity: 1,
+        innerText: num,
+        duration: 0.4,
+        snap: { innerText: 1 },
+        ease: "power2.inOut",
+      }, i * 0.5);
 
       // Animate circle
       tl.to(
@@ -69,7 +77,7 @@ export default function Loader({ onComplete }) {
           duration: 0.9,
           ease: "power3.out",
         },
-        i * 1.1
+        i * 0.5
       );
     });
 
@@ -79,7 +87,7 @@ export default function Loader({ onComplete }) {
       opacity: 0,
       duration: 1,
       scale: 0.8,
-      ease: "power2.in",
+      ease: "expo.in",
     });
 
     // =============
@@ -148,7 +156,7 @@ export default function Loader({ onComplete }) {
 
   return (
     <div className="fixed inset-0 z-50 w-screen h-screen overflow-hidden bg-black">
-      {/* 🔢 Counter with Circle (on top) */}
+      {/* Counter with Circle (on top) */}
       <div
         ref={counterContainerRef}
         className="absolute inset-0 flex items-center justify-center pointer-events-none"
