@@ -81,14 +81,12 @@ export default function Loader({ onComplete }) {
       );
     });
 
-    tl.to({}, { duration: 0.1},);
-
     tl.to(counterContainerRef.current, {
       opacity: 0,
       duration: 1,
       scale: 0.8,
       ease: "expo.in",
-    });
+    }, "-=0.1");
 
     // =============
     // IMAGE GRID ANIMATION 
@@ -98,7 +96,7 @@ export default function Loader({ onComplete }) {
       top: "0",
       duration: 2.5,
       ease: "power4.inOut",
-    }, "-=1.5");
+    }, "-=1.65");
 
     tl.to(".c-1 .item", {
       top: "0",
@@ -183,7 +181,7 @@ export default function Loader({ onComplete }) {
           </svg>
           <div
             ref={numberRef}
-            className="text-white text-5xl md:text-6xl font-bold tabular-nums"
+            className="text-white text-5xl md:text-6xl font-bold tabular-nums opacity-0"
           >
             0
           </div>
