@@ -7,7 +7,7 @@ export default function NavBar() {
 
   return (
     <div
-      className={`navbar fixed z-100 top-0 left-0 w-full flex px-8 m-0 transition-all backdrop-blur-[1px] mix-blend-exclusion duration-700 ease-in-out select-none `}
+      className={`navbar fixed z-100 top-0 left-0 w-full flex px-8 m-0 transition-all backdrop-blur-[5px] mix-blend-difference duration-700 ease-in-out select-none `}
     >
       <div className={`w-full flex `}>
         <div
