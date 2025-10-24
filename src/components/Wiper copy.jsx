@@ -8,7 +8,7 @@ export default function Wiper() {
 
   useEffect(() => {
     const tiles = gsap.utils.toArray(wipeRef.current.children);
-    gsap.set(wipeRef.current, { autoAlpha: 1 });
+    gsap.set(wipeRef.current, { autoAlpha: 1 }, );
 
     // Animate each tile
     const tl = gsap.timeline();
@@ -27,7 +27,7 @@ export default function Wiper() {
         from: "top", // can be "edges", "random", "end", etc.
         amount: 1.25, // total stagger duration
       },
-    });
+    }, );
   }, []);
 
   return (

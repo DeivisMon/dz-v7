@@ -31,7 +31,7 @@ export default function Carousel() {
     const indicators = document.querySelectorAll(".carousel-indicator");
     indicators.forEach((indicator, i) => {
       gsap.to(indicator, {
-        scaleY: i === index ? 1.25 : 0.5,
+        scaleY: i === index ? 1.15 : 0.75,
         duration: 1.5,
         ease: "power4.inOut",
       });
@@ -227,16 +227,17 @@ export default function Carousel() {
       </div>
 
       {/* Bottom Indicators */}
-      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 flex gap-28 z-50 mix-blend-exclusion ">
+      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 hidden md:flex gap-8 lg:gap-12 xl:gap-16 2xl:gap-20 z-50 mix-blend-exclusion ">
         {images.map((_, i) => (
-          <div
-            key={i}
-            onClick={() => changeSlide(i)}
-            data-cursor-type="link"
-            className={`carousel-indicator cursor-trigger h-20 w-2 bg-white/80 rounded-full origin-center  ${
-              i === currentSlideIndex ? "scale-y-115" : "scale-y-50"
-            }`}
-          />
+          <div key={i}>
+            <div
+              onClick={() => changeSlide(i)}
+              data-cursor-type="expand"
+              className={`carousel-indicator cursor-trigger h-20 w-2 bg-white/80 rounded-full origin-center  ${
+                i === currentSlideIndex ? "scale-y-115" : "scale-y-75"
+              }`}
+            />
+          </div>
         ))}
       </div>
     </div>

@@ -149,7 +149,13 @@ const CursorElement = ({
         );
       case "close":
         return (
-          <g className="mix-blend-difference" fill="white" opacity="1" strokeWidth="1" stroke="white">
+          <g
+            className="mix-blend-difference"
+            fill="white"
+            opacity="1"
+            strokeWidth="1"
+            stroke="white"
+          >
             {/* X icon */}
             <line
               x1={centerX - 4}
@@ -181,7 +187,7 @@ const CursorElement = ({
             <circle cx={centerX} cy={centerY} r="3" fill="white" />
           </g>
         );
-         case "up":
+      case "up":
         return (
           <g
             className="mix-blend-difference"
@@ -191,7 +197,7 @@ const CursorElement = ({
             opacity="1"
             transform={`rotate(90 ${centerX} ${centerY})`}
           >
-           <path
+            <path
               d={`
                 M${centerX - 6},${centerY} 
                 L${centerX - 2},${centerY - 4} 
@@ -203,7 +209,13 @@ const CursorElement = ({
         );
       case "link":
         return (
-          <g className="mix-blend-difference" fill="none" stroke="white" strokeWidth="1.5" opacity="1">
+          <g
+            className="mix-blend-difference"
+            fill="none"
+            stroke="white"
+            strokeWidth="1.5"
+            opacity="1"
+          >
             <line
               x1={centerX - 4}
               y1={centerY + 4}
@@ -218,66 +230,67 @@ const CursorElement = ({
           </g>
         );
 
-case "prev":
-  return (
-    <path
-      d={`
+      case "prev":
+        return (
+          <path
+            d={`
         M${centerX + 4},${centerY - 6}
         L${centerX - 4},${centerY}
         L${centerX + 4},${centerY + 6}
       `}
-      stroke="white"
-      strokeWidth="1.5"
-      fill="none"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="mix-blend-difference"
-    />
-  );
+            stroke="white"
+            strokeWidth="1.5"
+            fill="none"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="mix-blend-difference"
+          />
+        );
 
-case "next":
-  return (
-    <path
-      d={`
+      case "next":
+        return (
+          <path
+            d={`
         M${centerX - 4},${centerY - 6}
         L${centerX + 4},${centerY}
         L${centerX - 4},${centerY + 6}
       `}
-      stroke="white"
-      strokeWidth="1.5"
-      fill="none"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="mix-blend-difference"
-    />
-  );
-
+            stroke="white"
+            strokeWidth="1.5"
+            fill="none"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="mix-blend-difference"
+          />
+        );
 
       default:
         return null;
     }
   };
 
-return (
-  <div
-    ref={elementRef}
-    className={`fixed top-0 left-0 pointer-events-none z-[10000] transition-opacity duration-300 ease-in-out
-      ${isVisible && !isOutside ? "opacity-100" : "opacity-0"} mix-blend-difference`}
-    style={{ width: size, height: size }}
-  >
-    <svg width={size} height={size} viewBox={viewBox}>
-      <circle
-        cx={size / 2}
-        cy={size / 2}
-        r={radius}
-        fill={filled ? "white" : "none"}
-        stroke={filled ? "none" : "white"}
-        strokeWidth={filled ? 0 : 1}
-      />
-      {renderIcon()}
-    </svg>
-  </div>
-);
+  return (
+    <div
+      ref={elementRef}
+      className={`fixed top-0 left-0 pointer-events-none z-[10000] transition-opacity duration-300 ease-in-out
+      ${
+        isVisible && !isOutside ? "opacity-100" : "opacity-0"
+      } mix-blend-difference`}
+      style={{ width: size, height: size }}
+    >
+      <svg width={size} height={size} viewBox={viewBox}>
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          fill={filled ? "white" : "none"}
+          stroke={filled ? "none" : "white"}
+          strokeWidth={filled ? 0 : 1}
+        />
+        {renderIcon()}
+      </svg>
+    </div>
+  );
 };
 
 // Main cursor component
@@ -287,28 +300,27 @@ const CustomCursor = ({ triggerSelector = ".cursor-trigger" }) => {
   const [showCursor, setShowCursor] = useState(false);
   const [isOutside, setIsOutside] = useState(false);
 
-useEffect(() => {
-  const handleMouseOut = (e) => {
-    if (!e.relatedTarget && !e.toElement) {
-      setIsOutside(true); 
-    }
-  };
+  useEffect(() => {
+    const handleMouseOut = (e) => {
+      if (!e.relatedTarget && !e.toElement) {
+        setIsOutside(true);
+      }
+    };
 
-  const handleMouseOver = (e) => {
-    if (!e.relatedTarget && !e.fromElement) {
-      setIsOutside(false); // entered viewport
-    }
-  };
+    const handleMouseOver = (e) => {
+      if (!e.relatedTarget && !e.fromElement) {
+        setIsOutside(false); // entered viewport
+      }
+    };
 
-  window.addEventListener("mouseout", handleMouseOut);
-  window.addEventListener("mouseover", handleMouseOver);
+    window.addEventListener("mouseout", handleMouseOut);
+    window.addEventListener("mouseover", handleMouseOver);
 
-  return () => {
-    window.removeEventListener("mouseout", handleMouseOut);
-    window.removeEventListener("mouseover", handleMouseOver);
-  };
-}, []);
-
+    return () => {
+      window.removeEventListener("mouseout", handleMouseOut);
+      window.removeEventListener("mouseover", handleMouseOver);
+    };
+  }, []);
 
   // Global mouse position
   useEffect(() => {
