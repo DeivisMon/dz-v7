@@ -78,10 +78,29 @@ export default function NavBar() {
       <div
         className={`navbar fixed z-[150] top-0 left-0 w-full flex px-8 m-0 transition-all mix-blend-difference duration-700 ease-in-out select-none`}
       >
-        <div className={`w-full flex`}>
+        <div className={`w-full flex justify-between items-center`}>
+
+         {/* Logo */}
+        <div className="logo text-black text-[32px] lg:text-[48px] h-full">
+          <Link
+            className={`font-bold transition-all duration-500 ease-in-out`}
+            to="/"
+            onClick={closeMenu}
+          >
+            <AnimatedText
+              text="Darius Žvinklys"
+              duration={0.75}
+              delayChildren={1}
+              enableHover={false}
+              letterSpacing="px-[3px]"
+              key={location.pathname}
+            />
+          </Link>
+        </div>
+
           {/* Desktop Navigation */}
           <div
-            className={`nav-links relative z-1 nav-item hidden md:flex items-center gap-4 font-bold tracking-widest text-[20px] backdrop-blur bg-black/50 transition-all duration-500 ease-in-out`}
+            className={`nav-links relative z-1 nav-item hidden md:flex items-center gap-0 lg:gap-4 font-bold text-[20px] backdrop-blur transition-all duration-500 ease-in-out`}
           >
             <Link
               className={`cursor-trigger flex justify-center items-center p-1 cursor-none ${
@@ -145,23 +164,7 @@ export default function NavBar() {
           </button>
         </div>
 
-        {/* Logo */}
-        <div className="logo text-black text-[32px] md:text-[48px] h-full">
-          <Link
-            className={`font-extrabold transition-all duration-500 ease-in-out`}
-            to="/"
-            onClick={closeMenu}
-          >
-            <AnimatedText
-              text="Darius Žvinklys"
-              duration={0.75}
-              delayChildren={1}
-              enableHover={false}
-              letterSpacing="px-[5px]"
-              key={location.pathname}
-            />
-          </Link>
-        </div>
+       
       </div>
 
       {/* Mobile Menu Overlay */}

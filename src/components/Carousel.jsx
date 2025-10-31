@@ -212,7 +212,7 @@ export default function Carousel() {
       <div
         onClick={() => handleArrowClick("prev")}
         disabled={isAnimating.current}
-        className="cursor-trigger fixed left-0 top-1/2 -translate-y-1/2 z-10 w-1/2 h-full flex items-center px-8 transition-all duration-300 group"
+        className="cursor-trigger fixed left-0 top-1/2 -translate-y-1/2 z-10 w-1/4 h-full flex items-center px-8 transition-all duration-300 group"
         data-cursor-type="prev"
       >
       </div>
@@ -221,7 +221,7 @@ export default function Carousel() {
       <div
         onClick={() => handleArrowClick("next")}
         disabled={isAnimating.current}
-        className="cursor-trigger fixed right-0 top-1/2 -translate-y-1/2 z-10 w-1/2 h-full flex items-center justify-end px-8 transition-all duration-300 group"
+        className="cursor-trigger fixed right-0 top-1/2 -translate-y-1/2 z-10 w-1/4 h-full flex items-center justify-end px-8 transition-all duration-300 group"
         data-cursor-type="next"
       >
       </div>
