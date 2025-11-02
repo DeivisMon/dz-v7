@@ -183,7 +183,7 @@ export default function Carousel() {
   }, []);
 
   return (
-    <div className="relative w-screen h-screen overflow-hidden bg-black">
+    <div className="relative w-screen h-screen overflow-hidden">
       <div className="relative w-screen h-screen">
         {images.map((src, index) => (
           <div
@@ -208,7 +208,7 @@ export default function Carousel() {
         ))}
       </div>
 
-      {/* Left Arrow */}
+      {/* Left Side */}
       <div
         onClick={() => handleArrowClick("prev")}
         disabled={isAnimating.current}
@@ -217,7 +217,7 @@ export default function Carousel() {
       >
       </div>
 
-      {/* Right Arrow */}
+      {/* Right Side */}
       <div
         onClick={() => handleArrowClick("next")}
         disabled={isAnimating.current}
