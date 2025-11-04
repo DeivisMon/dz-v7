@@ -27,7 +27,7 @@ export default function PageTransitions({ children }) {
     animate: { y: "100vh" },
     exit: {
       y: 0,
-      transition: { duration: 1, delay: 0.1, ease: [0.76, 0, 0.24, 1] },
+      transition: { duration: 1, delay: 0.1, ease: [0.68, 0.55, 0.265, 0.85] },
     },
   };
 

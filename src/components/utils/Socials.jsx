@@ -2,15 +2,15 @@ import { motion as Motion } from "framer-motion";
 import { MdArrowOutward } from "react-icons/md";
 
 const containerVariants = {
-  hidden: { y: -65, opacity: 0 },
+  hidden: { y: 65, opacity: 0 },
   show: {
     y: 0,
     opacity: 1,
     transition: {
-      delay: 2,
+      delay: 2.2,
       duration: 0.5,
-      staggerChildren: 0.1,
-      delayChildren: 2,
+      staggerChildren: 0.15,
+      delayChildren: 2.5,
     },
   },
 };
@@ -40,7 +40,7 @@ export default function Socials() {
       variants={containerVariants}
       initial="hidden"
       animate="show"
-      className="social-icons h-8 relative flex items-end gap-4"
+      className="social-icons relative flex items-end gap-6"
     >
       {icons.map(({ id, label }) => (
         <div

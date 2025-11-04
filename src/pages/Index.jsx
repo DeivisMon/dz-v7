@@ -1,8 +1,8 @@
 import React from "react";
-import Wiper from "../components/Wiper copy";
 import NavBar from "../components/NavBar";
 import Carousel from "../components/Carousel";
 import Footer from "../components/Footer";
+import Wiper from "../components/Wiper copy";
 
 export default function Index() {
   return (

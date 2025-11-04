@@ -1,6 +1,7 @@
 import React from 'react'
 import NavBar from '../components/NavBar'
 import ContactFrom from '../components/utils/ContactForm'
+import Footer from '../components/Footer'
 import Wiper from '../components/Wiper copy'
 
 export default function Contact() {
@@ -8,6 +9,7 @@ export default function Contact() {
     <div>
       <NavBar />
       <ContactFrom />
+      <Footer />
       <Wiper />
     </div>
   )
