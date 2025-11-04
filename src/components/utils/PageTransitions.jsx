@@ -1,4 +1,4 @@
-import { easeInOut, motion as Motion } from "framer-motion";
+import { motion as Motion } from "framer-motion";
 import { useLocation } from "react-router-dom";
 export default function PageTransitions({ children }) {
   const location = useLocation();
@@ -18,7 +18,7 @@ export default function PageTransitions({ children }) {
     exit: {
       opacity: 0.8,
       y: -40,
-      transition: { duration: 1, ease: easeInOut },
+      transition: { duration: 1, ease: [0.65, 0, 0.35, 1] },
     },
   };
 
@@ -27,7 +27,7 @@ export default function PageTransitions({ children }) {
     animate: { y: "100vh" },
     exit: {
       y: 0,
-      transition: { duration: 1, delay: 0.1, ease: easeInOut },
+      transition: { duration: 1, delay: 0.1, ease: [0.76, 0, 0.24, 1] },
     },
   };
 
@@ -38,7 +38,7 @@ export default function PageTransitions({ children }) {
       y: [0, -50, 50, 100],
       scale: 0.7,
       opacity: 0.8,
-      transition: { duration: 1.2, ease: easeInOut },
+      transition: { duration: 1.2, ease: [0.45, 0, 0.55, 1] },
     },
   };
 
