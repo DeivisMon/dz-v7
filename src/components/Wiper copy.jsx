@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import gsap from "gsap";
 
 // Store in module scope - resets on page refresh
-let hasWiperPlayed = false;
+// let hasWiperPlayed = false;
 
 export default function Wiper() {
   const wipeRef = useRef(null);
@@ -12,10 +12,10 @@ export default function Wiper() {
 
   useEffect(() => {
     // Check if wiper has already played using module variable
-    if (hasWiperPlayed) {
-      setShouldShow(false);
-      return;
-    }
+    // if (hasWiperPlayed) {
+    //   setShouldShow(false);
+    //   return;
+    // }
 
     const tiles = gsap.utils.toArray(wipeRef.current.children);
     gsap.set(tiles, { scale: 1, rotateX: 0, rotateY: 0 });
@@ -25,7 +25,7 @@ export default function Wiper() {
     const tl = gsap.timeline({
       onComplete: () => {
         // Mark as played using module variable
-        hasWiperPlayed = true;
+        // hasWiperPlayed = true;
         setShouldShow(false);
       }
     });

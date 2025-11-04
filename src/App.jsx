@@ -1,6 +1,8 @@
 import React from "react";
 import { Routes, Route, useLocation } from "react-router";
 import { useState } from "react";
+import { AnimatePresence } from "framer-motion";
+import PageTransitions from "./components/utils/PageTransitions";
 import Loader from "./components/Loader";
 import Index from "./pages/Index";
 import Portfolio from "./pages/Portfolio";
@@ -15,14 +17,16 @@ export default function App() {
     <>
       {!isLoaded && <Loader onComplete={() => setIsLoaded(true)} />}
       {isLoaded && (
-        <>
-        <Routes location={location}>
-          <Route path="/" element={<Index />} />
-          <Route path="/portfolio" element={<Portfolio />} />
-          <Route path="/contact" element={<Contact />} />
-        </Routes>
-        <CustomCursor />
-        </>
+        <AnimatePresence mode="wait">
+          <PageTransitions key={location.pathname}>
+            <Routes location={location}>
+              <Route path="/" element={<Index />} />
+              <Route path="/portfolio" element={<Portfolio />} />
+              <Route path="/contact" element={<Contact />} />
+            </Routes>
+          </PageTransitions>
+          <CustomCursor />
+        </AnimatePresence>
       )}
     </>
   );
