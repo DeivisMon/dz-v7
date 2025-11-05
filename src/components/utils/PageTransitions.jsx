@@ -1,7 +1,6 @@
 import { motion as Motion } from "framer-motion";
-import { useLocation } from "react-router-dom";
+import TextTransition from "../TextTransition";
 export default function PageTransitions({ children }) {
-  const location = useLocation();
 
   const Animate = (variants) => {
     return {
@@ -26,8 +25,12 @@ export default function PageTransitions({ children }) {
     initial: { y: "100vh" },
     animate: { y: "100vh" },
     exit: {
-      y: 0,
-      transition: { duration: 1, delay: 0.1, ease: [0.68, 0.55, 0.265, 0.85] },
+      y: ["100vh", 0, 0], 
+      transition: {
+        duration: 1.5,
+        ease: [0.45, 0, 0.55, 1],
+        times: [0, 0.67, 1], 
+      },
     },
   };
 
@@ -48,12 +51,7 @@ export default function PageTransitions({ children }) {
         {...Animate(slide)}
         className="fixed top-0 left-0 bg-black min-w-full z-1 min-h-screen"
       >
-        <span 
-          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-6xl text-white">
-          {location.pathname === "/"
-            ? "index"
-            : location.pathname.split("/").pop()}
-        </span>
+       <TextTransition />
       </Motion.div>
       <Motion.div {...Animate(zoomOut)} className="relative min-h-screen">
         <Motion.div

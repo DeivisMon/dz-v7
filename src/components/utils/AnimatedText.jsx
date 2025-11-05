@@ -26,7 +26,7 @@ const getLetter = (duration) => ({
     },
   },
   // exit : {
-  //   x: "100%",
+  //   y: "-100%",
   //   skewX: 45,
   //   opacity: 0,
   //   transition: {

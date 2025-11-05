@@ -1,0 +1,79 @@
+import React, { useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
+import gsap from "gsap";
+
+export default function TextTransition() {
+  const location = useLocation();
+  const text1Ref = useRef(null);
+  const text2Ref = useRef(null);
+
+  const getFontSize = (path) => {
+    if (path === "/contact") return "text-[1rem] md:text-[2rem] xl:text-[3.5rem]";
+    if (path === "/portfolio") return "text-[1rem] md:text-[2rem] xl:text-[3rem]";
+    return "text-[2rem] md:text-[2rem] xl:text-[3.5rem]";
+  };
+
+  useEffect(() => {
+    gsap.fromTo(
+      text1Ref.current,
+      { 
+        scale: 6, 
+        y: -10, 
+        opacity: 0 
+      },
+      {
+        duration: 1.5,
+        ease: "power2.inOut",
+        keyframes: {
+          scale: [6, 5, 4, 3, 4, 5],
+          y: [-10, -5, 0, 0, 0],
+          opacity: [0, 1, 1, 1, 0],
+        }
+      }
+    );
+
+    gsap.fromTo(
+      text2Ref.current,
+      { 
+        scale: 6, 
+        y: 10, 
+        opacity: 0 
+      },
+      {
+        duration: 1.5,
+        delay: 0.1,
+        ease: "power2.inOut",
+        keyframes: {
+          scale: [6, 5, 4, 3, 4, 5],
+          y: [10, 5, 0, 0, 0],
+          opacity: [0, 1, 1, 1, 0],
+        }
+      }
+    );
+  }, [location.pathname]); 
+
+  return (
+    <div>
+      <p
+        ref={text1Ref}
+        className={`fixed z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 ${getFontSize(
+          location.pathname
+        )} uppercase font-bold text-shadow-lg text-white mix-blend-difference`}
+      >
+        {location.pathname === "/"
+          ? "index"
+          : location.pathname.split("/").pop()}
+      </p>
+      <p
+        ref={text2Ref}
+        className={`fixed z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 ${getFontSize(
+          location.pathname
+        )} uppercase font-bold text-shadow-lg text-white mix-blend-difference blur-[0.5px]`}
+      >
+        {location.pathname === "/"
+          ? "index"
+          : location.pathname.split("/").pop()}
+      </p>
+    </div>
+  );
+}
