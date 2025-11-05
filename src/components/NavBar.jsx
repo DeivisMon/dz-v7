@@ -76,12 +76,12 @@ export default function NavBar() {
   return (
     <>
       <div
-        className={`navbar fixed z-[150] top-0 left-0 w-full flex px-8 m-0 transition-all mix-blend-difference duration-700 ease-in-out select-none`}
+        className={`navbar fixed z-[150] top-0 left-0 w-full flex px-2 md:px-8 m-0 transition-all mix-blend-difference duration-700 ease-in-out select-none`}
       >
         <div className={`w-full flex justify-between items-center`}>
 
          {/* Logo */}
-        <div className="logo text-black text-[32px] lg:text-[48px] h-full">
+        <div className="logo text-black text-[24px] lg:text-[48px] h-full">
           <Link
             className={`font-bold transition-all duration-500 ease-in-out`}
             to="/"

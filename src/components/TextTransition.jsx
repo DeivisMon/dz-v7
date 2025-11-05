@@ -8,9 +8,9 @@ export default function TextTransition() {
   const text2Ref = useRef(null);
 
   const getFontSize = (path) => {
-    if (path === "/contact") return "text-[1rem] md:text-[2rem] xl:text-[3.5rem]";
-    if (path === "/portfolio") return "text-[1rem] md:text-[2rem] xl:text-[3rem]";
-    return "text-[2rem] md:text-[2rem] xl:text-[3.5rem]";
+    if (path === "/contact") return "text-[0.75rem] md:text-[2rem] xl:text-[3.5rem]";
+    if (path === "/portfolio") return "text-[0.75rem] md:text-[2rem] xl:text-[3.5rem]";
+    return "text-[1rem] md:text-[2rem] xl:text-[3.5rem]";
   };
 
   useEffect(() => {
@@ -22,8 +22,8 @@ export default function TextTransition() {
         opacity: 0 
       },
       {
-        duration: 1.5,
-        ease: "power2.inOut",
+        duration: 1.8,
+        ease: "power4.inOut",
         keyframes: {
           scale: [6, 5, 4, 3, 4, 5],
           y: [-10, -5, 0, 0, 0],
@@ -40,11 +40,11 @@ export default function TextTransition() {
         opacity: 0 
       },
       {
-        duration: 1.5,
-        delay: 0.1,
-        ease: "power2.inOut",
+        duration: 1.8,
+        delay: 0.075,
+        ease: "power4.inOut",
         keyframes: {
-          scale: [6, 5, 4, 3, 4, 5],
+          scale: [6, 5, 4, 3, 4, 6],
           y: [10, 5, 0, 0, 0],
           opacity: [0, 1, 1, 1, 0],
         }

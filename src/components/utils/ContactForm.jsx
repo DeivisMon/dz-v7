@@ -34,7 +34,7 @@ export default function ContactFrom() {
 
       {/* Form */}
       <div className="relative z-10 flex flex-col md:flex-row w-full h-full">
-        <div className="w-full flex-1 w-full h-1/2 md:w-1/2 md:h-full flex flex-col items-center justify-center bg-gray-400">
+        <div className="w-full flex-1 w-full h-1/2 md:w-1/2 md:h-full flex flex-col items-center justify-center bg-gray-300">
             <h2 className="text-2xl font-bold mb-4 text-center">
               Message Sent
             </h2>
@@ -48,7 +48,7 @@ export default function ContactFrom() {
             </button>
         </div>
 
-        <div className="w-full flex-1 w-full h-1/2 md:w-1/2 md:h-full flex items-center justify-center bg-gray-400">
+        <div className="w-full flex-1 w-full h-1/2 md:w-1/2 md:h-full flex items-center justify-center bg-gray-300">
           <form className="flex flex-col lg:gap-2 w-full max-w-sm">
             <h2 className="text-5xl font-thin lg:mb-4 text-center">Contact Me</h2>
             <input
@@ -65,7 +65,7 @@ export default function ContactFrom() {
               placeholder="Your message"
             />
             <button
-              className="bg-gray-300 group rounded-xs text-white font-bold mt-2 hover:bg-gray-200 cursor-pointer transition duration-300 ease-in-out"
+              className="bg-gray-400 group rounded-xs text-white font-bold mt-2 hover:bg-gray-200 cursor-pointer transition duration-300 ease-in-out"
               type="button"
               style={{padding: '8px 0'}}
               onClick={() => setIsContactVisible(!isContactVisible)}

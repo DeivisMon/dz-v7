@@ -233,7 +233,7 @@ export default function Carousel() {
             <div
               onClick={() => changeSlide(i)}
               data-cursor-type="expand"
-              className={`carousel-indicator cursor-trigger h-20 w-2 bg-white/80 rounded-full origin-center  ${
+              className={`carousel-indicator cursor-trigger h-16 w-2 mx-4 bg-white/80 rounded-full origin-center  ${
                 i === currentSlideIndex ? "scale-y-115" : "scale-y-75"
               }`}
             />
