@@ -8,9 +8,9 @@ export default function TextTransition() {
   const text2Ref = useRef(null);
 
   const getFontSize = (path) => {
-    if (path === "/contact") return "text-[0.75rem] md:text-[2rem] xl:text-[3.5rem]";
-    if (path === "/portfolio") return "text-[0.75rem] md:text-[2rem] xl:text-[3.5rem]";
-    return "text-[1rem] md:text-[2rem] xl:text-[3.5rem]";
+    if (path === "/contact") return "text-[0.75rem] md:text-[2rem] xl:text-[3rem]";
+    if (path === "/portfolio") return "text-[0.75rem] md:text-[2rem] xl:text-[3rem]";
+    return "text-[1rem] md:text-[2rem] xl:text-[3rem]";
   };
 
   useEffect(() => {

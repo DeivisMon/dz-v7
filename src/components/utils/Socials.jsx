@@ -40,7 +40,7 @@ export default function Socials() {
       variants={containerVariants}
       initial="hidden"
       animate="show"
-      className="social-icons relative hidden  md:flex items-end gap-6"
+      className="social-icons relative hidden  md:flex items-end gap-6 mix-blend-difference"
     >
       {icons.map(({ id, label }) => (
         <div
