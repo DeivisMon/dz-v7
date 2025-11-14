@@ -38,15 +38,15 @@ export default function PageTransitions({ children }) {
     initial: { y: 0, scale: 1, opacity: 1 },
     animate: { y: 0, scale: 1, opacity: 1 },
     exit: {
-      y: [0, -50, 50, 100],
+      y: 100,
       scale: 0.7,
       opacity: 0.8,
-      transition: { duration: 1.2, ease: [0.45, 0, 0.55, 1] },
+      transition: { duration: 1.5, ease: [0.75, -0.05, 0.25, 1] },
     },
   };
 
   return (
-    <div className="bg-black/90 overflow-hidden">
+    <div className="bg-black/50 overflow-hidden">
       <Motion.div
         {...Animate(slide)}
         className="fixed top-0 left-0 bg-black min-w-full z-1 min-h-screen"

@@ -74,7 +74,7 @@ export default function Loader({ onComplete }) {
         circleRef.current,
         {
           strokeDashoffset: circumference * (1 - progress),
-          duration: 0.9,
+          duration: 0.75,
           ease: "power3.out",
         },
         i * 0.5
@@ -83,7 +83,7 @@ export default function Loader({ onComplete }) {
 
     tl.to(counterContainerRef.current, {
       opacity: 0,
-      duration: 1,
+      duration: 0.8,
       scale: 0.8,
       ease: "expo.in",
     }, "-=0.1");

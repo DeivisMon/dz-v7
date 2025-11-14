@@ -27,7 +27,7 @@ export default function TextTransition() {
         keyframes: {
           scale: [6, 5, 4, 3, 4, 5],
           y: [-10, -5, 0, 0, 0],
-          opacity: [0, 1, 1, 1, 0],
+          opacity: [0, 1, 1, 1, 1, 0],
         }
       }
     );
@@ -46,7 +46,7 @@ export default function TextTransition() {
         keyframes: {
           scale: [6, 5, 4, 3, 4, 6],
           y: [10, 5, 0, 0, 0],
-          opacity: [0, 1, 1, 1, 0],
+          opacity: [0, 1, 1, 1, 1, 0],
         }
       }
     );
