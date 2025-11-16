@@ -9,7 +9,7 @@ export default function Contact() {
     <div>
       <NavBar />
       <ContactFrom />
-      <Footer />
+      {/* <Footer /> */}
       <Wiper />
     </div>
   )

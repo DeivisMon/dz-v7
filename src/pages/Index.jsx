@@ -2,7 +2,7 @@ import React from "react";
 import NavBar from "../components/NavBar";
 import Carousel from "../components/Carousel";
 import Footer from "../components/Footer";
-import Wiper from "../components/Wiper copy 4";
+import Wiper from "../components/Wiper copy 2";
 
 
 export default function Index() {
@@ -10,7 +10,7 @@ export default function Index() {
     <div>
       <NavBar />
       <Carousel />
-      <Footer />
+      {/* <Footer /> */}
       <Wiper />
     </div>
   );
