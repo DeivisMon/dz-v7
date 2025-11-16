@@ -39,9 +39,27 @@ const items = [
   { tag: ["menas"], img: "https://images.unsplash.com/photo-1506157786151-b8491531f063?w=400" },
 ];
 
-const FilterButton = ({ filter, isActive, onClick }) => {
+const FilterButton = ({ filter, isActive, onClick, index }) => {
   const h1Ref = useRef(null);
   const buttonRef = useRef(null);
+
+  // Entrance animation on mount
+  useEffect(() => {
+    gsap.fromTo(
+      buttonRef.current,
+      {
+        opacity: 0,
+        x: 100,
+      },
+      {
+        opacity: 1,
+        x: 0,
+        duration: 0.8,
+        delay: 0.5 + index * 0.1,
+        ease: 'power3.out',
+      }
+    );
+  }, [index]);
 
   useEffect(() => {
     const spans = h1Ref.current?.querySelectorAll('span');
@@ -88,9 +106,8 @@ const FilterButton = ({ filter, isActive, onClick }) => {
   return (
     <div
       ref={buttonRef}
-      className={`w-max h-max flex items-end cursor-pointer mb-16 ${
-        isActive ? 'pt-10' : 'pt-6'
-      } pb-2 pr-8 pointer-events-auto`}
+      className={`w-max flex items-end cursor-pointer mb-10 pb-2 pr-8 pointer-events-auto`}
+      style={{ height: '100px' }}
       onClick={onClick}
     >
       <p
@@ -251,12 +268,13 @@ export default function GodlyFilters() {
   return (
     <div className="w-screen h-screen overflow-hidden relative bg-black">
       <div className="fixed top-0 right-0 w-1/2 h-screen pb-32 flex flex-col justify-end items-end z-10 mix-blend-difference pointer-events-none">
-        {filters.map(filter => (
+        {filters.map((filter, index) => (
           <FilterButton
             key={filter.id}
             filter={filter}
             isActive={activeFilter === filter.id}
             onClick={() => handleFilterClick(filter.id)}
+            index={index}
           />
         ))}
         <style jsx>{`
