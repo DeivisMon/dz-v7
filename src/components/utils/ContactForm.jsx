@@ -27,7 +27,7 @@ export default function ContactFrom() {
       <div
         className="absolute bg-cover bg-center bg-no-repeat transition-transform delay-300 duration-500 ease-[cubic-bezier(0.5, 0, 0.75, 0)] z-20 w-full h-1/2 md:w-1/2 md:h-full"
         style={{
-          backgroundImage: "url('/images/contact.jpg')",
+          backgroundImage: `url('${import.meta.env.BASE_URL}images/contact.jpg')`,
           transform: getTransform(),
         }}
       />
