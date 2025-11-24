@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import Lenis from 'lenis';
+import { FaColumns, FaTh, FaThLarge, FaFilter } from 'react-icons/fa';
 import data from "./Items.json";
 
 const items = data.items;
@@ -104,11 +105,16 @@ export default function GodlyFilters() {
   const [lightboxIndex, setLightboxIndex] = useState(null);
   const [slideDirection, setSlideDirection] = useState('next');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [layoutMenuOpen, setLayoutMenuOpen] = useState(false);
+  const [columnLayout, setColumnLayout] = useState(2); // 1, 2, or 3 columns
   const itemsRef = useRef(null);
   const lenisRef = useRef(null);
   const lightboxRef = useRef(null);
   const isAnimating = useRef(false);
   const mobileMenuRef = useRef(null);
+  const layoutMenuRef = useRef(null);
+  const filterButtonRef = useRef(null);
+  const layoutButtonRef = useRef(null);
 
   // Initialize Lenis smooth scroll
   useEffect(() => {
@@ -267,7 +273,7 @@ export default function GodlyFilters() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [lightboxImage, lightboxIndex]);
 
-  // Animate lightbox entrance  on initial open
+  // Animate lightbox entrance on initial open
   const hasAnimatedIn = useRef(false);
   
   useEffect(() => {
@@ -294,6 +300,8 @@ export default function GodlyFilters() {
       onComplete: () => {
         setActiveFilter(filterId);
         setMobileMenuOpen(false);
+        // Restore both buttons when filter is selected
+        restoreBothButtons();
         gsap.to(itemsRef.current, {
           opacity: 1,
           duration: 0.25,
@@ -302,35 +310,166 @@ export default function GodlyFilters() {
     });
   };
 
-  // Animate mobile menu
+  const handleLayoutChange = (columns) => {
+    setColumnLayout(columns);
+    setLayoutMenuOpen(false);
+    // Restore both buttons when layout is selected
+    restoreBothButtons();
+  };
+
+  const openFilterMenu = () => {
+    setMobileMenuOpen(true);
+    setLayoutMenuOpen(false);
+  };
+
+  const openLayoutMenu = () => {
+    setLayoutMenuOpen(true);
+    setMobileMenuOpen(false);
+  };
+
+  // Function to restore both buttons to visible state
+  const restoreBothButtons = () => {
+    gsap.to(filterButtonRef.current, {
+      opacity: 1,
+      scale: 1,
+      duration: 0.2
+    });
+    gsap.to(layoutButtonRef.current, {
+      opacity: 1,
+      scale: 1,
+      duration: 0.2
+    });
+  };
+
+  // Animate mobile menu with stagger - FIXED VERSION
   useEffect(() => {
     if (mobileMenuRef.current) {
       if (mobileMenuOpen) {
+        // Only hide the filter button, keep layout button visible
+        gsap.to(filterButtonRef.current, {
+          opacity: 0,
+          scale: 0.8,
+          duration: 0.2
+        });
+
+        // Ensure layout button is visible
+        gsap.to(layoutButtonRef.current, {
+          opacity: 1,
+          scale: 1,
+          duration: 0.2
+        });
+
+        // Show menu with stagger animation for items
         gsap.to(mobileMenuRef.current, {
           opacity: 1,
           scale: 1,
           duration: 0.3,
           ease: 'back.out(1.7)',
+          onComplete: () => {
+            const menuItems = mobileMenuRef.current.querySelectorAll('button');
+            gsap.fromTo(menuItems, 
+              { 
+                opacity: 0, 
+                y: 20 
+              },
+              { 
+                opacity: 1, 
+                y: 0, 
+                duration: 0.3, 
+                stagger: 0.1,
+                ease: 'back.out(1.7)'
+              }
+            );
+          }
         });
       } else {
+        // Hide menu items with reverse stagger
+        const menuItems = mobileMenuRef.current?.querySelectorAll('button');
+        if (menuItems) {
+          gsap.to(menuItems, {
+            opacity: 0,
+            y: -20,
+            duration: 0.2,
+            stagger: 0.05,
+            ease: 'power2.in'
+          });
+        }
+
+        // Hide menu
         gsap.to(mobileMenuRef.current, {
           opacity: 0,
           scale: 0.8,
           duration: 0.2,
+          delay: 0.1,
           ease: 'power2.in',
+          onComplete: () => {
+            // Restore filter button when menu closes
+            gsap.to(filterButtonRef.current, {
+              opacity: 1,
+              scale: 1,
+              duration: 0.2
+            });
+          }
         });
       }
     }
   }, [mobileMenuOpen]);
 
+  // Animate layout menu with scale in/out - FIXED VERSION
+  useEffect(() => {
+    if (layoutMenuRef.current) {
+      if (layoutMenuOpen) {
+        // Only hide the layout button, keep filter button visible
+        gsap.to(layoutButtonRef.current, {
+          opacity: 0,
+          scale: 0.8,
+          duration: 0.2
+        });
+
+        // Ensure filter button is visible
+        gsap.to(filterButtonRef.current, {
+          opacity: 1,
+          scale: 1,
+          duration: 0.2
+        });
+
+        // Show menu with scale animation
+        gsap.fromTo(layoutMenuRef.current, 
+          { 
+            opacity: 0, 
+            scale: 0 
+          },
+          { 
+            opacity: 1, 
+            scale: 1, 
+            duration: 0.3, 
+            ease: 'back.out(1.7)'
+          }
+        );
+      } else {
+        // Hide menu
+        gsap.to(layoutMenuRef.current, {
+          opacity: 0,
+          scale: 0,
+          duration: 0.2,
+          ease: 'power2.in',
+          onComplete: () => {
+            // Restore layout button when menu closes
+            gsap.to(layoutButtonRef.current, {
+              opacity: 1,
+              scale: 1,
+              duration: 0.2
+            });
+          }
+        });
+      }
+    }
+  }, [layoutMenuOpen]);
+
   const renderItems = () => {
     const filtered = getFilteredItems();
-    const col1 = [];
-    const col2 = [];
-    const col3 = [];
-    let col1Height = 0;
-    let col2Height = 0;
-    let col3Height = 0;
+    const columns = Array.from({ length: columnLayout }, () => []);
+    const columnHeights = Array(columnLayout).fill(0);
 
     filtered.forEach((item, i) => {
       const originalIndex = items.indexOf(item);
@@ -351,20 +490,15 @@ export default function GodlyFilters() {
       );
 
       // Add to shortest column for balanced masonry
-      const heights = [
-        { col: col1, height: col1Height, setter: () => { col1.push(itemElement); col1Height += height; } },
-        { col: col2, height: col2Height, setter: () => { col2.push(itemElement); col2Height += height; } },
-        { col: col3, height: col3Height, setter: () => { col3.push(itemElement); col3Height += height; } }
-      ];
-      
-      heights.sort((a, b) => a.height - b.height);
-      heights[0].setter();
+      const minHeightIndex = columnHeights.indexOf(Math.min(...columnHeights));
+      columns[minHeightIndex].push(itemElement);
+      columnHeights[minHeightIndex] += height;
     });
 
-    return { col1, col2, col3 };
+    return columns;
   };
 
-  const { col1, col2, col3 } = renderItems();
+  const columns = renderItems();
 
   return (
     <div className="w-screen h-screen overflow-hidden relative bg-black">
@@ -381,14 +515,24 @@ export default function GodlyFilters() {
         ))}
       </div>
 
-      {/* Mobile Filter Button */}
-      <div className="fixed top-1/2 right-8 z-20 md:hidden">
+      {/* Mobile Control Buttons - Positioned at top of gallery */}
+      <div className="absolute top-4 right-4 z-20 md:hidden flex gap-2">
+        {/* Filter Button */}
         <button
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="relative w-16 h-16 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center"
+          ref={filterButtonRef}
+          onClick={openFilterMenu}
+          className="w-12 h-12 bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white transition-colors hover:bg-white/20"
         >
-          <div className="absolute inset-0 rounded-full bg-pink-500/30 animate-ping" />
-          <div className="relative w-3 h-3 rounded-full bg-white" />
+          <FaFilter className="text-lg" />
+        </button>
+
+        {/* Layout Button */}
+        <button
+          ref={layoutButtonRef}
+          onClick={openLayoutMenu}
+          className="w-12 h-12 bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white transition-colors hover:bg-white/20"
+        >
+          <FaColumns className="text-lg" />
         </button>
       </div>
 
@@ -396,33 +540,90 @@ export default function GodlyFilters() {
       {mobileMenuOpen && (
         <div
           ref={mobileMenuRef}
-          className="fixed top-28 right-8 z-20 md:hidden bg-black/90 backdrop-blur-xl p-6 opacity-0 scale-80"
+          className="absolute top-20 right-4 z-20 md:hidden bg-black/90 backdrop-blur-xl p-4 opacity-0 scale-80 min-w-[200px]"
         >
           {filters.map((filter) => (
             <button
               key={filter.id}
               onClick={() => handleFilterClick(filter.id)}
-              className={`block w-full text-left py-3 px-4 mb-2 transition-colors ${
+              className={`block w-full text-left py-3 px-4 mb-1 transition-colors ${
                 activeFilter === filter.id
                   ? 'bg-pink-300/20 text-pink-500'
                   : 'text-white hover:bg-white/10'
               }`}
+              style={{ opacity: 0 }} // Start hidden for animation
             >
-              <span className="font-bold text-xl">{filter.label}</span>
+              <span className="font-bold text-lg">{filter.label}</span>
               <span className="ml-2 text-sm opacity-60">({filter.count})</span>
             </button>
           ))}
         </div>
       )}
 
+      {/* Mobile Layout Menu */}
+      {layoutMenuOpen && (
+        <div
+          ref={layoutMenuRef}
+          className="absolute top-20 right-16 z-20 md:hidden bg-black/90 backdrop-blur-xl p-4 opacity-0 scale-0"
+        >
+          <div className="flex gap-2">
+            <button
+              onClick={() => handleLayoutChange(1)}
+              className={`flex items-center justify-center w-12 h-12 rounded transition-colors ${
+                columnLayout === 1 
+                  ? 'bg-blue-500 text-white' 
+                  : 'bg-white/10 text-white hover:bg-white/20'
+              }`}
+            >
+              <FaTh className="text-lg" />
+            </button>
+            
+            <button
+              onClick={() => handleLayoutChange(2)}
+              className={`flex items-center justify-center w-12 h-12 rounded transition-colors ${
+                columnLayout === 2 
+                  ? 'bg-blue-500 text-white' 
+                  : 'bg-white/10 text-white hover:bg-white/20'
+              }`}
+            >
+              <FaColumns className="text-lg" />
+            </button>
+            
+            <button
+              onClick={() => handleLayoutChange(3)}
+              className={`flex items-center justify-center w-12 h-12 rounded transition-colors ${
+                columnLayout === 3 
+                  ? 'bg-blue-500 text-white' 
+                  : 'bg-white/10 text-white hover:bg-white/20'
+              }`}
+            >
+              <FaThLarge className="text-lg" />
+            </button>
+          </div>
+        </div>
+      )}
+
       <div
         ref={itemsRef}
-        className="absolute top-0 left-0 w-full h-full p-2 flex gap-2 overflow-y-auto scrollable-container "
+        className="absolute top-0 left-0 w-full h-full p-2 flex gap-2 overflow-y-auto scrollable-container"
       >
-        <div className="w-3/4 h-max flex gap-2 max-md:w-full">
-          <div className="flex-1 h-max mt-10">{col1}</div>
-          <div className="flex-1 h-max mt-10">{col2}</div>
-          <div className="flex-1 h-max mt-10 max-md:hidden">{col3}</div>
+        <div className={`w-3/4 h-max flex gap-2 max-md:w-full ${
+          columnLayout === 1 ? 'max-md:flex-col' : ''
+        }`}>
+          {columns.map((column, index) => (
+            <div 
+              key={index} 
+              className={`h-max mt-10 ${
+                columnLayout === 1 ? 'flex-1' :
+                columnLayout === 2 ? 'flex-1' :
+                columnLayout === 3 ? 'flex-1' : ''
+              } ${
+                columnLayout < 3 && index >= columnLayout ? 'hidden' : ''
+              }`}
+            >
+              {column}
+            </div>
+          ))}
         </div>
         <div className="flex-1"></div>
       </div>

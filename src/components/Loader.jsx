@@ -37,9 +37,9 @@ const desktopColumns = [
 
 // Mobile: 3 columns, 3 rows each
 const mobileColumns = [
-  { class: "c-1", images: ["img1", "img2", "img3"] },
-  { class: "c-2", images: ["img6", null, "img7"] },
-  { class: "c-3", images: ["img11", "img12", "img13"] },
+  { class: "c-1", images: ["img1", "img2", "img3", "img4", "img5"] },
+  { class: "c-2", images: ["img6", "img7", null, "img9", "img10"] },
+  { class: "c-3", images: ["img11", "img12", "img8", "img13", "img15"] },
 ];
 
 export default function Loader({ onComplete }) {
@@ -182,8 +182,8 @@ export default function Loader({ onComplete }) {
 
     tl.to(".grid-container", {
       scale: 5,
-      duration: 2,
-      ease: "expo.inOut",
+      duration: 2.5,
+      ease: "expo.in",
       onComplete: () => {
         if (onComplete) onComplete();
       },

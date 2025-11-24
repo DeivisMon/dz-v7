@@ -24,7 +24,7 @@ html {
 }
 
 html, body {
-  cursor: none;
+  /* cursor: none; */
 }
 
 html::-webkit-scrollbar,

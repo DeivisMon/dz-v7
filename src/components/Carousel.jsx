@@ -216,10 +216,10 @@ export default function Carousel() {
       </div>
 
       {/* Left Side */}
-      <div onClick={() => handleArrowClick("prev")} className="cursor-trigger fixed left-0 top-1/2 -translate-y-1/2 z-10 w-1/4 h-full flex items-center px-8 transition-all duration-300 group"></div>
+      <div onClick={() => handleArrowClick("prev")} className="cursor-trigger fixed left-0 top-1/2 -translate-y-1/2 z-10 w-1/4 h-full flex items-center px-8 transition-all duration-300 group" data-cursor-type="prev"></div>
 
       {/* Right Side */}
-      <div onClick={() => handleArrowClick("next")} className="cursor-trigger fixed right-0 top-1/2 -translate-y-1/2 z-10 w-1/4 h-full flex items-center justify-end px-8 transition-all duration-300 group"></div>
+      <div onClick={() => handleArrowClick("next")} className="cursor-trigger fixed right-0 top-1/2 -translate-y-1/2 z-10 w-1/4 h-full flex items-center justify-end px-8 transition-all duration-300 group" data-cursor-type="next"></div>
 
       {/* Bottom Indicators */}
       <div className="fixed bottom-6 left-1/2 -translate-x-1/2 hidden md:flex gap-8 lg:gap-12 xl:gap-16 2xl:gap-20 z-50 mix-blend-exclusion">
