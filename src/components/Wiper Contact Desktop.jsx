@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import gsap from "gsap";
 
 // The Wiper component - needs to be positioned fixed or absolute
-export default function Wiper() {
+export default function WiperContactDesktop() {
   const leftRef = useRef(null);
   const rightRef = useRef(null);
 

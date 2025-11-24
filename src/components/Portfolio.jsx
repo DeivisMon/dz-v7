@@ -498,15 +498,15 @@ export default function GodlyFilters() {
       {mobileMenuOpen && (
         <div
           ref={mobileMenuRef}
-          className="fixed top-28 right-8 z-20 md:hidden bg-black/90 backdrop-blur-xl border border-white/20 rounded-2xl p-6 opacity-0 scale-80"
+          className="fixed top-28 right-8 z-20 md:hidden bg-black/90 backdrop-blur-xl p-6 opacity-0 scale-80"
         >
           {filters.map((filter) => (
             <button
               key={filter.id}
               onClick={() => handleFilterClick(filter.id)}
-              className={`block w-full text-left py-3 px-4 mb-2 rounded-lg transition-colors ${
+              className={`block w-full text-left py-3 px-4 mb-2 transition-colors ${
                 activeFilter === filter.id
-                  ? 'bg-pink-500/20 text-pink-500'
+                  ? 'bg-pink-300/20 text-pink-500'
                   : 'text-white hover:bg-white/10'
               }`}
             >
