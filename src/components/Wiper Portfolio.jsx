@@ -23,7 +23,17 @@ export default function Wiper({ onComplete }) {
   }, [onComplete]);
   
   return (
-    <div ref={containerRef} className="absolute z-50 inset-0 flex flex-col pointer-events-none">
+    <div
+  ref={containerRef}
+  className="absolute z-99999 pointer-events-none flex flex-col"
+  style={{
+    left: 0,
+    top: 0,
+    width: "100vw",
+    height: `${window.innerHeight}px`,   // critical
+  }}
+>
+
       {Array.from({ length: 8 }).map((_, i) => (
         <div 
           key={i} 

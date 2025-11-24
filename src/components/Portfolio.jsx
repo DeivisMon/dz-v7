@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import Lenis from 'lenis';
-import { FaColumns, FaTh, FaThLarge, FaFilter } from 'react-icons/fa';
+import { TfiLayoutWidthFull, TfiLayoutColumn2, TfiLayoutColumn3 } from "react-icons/tfi";
 import data from "./Items.json";
 
 const items = data.items;
@@ -10,7 +10,6 @@ const FilterButton = ({ filter, isActive, onClick, index }) => {
   const h1Ref = useRef(null);
   const buttonRef = useRef(null);
 
-  // Entrance animation on mount
   useEffect(() => {
     gsap.fromTo(
       buttonRef.current,
@@ -103,10 +102,9 @@ export default function GodlyFilters() {
   const [imageHeights, setImageHeights] = useState({});
   const [lightboxImage, setLightboxImage] = useState(null);
   const [lightboxIndex, setLightboxIndex] = useState(null);
-  const [slideDirection, setSlideDirection] = useState('next');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [layoutMenuOpen, setLayoutMenuOpen] = useState(false);
-  const [columnLayout, setColumnLayout] = useState(2); // 1, 2, or 3 columns
+  const [columnLayout, setColumnLayout] = useState(2);
   const itemsRef = useRef(null);
   const lenisRef = useRef(null);
   const lightboxRef = useRef(null);
@@ -115,8 +113,86 @@ export default function GodlyFilters() {
   const layoutMenuRef = useRef(null);
   const filterButtonRef = useRef(null);
   const layoutButtonRef = useRef(null);
+  const currentImageRef = useRef(null);
+  const _touchState = useRef({
+    startX: 0,
+    startY: 0,
+    isSwiping: false
+  });
 
-  // Initialize Lenis smooth scroll
+  useEffect(() => {
+  if (!lightboxImage || !lightboxRef.current) return;
+
+  const touchState = _touchState.current;
+  const lightbox = lightboxRef.current;
+
+  const onTouchStart = (e) => {
+    const t = e.touches[0];
+    touchState.startX = t.clientX;
+    touchState.startY = t.clientY;
+    touchState.isSwiping = false;
+  };
+
+  const onTouchMove = (e) => {
+    if (isAnimating.current) return;
+
+    const t = e.touches[0];
+    const dx = t.clientX - touchState.startX;
+    const dy = t.clientY - touchState.startY;
+
+    // Prevent vertical scroll conflicts
+    if (Math.abs(dx) > Math.abs(dy)) {
+      e.preventDefault(); 
+      touchState.isSwiping = true;
+    }
+  };
+
+  const onTouchEnd = () => {
+    if (!touchState.isSwiping) return;
+
+    const dx = touchState.startX - event.changedTouches[0].clientX;
+
+    // Swipe → next
+    if (dx > 50) {
+      navigateLightbox(1);
+    }
+    // Swipe → prev
+    if (dx < -50) {
+      navigateLightbox(-1);
+    }
+  };
+
+  lightbox.addEventListener("touchstart", onTouchStart, { passive: false });
+  lightbox.addEventListener("touchmove", onTouchMove, { passive: false });
+  lightbox.addEventListener("touchend", onTouchEnd);
+
+  return () => {
+    lightbox.removeEventListener("touchstart", onTouchStart);
+    lightbox.removeEventListener("touchmove", onTouchMove);
+    lightbox.removeEventListener("touchend", onTouchEnd);
+  };
+}, [lightboxImage]);
+
+
+useEffect(() => {
+  if (lightboxImage) {
+    // Lock body
+    document.body.style.overflow = "hidden";
+    document.body.style.touchAction = "none";
+  } else {
+    // Restore
+    document.body.style.overflow = "";
+    document.body.style.touchAction = "";
+  }
+
+  return () => {
+    document.body.style.overflow = "";
+    document.body.style.touchAction = "";
+  };
+}, [lightboxImage]);
+
+
+
   useEffect(() => {
     if (!itemsRef.current) return;
 
@@ -153,7 +229,6 @@ export default function GodlyFilters() {
     { id: 'koncertai', label: 'Koncertai', count: 10 },
   ];
 
-  // Load image dimensions for masonry layout
   useEffect(() => {
     const loadImageHeights = async () => {
       const heights = {};
@@ -165,7 +240,7 @@ export default function GodlyFilters() {
             resolve();
           };
           img.onerror = () => {
-            heights[index] = 1.25; // Default aspect ratio
+            heights[index] = 1.25;
             resolve();
           };
           img.src = item.img;
@@ -214,51 +289,53 @@ export default function GodlyFilters() {
     if (newIndex < 0) newIndex = filtered.length - 1;
     if (newIndex >= filtered.length) newIndex = 0;
     
-    isAnimating.current = true;
-    const currentDirection = direction === 1 ? 'next' : 'prev';
+    const newImage = filtered[newIndex].img;
     
-    // Animate out current image
-    const imgElement = lightboxRef.current?.querySelector('img');
-    if (imgElement) {
-      gsap.to(imgElement, {
-        x: direction === 1 ? -100 : 100,
-        opacity: 0,
-        duration: 0.4,
-        ease: 'power2.inOut',
-        onComplete: () => {
-          setSlideDirection(currentDirection);
-          setLightboxIndex(newIndex);
-          setLightboxImage(filtered[newIndex].img);
+    isAnimating.current = true;
+    
+    const imgElement = currentImageRef.current;
+    if (!imgElement) return;
+    
+    // Step 1: Fade out and slide current image
+    gsap.to(imgElement, {
+      x: direction === 1 ? -100 : 100,
+      opacity: 0,
+      duration: 0.3,
+      ease: 'power2.in',
+      onComplete: () => {
+        // Step 2: Change image source while invisible
+        imgElement.src = newImage;
+        setLightboxImage(newImage);
+        setLightboxIndex(newIndex);
+        
+        // Step 3: Position for entrance (still invisible)
+        gsap.set(imgElement, {
+          x: direction === 1 ? 100 : -100,
+          opacity: 0
+        });
+        
+        // Step 4: Wait for image to be ready, then animate in
+        imgElement.onload = () => {
+          gsap.to(imgElement, {
+            x: 0,
+            opacity: 1,
+            duration: 0.3,
+            ease: 'power2.out',
+            onComplete: () => {
+              isAnimating.current = false;
+              imgElement.onload = null;
+            }
+          });
+        };
+        
+        // If image is already cached/loaded, trigger manually
+        if (imgElement.complete) {
+          imgElement.onload();
         }
-      });
-    }
+      }
+    });
   };
 
-  // Animate in new image when it changes
-  useEffect(() => {
-    if (lightboxImage && lightboxRef.current && isAnimating.current) {
-      requestAnimationFrame(() => {
-        const imgElement = lightboxRef.current.querySelector('img');
-        if (imgElement) {
-          const startX = slideDirection === 'next' ? 100 : -100;
-          gsap.fromTo(imgElement, 
-            { x: startX, opacity: 0 },
-            { 
-              x: 0, 
-              opacity: 1, 
-              duration: 0.4, 
-              ease: 'power2.out',
-              onComplete: () => {
-                isAnimating.current = false;
-              }
-            }
-          );
-        }
-      });
-    }
-  }, [lightboxImage, slideDirection]);
-
-  // Keyboard navigation
   useEffect(() => {
     if (!lightboxImage) return;
 
@@ -273,7 +350,6 @@ export default function GodlyFilters() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [lightboxImage, lightboxIndex]);
 
-  // Animate lightbox entrance on initial open
   const hasAnimatedIn = useRef(false);
   
   useEffect(() => {
@@ -300,7 +376,6 @@ export default function GodlyFilters() {
       onComplete: () => {
         setActiveFilter(filterId);
         setMobileMenuOpen(false);
-        // Restore both buttons when filter is selected
         restoreBothButtons();
         gsap.to(itemsRef.current, {
           opacity: 1,
@@ -313,7 +388,6 @@ export default function GodlyFilters() {
   const handleLayoutChange = (columns) => {
     setColumnLayout(columns);
     setLayoutMenuOpen(false);
-    // Restore both buttons when layout is selected
     restoreBothButtons();
   };
 
@@ -327,7 +401,6 @@ export default function GodlyFilters() {
     setMobileMenuOpen(false);
   };
 
-  // Function to restore both buttons to visible state
   const restoreBothButtons = () => {
     gsap.to(filterButtonRef.current, {
       opacity: 1,
@@ -341,25 +414,21 @@ export default function GodlyFilters() {
     });
   };
 
-  // Animate mobile menu with stagger - FIXED VERSION
   useEffect(() => {
     if (mobileMenuRef.current) {
       if (mobileMenuOpen) {
-        // Only hide the filter button, keep layout button visible
         gsap.to(filterButtonRef.current, {
           opacity: 0,
           scale: 0.8,
           duration: 0.2
         });
 
-        // Ensure layout button is visible
         gsap.to(layoutButtonRef.current, {
           opacity: 1,
           scale: 1,
           duration: 0.2
         });
 
-        // Show menu with stagger animation for items
         gsap.to(mobileMenuRef.current, {
           opacity: 1,
           scale: 1,
@@ -383,7 +452,6 @@ export default function GodlyFilters() {
           }
         });
       } else {
-        // Hide menu items with reverse stagger
         const menuItems = mobileMenuRef.current?.querySelectorAll('button');
         if (menuItems) {
           gsap.to(menuItems, {
@@ -395,7 +463,6 @@ export default function GodlyFilters() {
           });
         }
 
-        // Hide menu
         gsap.to(mobileMenuRef.current, {
           opacity: 0,
           scale: 0.8,
@@ -403,7 +470,6 @@ export default function GodlyFilters() {
           delay: 0.1,
           ease: 'power2.in',
           onComplete: () => {
-            // Restore filter button when menu closes
             gsap.to(filterButtonRef.current, {
               opacity: 1,
               scale: 1,
@@ -415,25 +481,21 @@ export default function GodlyFilters() {
     }
   }, [mobileMenuOpen]);
 
-  // Animate layout menu with scale in/out - FIXED VERSION
   useEffect(() => {
     if (layoutMenuRef.current) {
       if (layoutMenuOpen) {
-        // Only hide the layout button, keep filter button visible
         gsap.to(layoutButtonRef.current, {
           opacity: 0,
           scale: 0.8,
           duration: 0.2
         });
 
-        // Ensure filter button is visible
         gsap.to(filterButtonRef.current, {
           opacity: 1,
           scale: 1,
           duration: 0.2
         });
 
-        // Show menu with scale animation
         gsap.fromTo(layoutMenuRef.current, 
           { 
             opacity: 0, 
@@ -447,14 +509,12 @@ export default function GodlyFilters() {
           }
         );
       } else {
-        // Hide menu
         gsap.to(layoutMenuRef.current, {
           opacity: 0,
           scale: 0,
           duration: 0.2,
           ease: 'power2.in',
           onComplete: () => {
-            // Restore layout button when menu closes
             gsap.to(layoutButtonRef.current, {
               opacity: 1,
               scale: 1,
@@ -489,7 +549,6 @@ export default function GodlyFilters() {
         </div>
       );
 
-      // Add to shortest column for balanced masonry
       const minHeightIndex = columnHeights.indexOf(Math.min(...columnHeights));
       columns[minHeightIndex].push(itemElement);
       columnHeights[minHeightIndex] += height;
@@ -515,24 +574,22 @@ export default function GodlyFilters() {
         ))}
       </div>
 
-      {/* Mobile Control Buttons - Positioned at top of gallery */}
-      <div className="absolute top-4 right-4 z-20 md:hidden flex gap-2">
-        {/* Filter Button */}
+      {/* Mobile Control Buttons */}
+      <div className="md:hidden flex gap-2">
         <button
           ref={filterButtonRef}
           onClick={openFilterMenu}
-          className="w-12 h-12 bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white transition-colors hover:bg-white/20"
+          className="absolute top-12 z-20 right-2 px-2 bg-white/10 backdrop-blur-md flex items-center justify-center text-white transition-colors hover:bg-white/20"
         >
-          <FaFilter className="text-lg" />
+          Filter
         </button>
 
-        {/* Layout Button */}
         <button
           ref={layoutButtonRef}
           onClick={openLayoutMenu}
-          className="w-12 h-12 bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white transition-colors hover:bg-white/20"
+          className="absolute top-12 z-20 left-2 px-2 bg-white/10 backdrop-blur-md flex items-center justify-center text-white transition-colors hover:bg-white/20"
         >
-          <FaColumns className="text-lg" />
+          Layout
         </button>
       </div>
 
@@ -551,7 +608,7 @@ export default function GodlyFilters() {
                   ? 'bg-pink-300/20 text-pink-500'
                   : 'text-white hover:bg-white/10'
               }`}
-              style={{ opacity: 0 }} // Start hidden for animation
+              style={{ opacity: 0 }}
             >
               <span className="font-bold text-lg">{filter.label}</span>
               <span className="ml-2 text-sm opacity-60">({filter.count})</span>
@@ -564,40 +621,40 @@ export default function GodlyFilters() {
       {layoutMenuOpen && (
         <div
           ref={layoutMenuRef}
-          className="absolute top-20 right-16 z-20 md:hidden bg-black/90 backdrop-blur-xl p-4 opacity-0 scale-0"
+          className="absolute top-20 left-4 z-20 md:hidden bg-black/90 backdrop-blur-xl p-4 opacity-0 scale-0"
         >
           <div className="flex gap-2">
             <button
               onClick={() => handleLayoutChange(1)}
-              className={`flex items-center justify-center w-12 h-12 rounded transition-colors ${
+              className={`flex items-center justify-center w-8 h-8 rounded transition-colors ${
                 columnLayout === 1 
                   ? 'bg-blue-500 text-white' 
                   : 'bg-white/10 text-white hover:bg-white/20'
               }`}
             >
-              <FaTh className="text-lg" />
+              <TfiLayoutWidthFull />
             </button>
             
             <button
               onClick={() => handleLayoutChange(2)}
-              className={`flex items-center justify-center w-12 h-12 rounded transition-colors ${
+              className={`flex items-center justify-center w-8 h-8 rounded transition-colors ${
                 columnLayout === 2 
                   ? 'bg-blue-500 text-white' 
                   : 'bg-white/10 text-white hover:bg-white/20'
               }`}
             >
-              <FaColumns className="text-lg" />
+              <TfiLayoutColumn2 />
             </button>
             
             <button
               onClick={() => handleLayoutChange(3)}
-              className={`flex items-center justify-center w-12 h-12 rounded transition-colors ${
+              className={`flex items-center justify-center w-8 h-8 rounded transition-colors ${
                 columnLayout === 3 
                   ? 'bg-blue-500 text-white' 
                   : 'bg-white/10 text-white hover:bg-white/20'
               }`}
             >
-              <FaThLarge className="text-lg" />
+              <TfiLayoutColumn3 />
             </button>
           </div>
         </div>
@@ -605,7 +662,7 @@ export default function GodlyFilters() {
 
       <div
         ref={itemsRef}
-        className="absolute top-0 left-0 w-full h-full p-2 flex gap-2 overflow-y-auto scrollable-container"
+        className="absolute top-0 left-0 w-full h-full p-1 flex gap-2 overflow-y-auto scrollable-container"
       >
         <div className={`w-3/4 h-max flex gap-2 max-md:w-full ${
           columnLayout === 1 ? 'max-md:flex-col' : ''
@@ -613,7 +670,7 @@ export default function GodlyFilters() {
           {columns.map((column, index) => (
             <div 
               key={index} 
-              className={`h-max mt-10 ${
+              className={`h-max mt-20 ${
                 columnLayout === 1 ? 'flex-1' :
                 columnLayout === 2 ? 'flex-1' :
                 columnLayout === 3 ? 'flex-1' : ''
@@ -643,6 +700,10 @@ export default function GodlyFilters() {
         <div
           ref={lightboxRef}
           className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center pointer-events-auto"
+          style={{
+            touchAction: "none",        
+            overscrollBehavior: "none",
+          }}
         >
           {/* Left Zone - Previous */}
           <div
@@ -671,12 +732,12 @@ export default function GodlyFilters() {
             }}
           />
 
-          {/* Image */}
+          {/* Current Image */}
           <img
-            key={lightboxImage}
+            ref={currentImageRef}
             src={lightboxImage}
             alt="Lightbox"
-            className="max-w-[95vw] max-h-[95vh] w-auto h-auto object-contain pointer-events-none relative z-0"
+            className="max-w-[95vw] max-h-[95vh] w-auto h-auto object-contain pointer-events-none relative z-1"
           />
 
           {/* Counter */}

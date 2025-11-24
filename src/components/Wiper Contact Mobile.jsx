@@ -1,25 +1,45 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useLayoutEffect } from "react";
 import gsap from "gsap";
 
 export default function WiperContactMobile() {
-  const topRef = useRef(null);
-  const bottomRef = useRef(null);
+  const wipeRef = useRef(null);
 
-  useEffect(() => {
-    const tl = gsap.timeline();
-    tl.set([topRef.current, bottomRef.current], { scaleY: 1 })
-      .to([topRef.current, bottomRef.current], {
-        delay: 0.25,
-        scaleY: 0,
-        duration: 0.8,
-        ease: "power3.inOut",
-      });
+  // Measure viewport BEFORE paint → prevents flash
+  const getViewportHeight = () => {
+    const vv = window.visualViewport;
+    return vv?.height || window.innerHeight;
+  };
+
+  // Set correct size BEFORE the first frame renders
+  useLayoutEffect(() => {
+    const height = getViewportHeight();
+
+    Object.assign(wipeRef.current.style, {
+      position: "fixed",
+      left: "0",
+      top: "0",
+      width: "100vw",
+      height: `${height}px`,
+      background: "#000",
+      zIndex: "99999",
+      transformOrigin: "top",
+      pointerEvents: "none",
+      willChange: "transform",
+    });
   }, []);
 
-  return (
-    <div className="fixed inset-0 z-50 pointer-events-none">
-      <div ref={topRef} className="absolute inset-0 bg-black origin-bottom h-1/2" />
-      <div ref={bottomRef} className="absolute inset-0 bg-black origin-top h-1/2 top-1/2" />
-    </div>
-  );
+  // Animation AFTER paint
+  useEffect(() => {
+    // animation identical to your portfolio logic
+    gsap.set(wipeRef.current, { scaleY: 1 });
+
+    gsap.to(wipeRef.current, {
+      delay: 0.25,
+      scaleY: 0,
+      duration: 0.8,
+      ease: "power3.inOut",
+    });
+  }, []);
+
+  return <div ref={wipeRef} />;
 }

@@ -25,6 +25,7 @@ html {
 
 html, body {
   /* cursor: none; */
+  overscroll-behavior: none;
 }
 
 html::-webkit-scrollbar,
