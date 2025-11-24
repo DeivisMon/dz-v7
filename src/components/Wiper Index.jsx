@@ -1,14 +1,14 @@
 import React, { useRef, useEffect, useState } from "react";
 import gsap from "gsap";
 
-export default function Wiper() {
+export default function WiperIndex() {
   const wipeRef = useRef(null);
   const overlayRef = useRef(null);
 
   const getGrid = () => {
     if (window.innerWidth < 640) return { rows: 4, cols: 4 };
     if (window.innerWidth < 1024) return { rows: 10, cols: 10 };
-    return { rows: 16, cols: 16 };
+    return { rows: 14, cols: 14 };
   };
 
   const [{ rows, cols }, setGrid] = useState(getGrid);
@@ -65,11 +65,9 @@ export default function Wiper() {
       rotateY: 0,
       transformStyle: "preserve-3d",
       backfaceVisibility: "hidden",
-      // tiny translateZ to help compositing (optional)
       translateZ: "0.1px",
     });
 
-    // ensure overlay remains until animation actually starts
     if (overlayRef.current) overlayRef.current.style.opacity = "1";
 
     const tl = gsap.timeline({
@@ -85,6 +83,7 @@ export default function Wiper() {
     });
 
     tl.to(tiles, {
+      delay: 0.25,
       keyframes: [
         { scale: 0.8, rotateX: 180, duration: 0.2 },
         { scale: 1, rotateX: 0, duration: 0.3 },
@@ -149,7 +148,6 @@ export default function Wiper() {
               transformOrigin: "center",
               transformStyle: "preserve-3d",
               backfaceVisibility: "hidden",
-              // tiny translateZ for compositing (shouldn't create new gaps)
               transform: "translateZ(0.1px)",
             }}
           />

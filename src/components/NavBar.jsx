@@ -88,7 +88,7 @@ export default function NavBar() {
             onClick={closeMenu}
           >
             <AnimatedText
-              text="Darius Žvinklys"
+              text="Žvinklys"
               duration={0.75}
               delayChildren={1}
               enableHover={false}

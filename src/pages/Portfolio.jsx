@@ -1,7 +1,7 @@
 import React , { useState } from "react";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
-import Wiper from "../components/Wiper copy 5";
+import Wiper from "../components/Wiper Portfolio";
 import PortfolioWipers from "../components/PortfolioWipers";
 import WorkPage from "../components/WorkPAge";
 import GodlyFilters from "../components/Portfolio";

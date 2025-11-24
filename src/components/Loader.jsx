@@ -1,5 +1,5 @@
 // Loader.jsx
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 
 // Import images
@@ -26,19 +26,41 @@ const images = {
 
 const NUMBER_SEQUENCE = [0, 23, 48, 71, 100];
 
+// Desktop: 5 columns, 5 rows each
+const desktopColumns = [
+  { class: "c-1", images: ["img1", "img2", "img3", "img4", "img5"] },
+  { class: "c-2", images: ["img6", "img7", "img8", "img9", "img10"] },
+  { class: "c-3", images: ["img11", "img12", null, "img13", "img15"] },
+  { class: "c-4", images: ["img1", "img2", "img3", "img4", "img5"] },
+  { class: "c-5", images: ["img6", "img7", "img8", "img9", "img10"] },
+];
+
+// Mobile: 3 columns, 3 rows each
+const mobileColumns = [
+  { class: "c-1", images: ["img1", "img2", "img3"] },
+  { class: "c-2", images: ["img6", null, "img7"] },
+  { class: "c-3", images: ["img11", "img12", "img13"] },
+];
+
 export default function Loader({ onComplete }) {
   const timelineRef = useRef(null);
   const numberRef = useRef(null);
   const circleRef = useRef(null);
   const counterContainerRef = useRef(null);
+  const [isMobile, setIsMobile] = useState(false);
 
-  const columns = [
-    { class: "c-1", images: ["img1", "img2", "img3", "img4", "img5"] },
-    { class: "c-2", images: ["img6", "img7", "img8", "img9", "img10"] },
-    { class: "c-3", images: ["img11", "img12", null, "img13", "img15"] },
-    { class: "c-4", images: ["img1", "img2", "img3", "img4", "img5"] },
-    { class: "c-5", images: ["img6", "img7", "img8", "img9", "img10"] },
-  ];
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  const columns = isMobile ? mobileColumns : desktopColumns;
 
   useEffect(() => {
     const radius = 45;
@@ -98,40 +120,65 @@ export default function Loader({ onComplete }) {
       ease: "power4.inOut",
     }, "-=1.65");
 
-    tl.to(".c-1 .item", {
-      top: "0",
-      stagger: 0.25,
-      duration: 3,
-      ease: "expo.inOut",
-    }, "-=2");
+    if (isMobile) {
+      // Mobile: 3 columns animation
+      tl.to(".c-1 .item", {
+        top: "0",
+        stagger: 0.2,
+        duration: 2.5,
+        ease: "expo.inOut",
+      }, "-=2");
 
-    tl.to(".c-5 .item", {
-      top: "0",
-      stagger: 0.25,
-      duration: 3,
-      ease: "expo.inOut",
-    }, "<");
+      tl.to(".c-3 .item", {
+        top: "0",
+        stagger: 0.2,
+        duration: 2.5,
+        ease: "expo.inOut",
+      }, "<");
 
-    tl.to(".c-2 .item", {
-      top: "0",
-      stagger: -0.2,
-      duration: 3,
-      ease: "expo.inOut",
-    }, "-=4");
+      tl.to(".c-2 .item", {
+        top: "0",
+        stagger: -0.15,
+        duration: 2.5,
+        ease: "expo.inOut",
+      }, "-=3");
+    } else {
+      // Desktop: 5 columns animation
+      tl.to(".c-1 .item", {
+        top: "0",
+        stagger: 0.25,
+        duration: 3,
+        ease: "expo.inOut",
+      }, "-=2");
 
-    tl.to(".c-4 .item", {
-      top: "0",
-      stagger: -0.2,
-      duration: 3,
-      ease: "expo.inOut",
-    }, "-=4");
+      tl.to(".c-5 .item", {
+        top: "0",
+        stagger: 0.25,
+        duration: 3,
+        ease: "expo.inOut",
+      }, "<");
 
-    tl.to(".c-3 .item", {
-      top: "0",
-      stagger: 0.1,
-      duration: 3,
-      ease: "expo.inOut",
-    }, "-=4");
+      tl.to(".c-2 .item", {
+        top: "0",
+        stagger: -0.2,
+        duration: 3,
+        ease: "expo.inOut",
+      }, "-=4");
+
+      tl.to(".c-4 .item", {
+        top: "0",
+        stagger: -0.2,
+        duration: 3,
+        ease: "expo.inOut",
+      }, "-=4");
+
+      tl.to(".c-3 .item", {
+        top: "0",
+        stagger: 0.1,
+        duration: 3,
+        ease: "expo.inOut",
+      }, "-=4");
+    }
 
     tl.to(".grid-container", {
       scale: 5,
@@ -147,7 +194,7 @@ export default function Loader({ onComplete }) {
     return () => {
       if (timelineRef.current) timelineRef.current.kill();
     };
-  }, [onComplete]);
+  }, [onComplete, isMobile]);
 
   const radius = 45;
   const circumference = 2 * Math.PI * radius;

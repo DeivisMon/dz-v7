@@ -30,6 +30,10 @@ export default function Carousel() {
   const autoplayTimeout = useRef(null);
   const slidesRef = useRef([]);
   const currentSlide = useRef(0);
+  
+  // Touch handling
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
 
   const totalSlides = images.length;
 
@@ -130,6 +134,38 @@ export default function Carousel() {
     }
   };
 
+  // Touch handlers
+  const handleTouchStart = (e) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchMove = (e) => {
+    touchEndX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    if (isAnimating.current) return;
+    
+    const swipeThreshold = 50; // Minimum distance for a swipe
+    const diff = touchStartX.current - touchEndX.current;
+
+    if (Math.abs(diff) > swipeThreshold) {
+      clearTimeout(autoplayTimeout.current);
+      
+      if (diff > 0) {
+        // Swiped left - go to next
+        changeSlide((currentSlide.current + 1) % totalSlides);
+      } else {
+        // Swiped right - go to previous
+        changeSlide((currentSlide.current - 1 + totalSlides) % totalSlides);
+      }
+    }
+
+    // Reset values
+    touchStartX.current = 0;
+    touchEndX.current = 0;
+  };
+
   useEffect(() => {
     slidesRef.current.forEach((slide, index) => {
       if (!slide) return;
@@ -148,6 +184,7 @@ export default function Carousel() {
     }, 4000);
 
     window.addEventListener("wheel", handleWheel, { passive: false });
+    
     return () => {
       window.removeEventListener("wheel", handleWheel);
       clearTimeout(autoplayTimeout.current);
@@ -155,7 +192,12 @@ export default function Carousel() {
   }, []);
 
   return (
-    <div className="relative w-screen h-screen overflow-hidden">
+    <div 
+      className="relative w-screen h-screen overflow-hidden"
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+    >
       <div className="relative w-screen h-screen">
         {images.map((src, index) => (
           <div

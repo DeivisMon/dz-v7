@@ -9,6 +9,7 @@ export default function WiperContactMobile() {
     const tl = gsap.timeline();
     tl.set([topRef.current, bottomRef.current], { scaleY: 1 })
       .to([topRef.current, bottomRef.current], {
+        delay: 0.25,
         scaleY: 0,
         duration: 0.8,
         ease: "power3.inOut",

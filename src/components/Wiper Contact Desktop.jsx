@@ -10,6 +10,7 @@ export default function WiperContactDesktop() {
     const tl = gsap.timeline();
     tl.set([leftRef.current, rightRef.current], { scaleX: 1 })
       .to([leftRef.current, rightRef.current], {
+        delay: 0.25,
         scaleX: 0,
         duration: 0.8,
         ease: "power3.inOut",

@@ -28,7 +28,7 @@ export default function PageTransitions({ children }) {
       y: ["100vh", 0, 0], 
       transition: {
         duration: 1.5,
-        ease: [0.45, 0, 0.55, 1],
+        ease: [0.45, 0, 0.55, 0.25],
         times: [0, 0.67, 1], 
       },
     },
@@ -41,7 +41,7 @@ export default function PageTransitions({ children }) {
       y: 100,
       scale: 0.7,
       opacity: 0.8,
-      transition: { duration: 1.5, ease: [0.75, -0.05, 0.25, 1] },
+      transition: { duration: 1.5, ease: [0.75, 0.85, 0.95, 0.75] },
     },
   };
 

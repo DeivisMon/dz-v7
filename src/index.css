@@ -58,8 +58,8 @@ body {
   
 }
 
-@media (pointer: coarse) {
+/* @media (pointer: coarse) {
   .custom-cursor {
     display: none !important;
   }
-}
+} */
