@@ -34,7 +34,7 @@ export default function ContactFrom() {
 
       {/* Form */}
       <div className="relative z-10 flex flex-col md:flex-row w-full h-full text-white">
-        <div className="w-full flex-1 w-full h-1/2 md:w-1/2 md:h-full flex flex-col items-center justify-center bg-gray-600">
+        <div className="w-full flex-1 w-full h-1/2 md:w-1/2 md:h-full flex flex-col items-center justify-center bg-black">
             <h2 className="text-2xl font-bold mb-4 text-center">
               Message Sent
             </h2>
@@ -48,7 +48,7 @@ export default function ContactFrom() {
             </button>
         </div>
 
-        <div className="w-full flex-1 w-full h-1/2 md:w-1/2 md:h-full flex items-center justify-center bg-gray-400">
+        <div className="w-full flex-1 w-full h-1/2 md:w-1/2 md:h-full flex items-center justify-center bg-black">
           <form className="flex flex-col lg:gap-2 w-full max-w-sm">
             <h2 className="text-5xl font-thin lg:mb-4 text-center">Contact Me</h2>
             <input

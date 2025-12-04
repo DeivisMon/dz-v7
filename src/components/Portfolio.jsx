@@ -114,6 +114,7 @@ export default function GodlyFilters() {
   const filterButtonRef = useRef(null);
   const layoutButtonRef = useRef(null);
   const currentImageRef = useRef(null);
+  const layoutIconsRef = useRef([]);
   const _touchState = useRef({
     startX: 0,
     startY: 0,
@@ -140,7 +141,6 @@ export default function GodlyFilters() {
     const dx = t.clientX - touchState.startX;
     const dy = t.clientY - touchState.startY;
 
-    // Prevent vertical scroll conflicts
     if (Math.abs(dx) > Math.abs(dy)) {
       e.preventDefault(); 
       touchState.isSwiping = true;
@@ -152,11 +152,9 @@ export default function GodlyFilters() {
 
     const dx = touchState.startX - event.changedTouches[0].clientX;
 
-    // Swipe → next
     if (dx > 50) {
       navigateLightbox(1);
     }
-    // Swipe → prev
     if (dx < -50) {
       navigateLightbox(-1);
     }
@@ -173,14 +171,11 @@ export default function GodlyFilters() {
   };
 }, [lightboxImage]);
 
-
 useEffect(() => {
   if (lightboxImage) {
-    // Lock body
     document.body.style.overflow = "hidden";
     document.body.style.touchAction = "none";
   } else {
-    // Restore
     document.body.style.overflow = "";
     document.body.style.touchAction = "";
   }
@@ -190,8 +185,6 @@ useEffect(() => {
     document.body.style.touchAction = "";
   };
 }, [lightboxImage]);
-
-
 
   useEffect(() => {
     if (!itemsRef.current) return;
@@ -296,25 +289,21 @@ useEffect(() => {
     const imgElement = currentImageRef.current;
     if (!imgElement) return;
     
-    // Step 1: Fade out and slide current image
     gsap.to(imgElement, {
       x: direction === 1 ? -100 : 100,
       opacity: 0,
       duration: 0.3,
       ease: 'power2.in',
       onComplete: () => {
-        // Step 2: Change image source while invisible
         imgElement.src = newImage;
         setLightboxImage(newImage);
         setLightboxIndex(newIndex);
         
-        // Step 3: Position for entrance (still invisible)
         gsap.set(imgElement, {
           x: direction === 1 ? 100 : -100,
           opacity: 0
         });
         
-        // Step 4: Wait for image to be ready, then animate in
         imgElement.onload = () => {
           gsap.to(imgElement, {
             x: 0,
@@ -328,7 +317,6 @@ useEffect(() => {
           });
         };
         
-        // If image is already cached/loaded, trigger manually
         if (imgElement.complete) {
           imgElement.onload();
         }
@@ -386,9 +374,30 @@ useEffect(() => {
   };
 
   const handleLayoutChange = (columns) => {
-    setColumnLayout(columns);
-    setLayoutMenuOpen(false);
-    restoreBothButtons();
+    if (columns === columnLayout) return;
+    
+    const icons = layoutIconsRef.current.filter(Boolean);
+    gsap.to(icons, {
+      x: -50,
+      opacity: 0,
+      duration: 0.3,
+      stagger: 0.05,
+      ease: 'power2.in',
+      onComplete: () => {
+        setColumnLayout(columns);
+        setLayoutMenuOpen(false);
+        
+        setTimeout(() => {
+          const selectedIcon = layoutIconsRef.current[columns - 1];
+          if (selectedIcon) {
+            gsap.fromTo(selectedIcon,
+              { x: 50, opacity: 0 },
+              { x: 0, opacity: 1, duration: 0.3, ease: 'power2.out' }
+            );
+          }
+        }, 50);
+      }
+    });
   };
 
   const openFilterMenu = () => {
@@ -397,8 +406,36 @@ useEffect(() => {
   };
 
   const openLayoutMenu = () => {
-    setLayoutMenuOpen(true);
-    setMobileMenuOpen(false);
+    if (layoutMenuOpen) {
+      const icons = layoutIconsRef.current.filter(Boolean);
+      gsap.to(icons, {
+        x: -50,
+        opacity: 0,
+        duration: 0.3,
+        stagger: 0.05,
+        ease: 'power2.in',
+        onComplete: () => {
+          setLayoutMenuOpen(false);
+        }
+      });
+    } else {
+      setLayoutMenuOpen(true);
+      setMobileMenuOpen(false);
+      
+      setTimeout(() => {
+        const icons = layoutIconsRef.current.filter(Boolean);
+        gsap.fromTo(icons,
+          { x: 50, opacity: 0 },
+          { 
+            x: 0, 
+            opacity: 1, 
+            duration: 0.4, 
+            stagger: 0.1,
+            ease: 'back.out(1.7)'
+          }
+        );
+      }, 50);
+    }
   };
 
   const restoreBothButtons = () => {
@@ -495,33 +532,6 @@ useEffect(() => {
           scale: 1,
           duration: 0.2
         });
-
-        gsap.fromTo(layoutMenuRef.current, 
-          { 
-            opacity: 0, 
-            scale: 0 
-          },
-          { 
-            opacity: 1, 
-            scale: 1, 
-            duration: 0.3, 
-            ease: 'back.out(1.7)'
-          }
-        );
-      } else {
-        gsap.to(layoutMenuRef.current, {
-          opacity: 0,
-          scale: 0,
-          duration: 0.2,
-          ease: 'power2.in',
-          onComplete: () => {
-            gsap.to(layoutButtonRef.current, {
-              opacity: 1,
-              scale: 1,
-              duration: 0.2
-            });
-          }
-        });
       }
     }
   }, [layoutMenuOpen]);
@@ -537,7 +547,7 @@ useEffect(() => {
       const height = 400 * aspectRatio;
 
       const itemElement = (
-        <div key={i} className="pb-2 cursor-pointer" onClick={() => openLightbox(item.img, i)}>
+        <div key={i} className="pb-1 cursor-pointer" onClick={() => openLightbox(item.img, i)}>
           <div className="w-full overflow-hidden">
             <img
               src={item.img}
@@ -583,21 +593,13 @@ useEffect(() => {
         >
           Filter
         </button>
-
-        <button
-          ref={layoutButtonRef}
-          onClick={openLayoutMenu}
-          className="absolute top-12 z-20 left-2 px-2 bg-white/10 backdrop-blur-md flex items-center justify-center text-white transition-colors hover:bg-white/20"
-        >
-          Layout
-        </button>
       </div>
 
       {/* Mobile Filter Menu */}
       {mobileMenuOpen && (
         <div
           ref={mobileMenuRef}
-          className="absolute top-20 right-4 z-20 md:hidden bg-black/90 backdrop-blur-xl p-4 opacity-0 scale-80 min-w-[200px]"
+          className="absolute top-20 right-0 z-20 md:hidden bg-black/90 backdrop-blur-xl p-4 opacity-0 scale-80 min-w-[200px]"
         >
           {filters.map((filter) => (
             <button
@@ -618,53 +620,77 @@ useEffect(() => {
       )}
 
       {/* Mobile Layout Menu */}
-      {layoutMenuOpen && (
-        <div
-          ref={layoutMenuRef}
-          className="absolute top-20 left-4 z-20 md:hidden bg-black/90 backdrop-blur-xl p-4 opacity-0 scale-0"
+      <div className="md:hidden absolute top-12 left-2 z-20 flex items-center gap-2">
+        <button
+          ref={layoutButtonRef}
+          onClick={openLayoutMenu}
+          className="px-2 py-3 bg-wblack flex items-center justify-center text-white transition-colors hover:bg-white/20"
         >
+          Layout
+        </button>
+
+        {/* Current Layout Icon - Always visible */}
+        {!layoutMenuOpen && (
+          <div 
+            ref={el => layoutIconsRef.current[columnLayout - 1] = el}
+            className="w-8 h-8 flex items-center justify-center text-white"
+          >
+            {columnLayout === 1 && <TfiLayoutWidthFull />}
+            {columnLayout === 2 && <TfiLayoutColumn2 />}
+            {columnLayout === 3 && <TfiLayoutColumn3 />}
+          </div>
+        )}
+
+        {/* All Layout Options - Shown when menu is open */}
+        {layoutMenuOpen && (
           <div className="flex gap-2">
             <button
+              ref={el => layoutIconsRef.current[0] = el}
               onClick={() => handleLayoutChange(1)}
-              className={`flex items-center justify-center w-8 h-8 rounded transition-colors ${
+              className={`flex items-center justify-center w-8 h-8 transition-colors ${
                 columnLayout === 1 
-                  ? 'bg-blue-500 text-white' 
+                  ? 'text-white' 
                   : 'bg-white/10 text-white hover:bg-white/20'
               }`}
+              style={{ opacity: 0 }}
             >
               <TfiLayoutWidthFull />
             </button>
             
             <button
+              ref={el => layoutIconsRef.current[1] = el}
               onClick={() => handleLayoutChange(2)}
-              className={`flex items-center justify-center w-8 h-8 rounded transition-colors ${
+              className={`flex items-center justify-center w-8 h-8 transition-colors ${
                 columnLayout === 2 
-                  ? 'bg-blue-500 text-white' 
+                  ? 'text-white' 
                   : 'bg-white/10 text-white hover:bg-white/20'
               }`}
+              style={{ opacity: 0 }}
             >
               <TfiLayoutColumn2 />
             </button>
             
             <button
+              ref={el => layoutIconsRef.current[2] = el}
               onClick={() => handleLayoutChange(3)}
-              className={`flex items-center justify-center w-8 h-8 rounded transition-colors ${
+              className={`flex items-center justify-center w-8 h-8 transition-colors ${
                 columnLayout === 3 
-                  ? 'bg-blue-500 text-white' 
+                  ? 'text-white' 
                   : 'bg-white/10 text-white hover:bg-white/20'
               }`}
+              style={{ opacity: 0 }}
             >
               <TfiLayoutColumn3 />
             </button>
           </div>
-        </div>
-      )}
+        )}
+      </div>
 
       <div
         ref={itemsRef}
-        className="absolute top-0 left-0 w-full h-full p-1 flex gap-2 overflow-y-auto scrollable-container"
+        className="absolute top-0 left-0 w-full h-full p-1 flex gap-1 overflow-y-auto scrollable-container"
       >
-        <div className={`w-3/4 h-max flex gap-2 max-md:w-full ${
+        <div className={`w-3/4 h-max flex gap-1 max-md:w-full ${
           columnLayout === 1 ? 'max-md:flex-col' : ''
         }`}>
           {columns.map((column, index) => (
@@ -705,7 +731,6 @@ useEffect(() => {
             overscrollBehavior: "none",
           }}
         >
-          {/* Left Zone - Previous */}
           <div
             className="cursor-trigger absolute left-0 top-0 w-1/3 h-full z-10"
             data-cursor-type="prev"
@@ -715,14 +740,12 @@ useEffect(() => {
             }}
           />
 
-          {/* Middle Zone - Close */}
           <div
             className="cursor-trigger absolute left-1/3 top-0 w-1/3 h-full z-10"
             data-cursor-type="close"
             onClick={closeLightbox}
           />
 
-          {/* Right Zone - Next */}
           <div
             className="cursor-trigger absolute right-0 top-0 w-1/3 h-full z-10"
             data-cursor-type="next"
@@ -732,7 +755,6 @@ useEffect(() => {
             }}
           />
 
-          {/* Current Image */}
           <img
             ref={currentImageRef}
             src={lightboxImage}
@@ -740,7 +762,6 @@ useEffect(() => {
             className="max-w-[95vw] max-h-[95vh] w-auto h-auto object-contain pointer-events-none relative z-1"
           />
 
-          {/* Counter */}
           <div className="absolute bottom-8 text-white text-lg mix-blend-difference pointer-events-none z-20">
             {lightboxIndex + 1} / {getFilteredItems().length}
           </div>
