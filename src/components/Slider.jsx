@@ -1,10 +1,8 @@
 import { useEffect, useRef } from "react";
-// import { useRouter } from "next/navigation";
 import { sliderData } from "./sliderData";
 
 const Slider = () => {
   const sliderRef = useRef(null);
-  // const router = useRouter();
 
   useEffect(() => {
     const config = {
@@ -33,18 +31,18 @@ const Slider = () => {
       isMobile: false,
     };
 
-    function checkMobile() {
-      state.isMobile = window.innerWidth < 1000;
-    }
+    // function checkMobile() {
+    //   state.isMobile = window.innerWidth < 1000;
+    // }
 
     function createSlideElement(index) {
       const slide = document.createElement("div");
       slide.className = "slide";
 
-      if (state.isMobile) {
-        slide.style.width = "175px";
-        slide.style.height = "250px";
-      }
+      // if (state.isMobile) {
+      //   slide.style.width = "175px";
+      //   slide.style.height = "250px";
+      // }
 
       const imageContainer = document.createElement("div");
       imageContainer.className = "slide-image";
@@ -57,27 +55,6 @@ const Slider = () => {
       const overlay = document.createElement("div");
       overlay.className = "slide-overlay";
 
-      // const title = document.createElement("p");
-      // title.className = "project-title";
-      // title.textContent = sliderData[dataIndex].title;
-
-      // const arrow = document.createElement("div");
-      // arrow.className = "project-arrow";
-      // arrow.innerHTML = `
-      //   <svg viewBox="0 0 24 24">
-      //     <path d="M7 17L17 7M17 7H7M17 7V17"/>
-      //   </svg>
-      // `;
-
-      // slide.addEventListener("click", (e) => {
-      //   e.preventDefault();
-      //   if (state.dragDistance < 10 && !state.hasActuallyDragged) {
-      //     router.push(sliderData[dataIndex].url);
-      //   }
-      // });
-
-      // overlay.appendChild(title);
-      // overlay.appendChild(arrow);
       imageContainer.appendChild(img);
       slide.appendChild(imageContainer);
       slide.appendChild(overlay);
@@ -92,8 +69,8 @@ const Slider = () => {
       track.innerHTML = "";
       state.slides = [];
 
-      checkMobile();
-      state.slideWidth = state.isMobile ? 215 : 390;
+      // checkMobile();
+      // state.slideWidth = state.isMobile ? 215 : 390;
 
       const copies = 6;
       const totalSlides = totalSlideCount * copies;
