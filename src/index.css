@@ -9,7 +9,7 @@
 @import url('https://fonts.cdnfonts.com/css/mories');
 @import url('https://fonts.cdnfonts.com/css/lt-binary-neue');
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poiret+One&family=Sevillana&family=Syne:wght@400..800&display=swap');
-@import url(https://db.onlinewebfonts.com/c/384a6031928e262848e4e7ef80037466?family=Kudryashev+Display+Sans);
+@import url('https://db.onlinewebfonts.com/c/384a6031928e262848e4e7ef80037466?family=Kudryashev+Display+Sans');
 @import "tailwindcss";
 
 html {
@@ -50,7 +50,7 @@ body {
     font-family: 'Syne', sans-serif;
     /* font-family: 'Anton', sans-serif; */
     /* font-family: "Kudryashev Display Sans", sans-serif; */
-    background-color: rgb(75, 75, 75);
+    /* background-color: rgb(75, 75, 75); */
 }
 
 .logo {
@@ -74,7 +74,7 @@ body {
   height: 100svh;
   overflow: hidden;
   user-select: none;
-  z-index: 140;
+  z-index: 10;
 }
 
 .slide-track {
@@ -86,9 +86,9 @@ body {
 
 .slide {
   flex-shrink: 0;
-  width: 350px;
+  width: 500px;
   height: 900px;
-  margin: 0 20px;
+  margin: 0 5px;
   position: relative;
   top: 50%;
   transform: translateY(-50%);
@@ -132,17 +132,4 @@ body {
   opacity: calc(1 - var(--slider-moving, 1));
 }
 
-
-/* sample project page */
-.container {
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-  background-color: #0f0f0f;
-  color: #fff;
-}
 

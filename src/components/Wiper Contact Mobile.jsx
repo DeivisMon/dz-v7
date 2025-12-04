@@ -28,9 +28,8 @@ export default function WiperContactMobile() {
     });
   }, []);
 
-  // Animation AFTER paint
+
   useEffect(() => {
-    // animation identical to your portfolio logic
     gsap.set(wipeRef.current, { scaleY: 1 });
 
     gsap.to(wipeRef.current, {

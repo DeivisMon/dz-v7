@@ -16,7 +16,7 @@ const Slider = () => {
     const state = {
       currentX: 0,
       targetX: 0,
-      slideWidth: 390,
+      slideWidth: 510,
       slides: [],
       isDragging: false,
       startX: 0,

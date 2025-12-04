@@ -46,7 +46,7 @@ export default function PageTransitions({ children }) {
   };
 
   return (
-    <div className="bg-black/50 overflow-hidden">
+    <div className="bg-black/85 overflow-hidden">
       <Motion.div
         {...Animate(slide)}
         className="fixed top-0 left-0 bg-black min-w-full z-1 min-h-screen"
