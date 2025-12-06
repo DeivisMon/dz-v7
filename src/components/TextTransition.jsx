@@ -23,7 +23,7 @@ export default function TextTransition() {
       },
       {
         duration: 1.8,
-        ease: "power4.inOut",
+        ease: "power3.inOut",
         keyframes: {
           scale: [6, 5, 4, 3, 4, 5],
           y: [-10, -5, 0, 0, 0, 0],
@@ -42,7 +42,7 @@ export default function TextTransition() {
       {
         duration: 1.8,
         delay: 0.075,
-        ease: "power4.inOut",
+        ease: "power3.inOut",
         keyframes: {
           scale: [6, 5, 4, 3, 4, 5],
           y: [10, 5, 0, 0, 0, 0],

@@ -6,7 +6,7 @@ import { useDeviceType } from "./useDeviceType";
 
 export default function ContactFrom() {
   const [isContactVisible, setIsContactVisible] = useState(true);
-    const { isHorizontalMobile, isVerticalMobile } = useDeviceType();
+    const { isMobile, isHorizontalMobile, isVerticalMobile } = useDeviceType();
   
 
   const getTransform = () => {
@@ -45,8 +45,8 @@ export default function ContactFrom() {
         </div>
 
         <div className="w-full flex-1 w-full h-1/2 md:w-1/2 md:h-full pt-12 md:pt-0 flex items-start md:items-center justify-center">
-          <form className={`${isHorizontalMobile ? "mx-8" : "mx-0"} flex flex-col lg:gap-2 w-full max-w-sm`}>
-            <h2 className={`${isHorizontalMobile ? "text-3xl" : "text-5xl"} font-thin lg:mb-4 text-center`}>Contact Me</h2>
+          <form className={`${isHorizontalMobile ? "mx-8" : "mx-0"} flex flex-col lg:gap-2 w-full max-w-xl`}>
+            <h2 className={`${isHorizontalMobile ? "text-3xl" : "text-5xl"} ${!isMobile ? "text-[3rem] font-extrabold" : ""}  lg:mb-4 text-center`}>Contact Me</h2>
             <input
               className="input-hover p-2 border-b rounded-t-md font-thin focus:outline-none focus:bg-none" 
               placeholder="Name"
@@ -56,7 +56,7 @@ export default function ContactFrom() {
               type="email"
               placeholder="Email"
             />
-            <input
+            <textarea
               className="input-hover p-2 border-b rounded-t-md font-thin focus:outline-none focus:bg-none"
               placeholder="Your message"
             />
