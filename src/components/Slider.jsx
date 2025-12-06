@@ -1,16 +1,19 @@
+import "./slider.css";
 import { useEffect, useRef } from "react";
+import { useDeviceType } from "./utils/useDeviceType";
 import { sliderData } from "./sliderData";
 
 const Slider = () => {
   const sliderRef = useRef(null);
+  const { isVerticalMobile, isHorizontalMobile } = useDeviceType();
 
   useEffect(() => {
     const config = {
       SCROLL_SPEED: 1.75,
       LERP_FACTOR: 0.05,
       MAX_VELOCITY: 150,
-      SNAP_THRESHOLD: 0.5, // How close to stop before snapping
-      SNAP_DELAY: 500, // Delay before snapping starts (reduced for faster response)
+      SNAP_THRESHOLD: 0.5,
+      SNAP_DELAY: 100,
     };
 
     const totalSlideCount = sliderData.length;
@@ -30,37 +33,17 @@ const Slider = () => {
       lastCurrentX: 0,
       dragDistance: 0,
       hasActuallyDragged: false,
-      isHorizontalMobile: false,
-      isVerticalMobile: false,
-      shouldSnap: false,
       snapTimeout: null,
     };
-
-    function checkMobile() {
-      const isPortrait = window.innerHeight > window.innerWidth;
-      const isSmallScreen = window.innerWidth < 768;
-      
-      state.isVerticalMobile = isPortrait && isSmallScreen;
-      state.isHorizontalMobile = window.innerHeight < 500 && !state.isVerticalMobile;
-      
-      console.log('Device check:', {
-        isPortrait,
-        isSmallScreen,
-        isVerticalMobile: state.isVerticalMobile,
-        isHorizontalMobile: state.isHorizontalMobile,
-        width: window.innerWidth,
-        height: window.innerHeight
-      });
-    }
 
     function createSlideElement(index) {
       const slide = document.createElement("div");
       slide.className = "slide";
 
-      if (state.isVerticalMobile) {
+      if (isVerticalMobile) {
         slide.style.width = "95vw";
         slide.style.height = "90vh";
-      } else if (state.isHorizontalMobile) {
+      } else if (isHorizontalMobile) {
         slide.style.width = "175px";
         slide.style.height = "80vh";
       }
@@ -89,14 +72,11 @@ const Slider = () => {
 
       track.innerHTML = "";
       state.slides = [];
-
-      checkMobile();
       
-      if (state.isVerticalMobile) {
-        // Calculate 95vw + margins (2.5vw each side = 5vw total)
-        // Total space per slide = 95vw + 5vw = 100vw (full width)
+      if (isVerticalMobile) {
+        // Full viewport width per slide (95vw + margins = 100vw)
         state.slideWidth = window.innerWidth;
-      } else if (state.isHorizontalMobile) {
+      } else if (isHorizontalMobile) {
         // 175px width + 10px for margins
         state.slideWidth = 185;
       } else {
@@ -160,35 +140,25 @@ const Slider = () => {
     }
 
     function snapToNearestSlide() {
-      if (!state.isVerticalMobile) {
-        console.log('Not vertical mobile, snap skipped');
+      if (!isVerticalMobile) {
         return;
       }
 
-      console.log('SNAP TRIGGERED!');
       const viewportCenter = window.innerWidth / 2;
       
-      // Calculate the offset needed to center a slide
       const slideCenter = state.slideWidth / 2;
       const centerOffset = viewportCenter - slideCenter;
       
-      // Find which slide should be centered based on current position
       const currentOffset = state.currentX + centerOffset;
       const nearestSlideIndex = Math.round(currentOffset / state.slideWidth);
       
-      // Calculate the target position to center that slide
       const newTarget = (nearestSlideIndex * state.slideWidth) - centerOffset;
-      
-      console.log('Current X:', state.currentX);
-      console.log('Target X before snap:', state.targetX);
-      console.log('New Target X:', newTarget);
-      console.log('Distance to snap:', Math.abs(newTarget - state.currentX));
       
       state.targetX = newTarget;
     }
 
     function checkAndInitiateSnap() {
-      if (!state.isVerticalMobile || state.isDragging) {
+      if (!isVerticalMobile || state.isDragging) {
         if (state.snapTimeout) {
           clearTimeout(state.snapTimeout);
           state.snapTimeout = null;
@@ -196,22 +166,15 @@ const Slider = () => {
         return;
       }
 
-      console.log('Check snap - velocity:', state.velocity, 'isDragging:', state.isDragging);
-
-      // Clear existing timeout
       if (state.snapTimeout) {
         clearTimeout(state.snapTimeout);
       }
 
-      // Set timeout to snap after movement stops
       state.snapTimeout = setTimeout(() => {
         const timeSinceScroll = Date.now() - state.lastScrollTime;
         const isStill = state.velocity < config.SNAP_THRESHOLD;
         
-        console.log('Snap check:', { timeSinceScroll, isStill, velocity: state.velocity, isDragging: state.isDragging });
-        
         if (timeSinceScroll > 50 && isStill && !state.isDragging) {
-          console.log('CONDITIONS MET - SNAPPING NOW');
           snapToNearestSlide();
         }
       }, config.SNAP_DELAY);
@@ -233,9 +196,7 @@ const Slider = () => {
         state.isMoving ? "1" : "0"
       );
 
-      // Trigger snap when transitioning from moving to not moving
-      if (wasMoving && !state.isMoving && !state.isDragging && state.isVerticalMobile) {
-        console.log('Stopped moving - initiating snap');
+      if (wasMoving && !state.isMoving && !state.isDragging && isVerticalMobile) {
         checkAndInitiateSnap();
       }
     }
@@ -389,7 +350,7 @@ const Slider = () => {
     const cleanup = initializeSlider();
 
     return cleanup;
-  }, []);
+  }, [isVerticalMobile, isHorizontalMobile]);
 
   return (
     <div className="slider" ref={sliderRef}>
