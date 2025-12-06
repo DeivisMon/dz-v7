@@ -13,24 +13,28 @@
 @import "tailwindcss";
 
 html {
-    scroll-behavior: smooth;
+  scroll-behavior: smooth;
 }
 
 /* hide scrollbar for all browsers */
 html {
-  overflow: -moz-scrollbar-none; /* Old Firefox */
-  scrollbar-width: none; /* New Firefox */
-  -ms-overflow-style: none; /* IE & Edge */
+  overflow: -moz-scrollbar-none;
+  /* Old Firefox */
+  scrollbar-width: none;
+  /* New Firefox */
+  -ms-overflow-style: none;
+  /* IE & Edge */
 }
 
-html, body {
+html,
+body {
   /* cursor: none; */
   overscroll-behavior: none;
 }
 
 html::-webkit-scrollbar,
 body::-webkit-scrollbar {
-  display: none; 
+  display: none;
 }
 
 ::selection {
@@ -38,25 +42,26 @@ body::-webkit-scrollbar {
 }
 
 body {
-        /* font-family: "Roboto", sans-serif; */
-    /* font-family: "Thomas Mag Regular", sans-serif; */
-    /* font-family: 'Gretha', sans-serif; */
-    /* font-family: 'Mirage', sans-serif; */
-    /* font-family: 'Aventi', sans-serif; */
-    /* font-family: 'Kaldera', sans-serif; */
-    /* font-family: 'Neroit Mission', sans-serif; */
-    /* font-family: 'Mories', sans-serif; */
-    /* font-family: 'LT Binary Neue', sans-serif; */
-    font-family: 'Syne', sans-serif;
-    /* font-family: 'Anton', sans-serif; */
-    /* font-family: "Kudryashev Display Sans", sans-serif; */
-    /* background-color: rgb(75, 75, 75); */
+  /* font-family: "Roboto", sans-serif; */
+  /* font-family: "Thomas Mag Regular", sans-serif; */
+  /* font-family: 'Gretha', sans-serif; */
+  /* font-family: 'Mirage', sans-serif; */
+  /* font-family: 'Aventi', sans-serif; */
+  /* font-family: 'Kaldera', sans-serif; */
+  /* font-family: 'Neroit Mission', sans-serif; */
+  /* font-family: 'Mories', sans-serif; */
+  /* font-family: 'LT Binary Neue', sans-serif; */
+  font-family: 'Syne', sans-serif;
+  /* font-family: 'Anton', sans-serif; */
+  /* font-family: "Kudryashev Display Sans", sans-serif; */
+  /* background-color: rgb(75, 75, 75); */
+  background-color: black;
 }
 
 .logo {
   /* font-family: 'Mories', sans-serif; */
-    /* font-family: 'Syne', sans-serif; */
-  
+  /* font-family: 'Syne', sans-serif; */
+
 }
 
 /* @media (pointer: coarse) {
@@ -128,8 +133,23 @@ body {
   opacity: 0;
 }
 
-.slide:hover .slide-overlay {
+/* .slide:hover .slide-overlay {
   opacity: calc(1 - var(--slider-moving, 1));
+} */
+/* Vertical Mobile Styles */
+@media (max-width: 767px) and (orientation: portrait) {
+  .slide {
+    width: 98vw !important;
+    height: 90vh !important;
+    margin: 0 5px;
+  }
 }
 
-
+/* Horizontal Mobile Styles */
+@media (max-height: 500px) and (orientation: landscape) {
+  .slide {
+    width: 175px !important;
+    height: 80vh !important;
+    margin: 0 5px;
+  }
+}

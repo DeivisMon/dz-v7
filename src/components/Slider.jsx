@@ -29,20 +29,28 @@ const Slider = () => {
       dragDistance: 0,
       hasActuallyDragged: false,
       isMobile: false,
+      isVerticalMobile: false,
     };
 
-    // function checkMobile() {
-    //   state.isMobile = window.innerWidth < 1000;
-    // }
+    function checkMobile() {
+      const isPortrait = window.innerHeight > window.innerWidth;
+      const isSmallScreen = window.innerWidth < 768;
+      
+      state.isVerticalMobile = isPortrait && isSmallScreen;
+      state.isMobile = window.innerHeight < 500 && !state.isVerticalMobile;
+    }
 
     function createSlideElement(index) {
       const slide = document.createElement("div");
       slide.className = "slide";
 
-      // if (state.isMobile) {
-      //   slide.style.width = "175px";
-      //   slide.style.height = "250px";
-      // }
+      if (state.isVerticalMobile) {
+        slide.style.width = "98vw";
+        slide.style.height = "90vh";
+      } else if (state.isMobile) {
+        slide.style.width = "175px";
+        slide.style.height = "80vh";
+      }
 
       const imageContainer = document.createElement("div");
       imageContainer.className = "slide-image";
@@ -69,8 +77,18 @@ const Slider = () => {
       track.innerHTML = "";
       state.slides = [];
 
-      // checkMobile();
-      // state.slideWidth = state.isMobile ? 215 : 390;
+      checkMobile();
+      
+      if (state.isVerticalMobile) {
+        // Calculate 95vw in pixels + 10px for margins (5px each side)
+        state.slideWidth = window.innerWidth * 0.98 + 10;
+      } else if (state.isMobile) {
+        // 175px width + 10px for margins
+        state.slideWidth = 185;
+      } else {
+        // Desktop: 500px width + 10px for margins
+        state.slideWidth = 510;
+      }
 
       const copies = 6;
       const totalSlides = totalSlideCount * copies;
