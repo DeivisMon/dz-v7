@@ -223,7 +223,7 @@ useEffect(() => {
     { id: 'all', label: 'Visi', count: 34 },
     { id: 'mergos', label: 'Mergos', count: 13 },
     { id: 'menas', label: 'Menas', count: 11 },
-    { id: 'koncertai', label: 'Koncertai', count: 10 },
+    { id: 'koncertai', label: 'Koncai', count: 10 },
   ];
 
   useEffect(() => {

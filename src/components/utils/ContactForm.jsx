@@ -50,15 +50,18 @@ export default function ContactFrom() {
             <input
               className="input-hover p-2 border-b rounded-t-md font-thin focus:outline-none focus:bg-none" 
               placeholder="Name"
+              required
             />
             <input
               className="input-hover p-2 border-b rounded-t-md font-thin focus:outline-none focus:bg-none"
               type="email"
-              placeholder="Email"
+              placeholder="Your email"
+              required
             />
             <textarea
               className="input-hover p-2 border-b rounded-t-md font-thin focus:outline-none focus:bg-none"
               placeholder="Your message"
+              required
             />
             <button
               className="bg-gray-500 group text-white font-bold mt-2 hover:bg-gray-200 cursor-pointer transition duration-300 ease-in-out"
