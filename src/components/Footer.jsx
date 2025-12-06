@@ -1,17 +1,34 @@
 import AnimatedText from "./utils/AnimatedText";
 import Socials from "./utils/Socials";
+import { CgScrollH } from "react-icons/cg";
+import { useDeviceType } from "./utils/useDeviceType";
 
 export default function Footer() {
-  
+  const { isMobile, isHorizontalMobile } = useDeviceType();
 
   return (
-    <div className="footer fixed bottom-0 w-full z-20 select-none">
+    <div className="footer fixed bottom-0 w-full z-20 select-none mix-blend-difference">
       <footer className="flex items-end justify-center md:justify-between text-white">
-            <div className="relative z-10 capitalize font-normal pl-4 whitespace-nowrap">
-                Darius Žvinklys. &copy; {new Date().getFullYear()} 
+        {!isMobile ? (
+          <>
+            <div className="relative z-10 capitalize font-normal whitespace-nowrap">
+              Darius Žvinklys. &copy; {new Date().getFullYear()}
             </div>
-            <span className="fixed bottom-0 bg-black h-2 w-full"></span>
-            <Socials />
+            <span className="fixed bottom-0 left-1/2 transform -translate-y-1/2 -translate-x-1/2 flex items-center gap-2 text-2xl animate-pulse">
+              <CgScrollH size={36} />
+              <span>Scroll</span>
+              <CgScrollH size={36} />
+            </span>
+            <Socials />{" "}
+          </>
+        ) : (
+          <div
+            className="relative z-10 capitalize font-normal whitespace-nowrap"
+            style={{ paddingLeft: isHorizontalMobile ? "0.5rem" : "0" }}
+          >
+            Darius Žvinklys. &copy; {new Date().getFullYear()}
+          </div>
+        )}
       </footer>
     </div>
   );

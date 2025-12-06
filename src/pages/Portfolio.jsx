@@ -17,6 +17,8 @@ export default function Portfolio() {
       <NavBar />
       <GodlyFilters />
        {/* {showWiper && <Wiper onComplete={() => setShowWiper(false)} />} */}
+      <Footer />
+
 <WiperContactMobile />
     </div>
   );

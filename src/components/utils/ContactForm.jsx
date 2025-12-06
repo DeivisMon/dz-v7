@@ -1,21 +1,17 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import SocialIcons from "./SocialIcons";
+import { useDeviceType } from "./useDeviceType";
+
 
 
 export default function ContactFrom() {
   const [isContactVisible, setIsContactVisible] = useState(true);
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
+    const { isHorizontalMobile, isVerticalMobile } = useDeviceType();
+  
 
   const getTransform = () => {
     if (isContactVisible) return "translate(0, 0)";
-    return isMobile ? "translateY(100%)" : "translateX(100%)";
+    return isVerticalMobile ? "translateY(100%)" : "translateX(100%)";
   };
   
 
@@ -48,9 +44,9 @@ export default function ContactFrom() {
             </button>
         </div>
 
-        <div className="w-full flex-1 w-full h-1/2 md:w-1/2 md:h-full flex items-center justify-center">
-          <form className="flex flex-col lg:gap-2 w-full max-w-sm">
-            <h2 className="text-5xl font-thin lg:mb-4 text-center">Contact Me</h2>
+        <div className="w-full flex-1 w-full h-1/2 md:w-1/2 md:h-full pt-12 md:pt-0 flex items-start md:items-center justify-center">
+          <form className={`${isHorizontalMobile ? "mx-8" : "mx-0"} flex flex-col lg:gap-2 w-full max-w-sm`}>
+            <h2 className={`${isHorizontalMobile ? "text-3xl" : "text-5xl"} font-thin lg:mb-4 text-center`}>Contact Me</h2>
             <input
               className="input-hover p-2 border-b rounded-t-md font-thin focus:outline-none focus:bg-none" 
               placeholder="Name"
@@ -65,7 +61,7 @@ export default function ContactFrom() {
               placeholder="Your message"
             />
             <button
-              className="bg-gray-500 group rounded-xs text-white font-bold mt-2 hover:bg-gray-200 cursor-pointer transition duration-300 ease-in-out"
+              className="bg-gray-500 group text-white font-bold mt-2 hover:bg-gray-200 cursor-pointer transition duration-300 ease-in-out"
               type="button"
               style={{padding: '8px 0'}}
               onClick={() => setIsContactVisible(!isContactVisible)}
@@ -74,7 +70,7 @@ export default function ContactFrom() {
                Send
               </span>
             </button>
-            <div className="flex justify-center mt-4">
+            <div className="flex justify-center md:mt-4">
               <SocialIcons />
             </div>
           </form>

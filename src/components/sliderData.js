@@ -1,7 +1,7 @@
 export const sliderData = [
   {
     title: "Echoes of Silence",
-    img: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=1920",
+    img: `${import.meta.env.BASE_URL}images/img1.avif`,
   },
   {
     title: "Floral Circuit",

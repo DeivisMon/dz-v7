@@ -14,7 +14,7 @@ export default function Index() {
       <NavBar />
       <Slider />
       {/* <Carousel /> */}
-      {/* <Footer /> */}
+      <Footer />
       {/* <WiperIndex /> */}
       <WiperContactMobile />
     </div>

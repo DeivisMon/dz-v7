@@ -20,7 +20,7 @@ export default function Contact() {
     <div>
       <NavBar />
       <ContactFrom />
-      {/* <Footer /> */}
+      <Footer />
       {/* {isTouchDevice ? (<WiperContactMobile />): (<WiperContactDesktop />)} */}
       <WiperContactMobile />
     </div>

@@ -41,7 +41,7 @@ const Slider = () => {
       slide.className = "slide";
 
       if (isVerticalMobile) {
-        slide.style.width = "95vw";
+        slide.style.width = "97vw";
         slide.style.height = "90vh";
       } else if (isHorizontalMobile) {
         slide.style.width = "175px";
@@ -74,13 +74,10 @@ const Slider = () => {
       state.slides = [];
       
       if (isVerticalMobile) {
-        // Full viewport width per slide (95vw + margins = 100vw)
         state.slideWidth = window.innerWidth;
       } else if (isHorizontalMobile) {
-        // 175px width + 10px for margins
         state.slideWidth = 185;
       } else {
-        // Desktop: 500px width + 10px for margins
         state.slideWidth = 510;
       }
 
@@ -135,7 +132,7 @@ const Slider = () => {
         const distanceFromCenter = slideCenter - viewportCenter;
         const parallaxOffset = distanceFromCenter * -0.25;
 
-        img.style.transform = `translateX(${parallaxOffset}px) scale(2.25)`;
+        img.style.transform = `translateX(${parallaxOffset}px) scale(1.75)`;
       });
     }
 
@@ -190,11 +187,6 @@ const Slider = () => {
       const wasMoving = state.isMoving;
       state.isMoving =
         state.hasActuallyDragged || !isSlowEnough || !hasBeenStillLongEnough;
-
-      document.documentElement.style.setProperty(
-        "--slider-moving",
-        state.isMoving ? "1" : "0"
-      );
 
       if (wasMoving && !state.isMoving && !state.isDragging && isVerticalMobile) {
         checkAndInitiateSnap();
@@ -358,4 +350,5 @@ const Slider = () => {
     </div>
   );
 };
+
 export default Slider;

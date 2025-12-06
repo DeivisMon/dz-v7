@@ -2,6 +2,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
 import gsap from "gsap";
 import AnimatedText from "./utils/AnimatedText";
+import { useDeviceType } from "./utils/useDeviceType";
 
 export default function NavBar() {
   const location = useLocation();
@@ -9,6 +10,8 @@ export default function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const overlayRef = useRef(null);
   const menuLinksRef = useRef([]);
+  const { isMobile } = useDeviceType();
+  
   const isActive = (path) => location.pathname === path;
 
   useEffect(() => {
@@ -90,7 +93,7 @@ export default function NavBar() {
           </div>
 
           {/* Desktop Navigation */}
-          <div className="nav-links relative z-[1000] nav-item hidden md:flex items-center gap-0 lg:gap-4 font-bold text-[20px] backdrop-blur transition-all duration-500 ease-in-out">
+          <div className={`${isMobile ? "hidden" : "flex"} nav-links relative z-[1000] nav-item items-center gap-0 lg:gap-4 font-bold text-[20px] backdrop-blur transition-all duration-500 ease-in-out`}>
             {[
               { path: "/", label: "Index" },
               { path: "/portfolio", label: "Portfolio" },
@@ -112,7 +115,7 @@ export default function NavBar() {
           {/* Mobile Menu Button */}
           <button
             onClick={toggleMenu}
-            className="md:hidden relative z-[1000] w-10 h-10 flex flex-col justify-center items-center gap-1.5"
+            className={`${!isMobile ? "hidden" : "flex"} relative z-[1000] w-10 h-10  flex-col justify-center items-center gap-1.5`}
             aria-label="Toggle menu"
           >
             <span className={`w-6 h-0.5 bg-white transition-all duration-300 ${isMenuOpen ? "rotate-45 translate-y-2" : ""}`} />
@@ -125,7 +128,7 @@ export default function NavBar() {
       {/* Mobile Menu Overlay */}
       <div
         ref={overlayRef}
-        className="fixed top-0 left-0 w-full h-screen bg-black z-[150] flex flex-col justify-center items-center md:hidden"
+        className={`${!isMobile ? "hidden" : "flex"} fixed top-0 left-0 w-full h-screen bg-black z-[150] flex-col justify-center items-center`}
         style={{ clipPath: "circle(0% at 100% 0%)" }}
       >
         <nav className="flex flex-col gap-8 text-center">

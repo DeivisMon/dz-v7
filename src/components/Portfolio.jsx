@@ -3,12 +3,15 @@ import gsap from 'gsap';
 import Lenis from 'lenis';
 import { TfiLayoutWidthFull, TfiLayoutColumn2, TfiLayoutColumn3 } from "react-icons/tfi";
 import data from "./Items.json";
+import { useDeviceType } from "./utils/useDeviceType";
+
 
 const items = data.items;
 
 const FilterButton = ({ filter, isActive, onClick, index }) => {
   const h1Ref = useRef(null);
   const buttonRef = useRef(null);
+  
 
   useEffect(() => {
     gsap.fromTo(
@@ -120,6 +123,7 @@ export default function GodlyFilters() {
     startY: 0,
     isSwiping: false
   });
+  const { isMobile } = useDeviceType();
 
   useEffect(() => {
   if (!lightboxImage || !lightboxRef.current) return;
@@ -572,7 +576,7 @@ useEffect(() => {
   return (
     <div className="w-screen h-screen overflow-hidden relative bg-black">
       {/* Desktop Filters */}
-      <div className="fixed top-0 right-0 w-1/2 h-screen pb-32 flex flex-col justify-end items-end z-10 mix-blend-difference pointer-events-none max-md:hidden">
+      <div className={`${isMobile ? "hidden" : "flex"} fixed top-0 right-0 w-1/2 h-screen pb-32 flex-col justify-end items-end z-10 mix-blend-difference pointer-events-none`}>
         {filters.map((filter, index) => (
           <FilterButton
             key={filter.id}
@@ -585,7 +589,7 @@ useEffect(() => {
       </div>
 
       {/* Mobile Control Buttons */}
-      <div className="md:hidden flex gap-2">
+      <div className={`${!isMobile ? "hidden" : "flex"} gap-2`}>
         <button
           ref={filterButtonRef}
           onClick={openFilterMenu}
@@ -599,7 +603,7 @@ useEffect(() => {
       {mobileMenuOpen && (
         <div
           ref={mobileMenuRef}
-          className="absolute top-20 right-0 z-20 md:hidden bg-black/90 backdrop-blur-xl p-4 opacity-0 scale-80 min-w-[200px]"
+          className="absolute top-20 right-0 z-20 bg-black/90 backdrop-blur-xl p-4 opacity-0 scale-80 min-w-[200px]"
         >
           {filters.map((filter) => (
             <button
@@ -620,7 +624,7 @@ useEffect(() => {
       )}
 
       {/* Mobile Layout Menu */}
-      <div className="md:hidden absolute top-12 left-2 z-20 flex items-center gap-2">
+      <div className={`${!isMobile ? "hidden" : "flex"} absolute top-10 left-2 z-20 items-center gap-2`}>
         <button
           ref={layoutButtonRef}
           onClick={openLayoutMenu}
@@ -690,7 +694,7 @@ useEffect(() => {
         ref={itemsRef}
         className="absolute top-0 left-0 w-full h-full p-1 flex gap-1 overflow-y-auto scrollable-container"
       >
-        <div className={`w-3/4 h-max flex gap-1 max-md:w-full ${
+        <div className={`${!isMobile ? "w-3/4" : "w-full"} h-max flex gap-1 max-md:w-full ${
           columnLayout === 1 ? 'max-md:flex-col' : ''
         }`}>
           {columns.map((column, index) => (
