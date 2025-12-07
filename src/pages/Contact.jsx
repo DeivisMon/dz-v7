@@ -3,7 +3,7 @@ import NavBar from '../components/NavBar'
 import ContactFrom from '../components/utils/ContactForm'
 import Footer from '../components/Footer'
 import WiperContactDesktop from '../components/Wiper Contact Desktop'
-import WiperContactMobile from '../components/Wiper Contact Mobile'
+import WiperDesktop from '../components/WiperDesktop'
 
 export default function Contact() {
   const [isTouchDevice, setIsTouchDevice] = useState(false);
@@ -21,8 +21,7 @@ export default function Contact() {
       <NavBar />
       <ContactFrom />
       <Footer />
-      {/* {isTouchDevice ? (<WiperContactMobile />): (<WiperContactDesktop />)} */}
-      <WiperContactMobile />
+      {!isTouchDevice ? (<WiperDesktop />): ""}
     </div>
   )
 }

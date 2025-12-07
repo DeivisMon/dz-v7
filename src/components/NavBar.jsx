@@ -25,7 +25,7 @@ export default function NavBar() {
       tl.to(overlayRef.current, {
         clipPath: "circle(150% at 100% 0%)",
         duration: 0.8,
-        ease: "power4.inOut",
+        ease: "expo.inOut",
       });
 
       tl.fromTo(
@@ -42,12 +42,12 @@ export default function NavBar() {
         opacity: 0,
         duration: 0.3,
         stagger: 0.05,
-        ease: "power2.in",
+        ease: "expo.out",
       });
 
       tl.to(
         overlayRef.current,
-        { clipPath: "circle(0% at 100% 0%)", duration: 0.6, ease: "power4.inOut" },
+        { clipPath: "circle(0% at 100% 0%)", duration: 0.6, ease: "expo.inOut" },
         "-=0.1"
       );
     }
@@ -67,7 +67,7 @@ export default function NavBar() {
     // Wait for overlay animation to finish
     setTimeout(() => {
       navigate(path);
-    }, 350); // slightly longer than animation duration
+    }, 250); // slightly longer than animation duration
   };
 
   return (
@@ -112,18 +112,21 @@ export default function NavBar() {
             ))}
           </div>
 
+        </div>
+      </div>
           {/* Mobile Menu Button */}
+          
+
           <button
             onClick={toggleMenu}
-            className={`${!isMobile ? "hidden" : "flex"} relative z-[1000] w-10 h-10  flex-col justify-center items-center gap-1.5`}
+            className={`${!isMobile ? "hidden" : "flex"} fixed right-2 z-[1000] w-10 h-10  flex-col justify-center items-center gap-1.5 mix-blend-difference`}
             aria-label="Toggle menu"
           >
             <span className={`w-6 h-0.5 bg-white transition-all duration-300 ${isMenuOpen ? "rotate-45 translate-y-2" : ""}`} />
             <span className={`w-6 h-0.5 bg-white transition-all duration-300 ${isMenuOpen ? "opacity-0" : ""}`} />
             <span className={`w-6 h-0.5 bg-white transition-all duration-300 ${isMenuOpen ? "-rotate-45 -translate-y-2" : ""}`} />
           </button>
-        </div>
-      </div>
+
 
       {/* Mobile Menu Overlay */}
       <div

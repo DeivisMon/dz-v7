@@ -1,8 +1,6 @@
-// Loader.jsx
 import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 
-// Import images
 import img1 from "../assets/img1.avif";
 import img2 from "../assets/img2.avif";
 import img3 from "../assets/img3.avif";

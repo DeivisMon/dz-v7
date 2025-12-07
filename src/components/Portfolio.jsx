@@ -552,11 +552,11 @@ useEffect(() => {
 
       const itemElement = (
         <div key={i} className="pb-1 cursor-pointer" onClick={() => openLightbox(item.img, i)}>
-          <div className="w-full overflow-hidden">
+          <div className="w-full group overflow-hidden">
             <img
               src={item.img}
               alt={item.title}
-              className="w-full h-auto object-cover transition-transform duration-300 hover:scale-105"
+              className="w-full h-auto object-cover transition-all duration-300 ease-in group-hover:blur-[1px] md:group-hover:scale-108"
               style={{ display: 'block' }}
             />
           </div>

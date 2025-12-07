@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useLayoutEffect } from "react";
 import gsap from "gsap";
 
-export default function WiperContactMobile() {
+export default function WiperDesktop() {
   const wipeRef = useRef(null);
 
   // Measure viewport BEFORE paint → prevents flash
@@ -33,10 +33,10 @@ export default function WiperContactMobile() {
     gsap.set(wipeRef.current, { scaleY: 1 });
 
     gsap.to(wipeRef.current, {
-      delay: 0.25,
+      delay: 0.15,
       scaleY: 0,
       duration: 0.8,
-      ease: "power3.inOut",
+      ease: "expo.inOut",
     });
   }, []);
 
