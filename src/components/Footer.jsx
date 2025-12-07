@@ -18,7 +18,7 @@ export default function Footer() {
       <footer className="flex items-end justify-center md:justify-between text-white">
         {!isMobile ? (
           <>
-            <div className="relative z-10 capitalize font-normal whitespace-nowrap">
+            <div className="relative z-10 capitalize font-normal pl-4 whitespace-nowrap">
               Darius Žvinklys. &copy; {new Date().getFullYear()}
             </div>
             <span className={`${getPath()} fixed bottom-0 left-1/2 transform -translate-y-1/2 -translate-x-1/2 items-center gap-2 text-2xl animate-pulse`}>
@@ -26,7 +26,7 @@ export default function Footer() {
               <span>Scroll</span>
               <CgScrollH size={36} />
             </span>
-            <Socials />{" "}
+            <Socials />
           </>
         ) : (
           <div

@@ -8,6 +8,14 @@ const getContainer = (delayChildren, staggerChildren) => ({
       staggerChildren,
     },
   },
+  exit: {
+    y: "-100%",
+    opacity: 0,
+    transition: {
+      duration: 0.5,
+      ease: easeInOut,
+    },
+  },
 })
 
 const getLetter = (duration) => ({

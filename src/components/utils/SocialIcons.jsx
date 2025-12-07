@@ -46,8 +46,7 @@ export default function SocialIcons() {
         <Motion.div
           key={id}
           variants={iconVariants}
-          whileHover={{ scale: 1.2, transition: { duration: 0.3, ease: "easeIn" } }}
-          className="h-12 w-12 flex items-center justify-center hover:text-white hover:border-white border-2 border-white/0 rounded-sm transition-all duration-300 ease-in-out "
+          className="h-12 w-12 flex items-center justify-center hover:text-white hover:scale-110 rounded-sm transition-all duration-300 ease-in-out "
           style={{ fontSize: 32, cursor: "pointer", padding: "0 10px",  }}
           aria-label={label}
         >
