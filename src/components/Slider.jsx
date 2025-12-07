@@ -1,6 +1,6 @@
 import "./slider.css";
 import { useEffect, useRef } from "react";
-import { useDeviceType } from "./utils/useDeviceType";
+import { useDeviceType } from "./hooks/useDeviceType";
 import { sliderData } from "./sliderData";
 
 const Slider = () => {

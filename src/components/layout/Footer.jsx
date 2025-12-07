@@ -1,7 +1,7 @@
-import AnimatedText from "./utils/AnimatedText";
-import Socials from "./utils/Socials";
+import AnimatedText from "../utils/AnimatedText";
+import Socials from "../utils/Socials";
 import { CgScrollH } from "react-icons/cg";
-import { useDeviceType } from "./utils/useDeviceType";
+import { useDeviceType } from "../hooks/useDeviceType";
 import { useLocation } from "react-router-dom";
 import { LuArrowBigLeftDash, LuArrowBigRightDash } from "react-icons/lu";
 

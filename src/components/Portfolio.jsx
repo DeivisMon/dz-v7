@@ -3,7 +3,7 @@ import gsap from 'gsap';
 import Lenis from 'lenis';
 import { TfiLayoutWidthFull, TfiLayoutColumn2, TfiLayoutColumn3 } from "react-icons/tfi";
 import data from "./Items.json";
-import { useDeviceType } from "./utils/useDeviceType";
+import { useDeviceType } from "./hooks/useDeviceType";
 
 
 const items = data.items;

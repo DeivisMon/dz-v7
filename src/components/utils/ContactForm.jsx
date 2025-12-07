@@ -1,6 +1,6 @@
 import { useState } from "react";
 import SocialIcons from "./SocialIcons";
-import { useDeviceType } from "./useDeviceType";
+import { useDeviceType } from "../hooks/useDeviceType";
 
 
 

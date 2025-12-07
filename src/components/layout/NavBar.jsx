@@ -1,8 +1,8 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
 import gsap from "gsap";
-import AnimatedText from "./utils/AnimatedText";
-import { useDeviceType } from "./utils/useDeviceType";
+import AnimatedText from "../utils/AnimatedText";
+import { useDeviceType } from "../hooks/useDeviceType";
 
 export default function NavBar() {
   const location = useLocation();
