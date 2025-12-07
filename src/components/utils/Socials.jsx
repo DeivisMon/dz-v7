@@ -13,6 +13,7 @@ const containerVariants = {
       delayChildren: 2.5,
     },
   },
+  exit: { y: -15, opacity: 0, transition: { duration: 0.25 } },
 };
 
 const iconVariants = {
@@ -40,6 +41,7 @@ export default function Socials() {
       variants={containerVariants}
       initial="hidden"
       animate="show"
+      exit="exit"
       className="social-icons relative hidden  md:flex items-end gap-6 mix-blend-difference"
     >
       {icons.map(({ id, label }) => (

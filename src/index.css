@@ -60,12 +60,6 @@ body {
   background-color: black;
 }
 
-.logo {
-  /* font-family: 'Mories', sans-serif; */
-  /* font-family: 'Syne', sans-serif; */
-
-}
-
 /* @media (pointer: coarse) {
   .custom-cursor {
     display: none !important;
@@ -74,4 +68,13 @@ body {
 
 textarea {
   min-height: 50px;
+}
+
+.scrollable-container::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollable-container {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

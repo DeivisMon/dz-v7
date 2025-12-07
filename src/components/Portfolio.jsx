@@ -700,7 +700,7 @@ useEffect(() => {
           {columns.map((column, index) => (
             <div 
               key={index} 
-              className={`h-max mt-20 ${
+              className={`h-max mt-[5vh] ${
                 columnLayout === 1 ? 'flex-1' :
                 columnLayout === 2 ? 'flex-1' :
                 columnLayout === 3 ? 'flex-1' : ''
@@ -715,15 +715,6 @@ useEffect(() => {
         <div className="flex-1"></div>
       </div>
 
-      <style jsx>{`
-        .scrollable-container::-webkit-scrollbar {
-          display: none;
-        }
-        .scrollable-container {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-        }
-      `}</style>
 
       {/* Lightbox */}
       {lightboxImage && (

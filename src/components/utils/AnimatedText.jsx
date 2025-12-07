@@ -1,15 +1,22 @@
 import { easeInOut, motion as Motion } from "framer-motion"
 
 const getContainer = (delayChildren, staggerChildren) => ({
-  hidden: {},
+  hidden: {
+    y: -100,
+    opacity: 0,
+  },
   show: {
+    y: 0,
+    opacity: 1,
     transition: {
+      delay: 1.2,
+      duration: 0.25,
       delayChildren,
       staggerChildren,
     },
   },
   exit: {
-    y: "-100%",
+    y: -50,
     opacity: 0,
     transition: {
       duration: 0.5,
