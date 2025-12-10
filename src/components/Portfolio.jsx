@@ -528,7 +528,7 @@ useEffect(() => {
       </div>
 
       {/* Mobile Control Buttons Container */}
-      <div className={`${!isMobile ? "hidden" : "flex"} fixed top-10 left-0 w-full z-20 bg-black py-4 gap-2 items-center `}>
+      <div className={`${!isMobile ? "hidden" : "flex"} fixed top-10 left-0 w-full z-20 bg-black py-4 gap-2 items-center`}>
         {/* Layout Button and Menu */}
         <div  ref={layoutButtonRef}
             onClick={openLayoutMenu} className="fixed top-10 left-4 flex items-center gap-2">
@@ -596,17 +596,17 @@ useEffect(() => {
         </div>
 
         {/* Filter Button and Menu */}
-        <div className="flex items-center justify-end gap-2">
+        <div ref={filterButtonRef}
+            onClick={openFilterMenu} className="flex items-center justify-end gap-2">
           {/* Current Filter - Always visible */}
           {!mobileMenuOpen && (
-            <div className="fixed top-10 right-18 flex justify-center h-full font-bold text-pink-500 text-sm">
+            <div className="fixed right-18 flex justify-center font-bold text-pink-500 text-sm">
               {filters.find(f => f.id === activeFilter)?.label}
             </div>
           )}
 
           <button
-            ref={filterButtonRef}
-            onClick={openFilterMenu}
+            
             className="fixed top-10 right-4 px-2 py-1 bg-black flex items-center justify-center text-white transition-colors hover:bg-white/20"
           >
             Filter

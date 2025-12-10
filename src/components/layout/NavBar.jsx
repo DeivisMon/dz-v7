@@ -11,7 +11,7 @@ export default function NavBar() {
   const overlayRef = useRef(null);
   const menuLinksRef = useRef([]);
   const { isMobile } = useDeviceType();
-  
+
   const isActive = (path) => location.pathname === path;
 
   useEffect(() => {
@@ -47,7 +47,11 @@ export default function NavBar() {
 
       tl.to(
         overlayRef.current,
-        { clipPath: "circle(0% at 100% 0%)", duration: 0.6, ease: "expo.inOut" },
+        {
+          clipPath: "circle(0% at 100% 0%)",
+          duration: 0.6,
+          ease: "expo.inOut",
+        },
         "-=0.1"
       );
     }
@@ -70,17 +74,28 @@ export default function NavBar() {
     }, 250); // slightly longer than animation duration
   };
 
+  const getNabarBackground = (path) => {
+    if (path === "/portfolio") return "bg-[#000000]";
+    return "mix-blend-difference";
+  };
+
   return (
     <>
-      <div className="navbar fixed z-[150] -top-1 left-0 w-full flex px-2 md:px-8 m-0 transition-all mix-blend-difference duration-700 ease-in-out select-none">
+      <div
+        className={`${getNabarBackground(
+          location.pathname
+        )} navbar fixed z-[150] -top-1 left-0 w-full flex px-2 py-2 md:px-4 m-0 transition-all duration-700 ease-in-out select-none `}
+      >
         <div className="w-full flex justify-between items-center">
-          {/* Logo */}
-          <div className="logo text-black text-[24px] lg:text-[48px] h-full">
+          {/* Logo */}{" "}
+          <div className="logo text-[24px] lg:text-[48px] h-full">
+            {" "}
             <Link
               className="font-bold transition-all duration-500 ease-in-out"
               to="/"
               onClick={() => handleNavClick("/")}
             >
+              {" "}
               <AnimatedText
                 text="Žvinklys"
                 duration={0.75}
@@ -88,12 +103,15 @@ export default function NavBar() {
                 enableHover={false}
                 letterSpacing="px-[3px]"
                 key={location.pathname}
-              />
-            </Link>
+              />{" "}
+            </Link>{" "}
           </div>
-
           {/* Desktop Navigation */}
-          <div className={`${isMobile ? "hidden" : "flex"} nav-links relative z-[1000] nav-item items-center gap-0 lg:gap-4 font-bold text-[20px] backdrop-blur transition-all duration-500 ease-in-out`}>
+          <div
+            className={`${
+              isMobile ? "hidden" : "flex"
+            } nav-links relative z-[1000] nav-item items-center gap-0 lg:gap-4 font-bold text-[20px] backdrop-blur transition-all duration-500 ease-in-out`}
+          >
             {[
               { path: "/", label: "Index" },
               { path: "/portfolio", label: "Portfolio" },
@@ -107,31 +125,48 @@ export default function NavBar() {
                 data-cursor-type="link"
                 to={item.path}
               >
-                <AnimatedText text={item.label} duration={0.3 + i * 0.1} key={location.pathname} />
+                <AnimatedText
+                  text={item.label}
+                  duration={0.3 + i * 0.1}
+                  key={location.pathname}
+                />
               </Link>
             ))}
           </div>
-
         </div>
       </div>
-          {/* Mobile Menu Button */}
-          
+      {/* Mobile Menu Button */}
 
-          <button
-            onClick={toggleMenu}
-            className={`${!isMobile ? "hidden" : "flex"} fixed right-2 z-[1000] w-10 h-10  flex-col justify-center items-center gap-1.5 mix-blend-difference`}
-            aria-label="Toggle menu"
-          >
-            <span className={`w-6 h-0.5 bg-white transition-all duration-300 ${isMenuOpen ? "rotate-45 translate-y-2" : ""}`} />
-            <span className={`w-6 h-0.5 bg-white transition-all duration-300 ${isMenuOpen ? "opacity-0" : ""}`} />
-            <span className={`w-6 h-0.5 bg-white transition-all duration-300 ${isMenuOpen ? "-rotate-45 -translate-y-2" : ""}`} />
-          </button>
-
+      <button
+        onClick={toggleMenu}
+        className={`${
+          !isMobile ? "hidden" : "flex"
+        } fixed right-2 z-[1000] w-10 h-10  flex-col justify-center items-center gap-1.5 mix-blend-difference`}
+        aria-label="Toggle menu"
+      >
+        <span
+          className={`w-6 h-0.5 bg-white transition-all duration-300 ${
+            isMenuOpen ? "rotate-45 translate-y-2" : ""
+          }`}
+        />
+        <span
+          className={`w-6 h-0.5 bg-white transition-all duration-300 ${
+            isMenuOpen ? "opacity-0" : ""
+          }`}
+        />
+        <span
+          className={`w-6 h-0.5 bg-white transition-all duration-300 ${
+            isMenuOpen ? "-rotate-45 -translate-y-2" : ""
+          }`}
+        />
+      </button>
 
       {/* Mobile Menu Overlay */}
       <div
         ref={overlayRef}
-        className={`${!isMobile ? "hidden" : "flex"} fixed top-0 left-0 w-full h-screen bg-black z-[150] flex-col justify-center items-center`}
+        className={`${
+          !isMobile ? "hidden" : "flex"
+        } fixed top-0 left-0 w-full h-screen bg-black z-[150] flex-col justify-center items-center`}
         style={{ clipPath: "circle(0% at 100% 0%)" }}
       >
         <nav className="flex flex-col gap-8 text-center">
