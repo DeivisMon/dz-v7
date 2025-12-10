@@ -2,7 +2,7 @@ import React , { useState, useEffect } from "react";
 import NavBar from "../components/layout/NavBar";
 import Footer from "../components/layout/Footer";
 import WiperDesktop from '../components/WiperDesktop'
-import GodlyFilters from "../components/Portfolio";
+import PortolioGallery from "../components/Portfolio";
 
 
 export default function Portfolio() {
@@ -20,7 +20,7 @@ export default function Portfolio() {
   return (
     <div>
       <NavBar />
-      <GodlyFilters />
+      <PortolioGallery />
       <Footer />
       {!isTouchDevice ? (<WiperDesktop />): ""}
     </div>

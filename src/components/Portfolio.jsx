@@ -100,7 +100,7 @@ const FilterButton = ({ filter, isActive, onClick, index }) => {
   );
 };
 
-export default function GodlyFilters() {
+export default function PortolioGallery() {
   const [activeFilter, setActiveFilter] = useState('all');
   const [imageHeights, setImageHeights] = useState({});
   const [lightboxImage, setLightboxImage] = useState(null);
@@ -173,6 +173,7 @@ export default function GodlyFilters() {
     lightbox.removeEventListener("touchmove", onTouchMove);
     lightbox.removeEventListener("touchend", onTouchEnd);
   };
+// eslint-disable-next-line react-hooks/exhaustive-deps
 }, [lightboxImage]);
 
 useEffect(() => {
@@ -340,6 +341,7 @@ useEffect(() => {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lightboxImage, lightboxIndex]);
 
   const hasAnimatedIn = useRef(false);
@@ -360,15 +362,18 @@ useEffect(() => {
   }, [lightboxImage]);
 
   const handleFilterClick = (filterId) => {
-    if (filterId === activeFilter) return;
+    if (filterId === activeFilter) {
+      // Close menu if clicking same filter
+      openFilterMenu();
+      return;
+    }
 
     gsap.to(itemsRef.current, {
       opacity: 0,
       duration: 0.25,
       onComplete: () => {
         setActiveFilter(filterId);
-        setMobileMenuOpen(false);
-        restoreBothButtons();
+        openFilterMenu(); // Close the menu with animation
         gsap.to(itemsRef.current, {
           opacity: 1,
           duration: 0.25,
@@ -405,8 +410,40 @@ useEffect(() => {
   };
 
   const openFilterMenu = () => {
-    setMobileMenuOpen(true);
-    setLayoutMenuOpen(false);
+    if (mobileMenuOpen) {
+      const menuItems = mobileMenuRef.current?.querySelectorAll('button');
+      if (menuItems) {
+        gsap.to(menuItems, {
+          x: 50,
+          opacity: 0,
+          duration: 0.3,
+          stagger: 0.05,
+          ease: 'power2.in',
+          onComplete: () => {
+            setMobileMenuOpen(false);
+          }
+        });
+      }
+    } else {
+      setMobileMenuOpen(true);
+      setLayoutMenuOpen(false);
+      
+      setTimeout(() => {
+        const menuItems = mobileMenuRef.current?.querySelectorAll('button');
+        if (menuItems) {
+          gsap.fromTo(menuItems,
+            { x: 50, opacity: 0 },
+            { 
+              x: 0, 
+              opacity: 1, 
+              duration: 0.4, 
+              stagger: 0.1,
+              ease: 'back.out(1.7)'
+            }
+          );
+        }
+      }, 50);
+    }
   };
 
   const openLayoutMenu = () => {
@@ -441,104 +478,6 @@ useEffect(() => {
       }, 50);
     }
   };
-
-  const restoreBothButtons = () => {
-    gsap.to(filterButtonRef.current, {
-      opacity: 1,
-      scale: 1,
-      duration: 0.2
-    });
-    gsap.to(layoutButtonRef.current, {
-      opacity: 1,
-      scale: 1,
-      duration: 0.2
-    });
-  };
-
-  useEffect(() => {
-    if (mobileMenuRef.current) {
-      if (mobileMenuOpen) {
-        gsap.to(filterButtonRef.current, {
-          opacity: 0,
-          scale: 0.8,
-          duration: 0.2
-        });
-
-        gsap.to(layoutButtonRef.current, {
-          opacity: 1,
-          scale: 1,
-          duration: 0.2
-        });
-
-        gsap.to(mobileMenuRef.current, {
-          opacity: 1,
-          scale: 1,
-          duration: 0.3,
-          ease: 'back.out(1.7)',
-          onComplete: () => {
-            const menuItems = mobileMenuRef.current.querySelectorAll('button');
-            gsap.fromTo(menuItems, 
-              { 
-                opacity: 0, 
-                y: 20 
-              },
-              { 
-                opacity: 1, 
-                y: 0, 
-                duration: 0.3, 
-                stagger: 0.1,
-                ease: 'back.out(1.7)'
-              }
-            );
-          }
-        });
-      } else {
-        const menuItems = mobileMenuRef.current?.querySelectorAll('button');
-        if (menuItems) {
-          gsap.to(menuItems, {
-            opacity: 0,
-            y: -20,
-            duration: 0.2,
-            stagger: 0.05,
-            ease: 'power2.in'
-          });
-        }
-
-        gsap.to(mobileMenuRef.current, {
-          opacity: 0,
-          scale: 0.8,
-          duration: 0.2,
-          delay: 0.1,
-          ease: 'power2.in',
-          onComplete: () => {
-            gsap.to(filterButtonRef.current, {
-              opacity: 1,
-              scale: 1,
-              duration: 0.2
-            });
-          }
-        });
-      }
-    }
-  }, [mobileMenuOpen]);
-
-  useEffect(() => {
-    if (layoutMenuRef.current) {
-      if (layoutMenuOpen) {
-        gsap.to(layoutButtonRef.current, {
-          opacity: 0,
-          scale: 0.8,
-          duration: 0.2
-        });
-
-        gsap.to(filterButtonRef.current, {
-          opacity: 1,
-          scale: 1,
-          duration: 0.2
-        });
-      }
-    }
-  }, [layoutMenuOpen]);
 
   const renderItems = () => {
     const filtered = getFilteredItems();
@@ -588,113 +527,133 @@ useEffect(() => {
         ))}
       </div>
 
-      {/* Mobile Control Buttons */}
-      <div className={`${!isMobile ? "hidden" : "flex"} gap-2`}>
-        <button
-          ref={filterButtonRef}
-          onClick={openFilterMenu}
-          className="absolute top-12 z-20 right-2 px-2 bg-white/10 backdrop-blur-md flex items-center justify-center text-white transition-colors hover:bg-white/20"
-        >
-          Filter
-        </button>
-      </div>
-
-      {/* Mobile Filter Menu */}
-      {mobileMenuOpen && (
-        <div
-          ref={mobileMenuRef}
-          className="absolute top-20 right-0 z-20 bg-black/90 backdrop-blur-xl p-4 opacity-0 scale-80 min-w-[200px]"
-        >
-          {filters.map((filter) => (
-            <button
-              key={filter.id}
-              onClick={() => handleFilterClick(filter.id)}
-              className={`block w-full text-left py-3 px-4 mb-1 transition-colors ${
-                activeFilter === filter.id
-                  ? 'bg-pink-300/20 text-pink-500'
-                  : 'text-white hover:bg-white/10'
-              }`}
-              style={{ opacity: 0 }}
-            >
-              <span className="font-bold text-lg">{filter.label}</span>
-              <span className="ml-2 text-sm opacity-60">({filter.count})</span>
-            </button>
-          ))}
-        </div>
-      )}
-
-      {/* Mobile Layout Menu */}
-      <div className={`${!isMobile ? "hidden" : "flex"} absolute top-10 left-2 z-20 items-center gap-2`}>
-        <button
-          ref={layoutButtonRef}
-          onClick={openLayoutMenu}
-          className="px-2 py-3 bg-wblack flex items-center justify-center text-white transition-colors hover:bg-white/20"
-        >
-          Layout
-        </button>
-
-        {/* Current Layout Icon - Always visible */}
-        {!layoutMenuOpen && (
-          <div 
-            ref={el => layoutIconsRef.current[columnLayout - 1] = el}
-            className="w-8 h-8 flex items-center justify-center text-white"
+      {/* Mobile Control Buttons Container */}
+      <div className={`${!isMobile ? "hidden" : "flex"} fixed top-10 left-0 w-full z-20 bg-black py-4 gap-2 items-center `}>
+        {/* Layout Button and Menu */}
+        <div  ref={layoutButtonRef}
+            onClick={openLayoutMenu} className="fixed top-10 left-4 flex items-center gap-2">
+          <button
+            className="px-2 py-1 bg-black flex items-center justify-center text-white transition-colors hover:bg-white/20"
           >
-            {columnLayout === 1 && <TfiLayoutWidthFull />}
-            {columnLayout === 2 && <TfiLayoutColumn2 />}
-            {columnLayout === 3 && <TfiLayoutColumn3 />}
-          </div>
-        )}
+            Layout
+          </button>
 
-        {/* All Layout Options - Shown when menu is open */}
-        {layoutMenuOpen && (
-          <div className="flex gap-2">
-            <button
-              ref={el => layoutIconsRef.current[0] = el}
-              onClick={() => handleLayoutChange(1)}
-              className={`flex items-center justify-center w-8 h-8 transition-colors ${
-                columnLayout === 1 
-                  ? 'text-white' 
-                  : 'bg-white/10 text-white hover:bg-white/20'
-              }`}
-              style={{ opacity: 0 }}
+          {/* Current Layout Icon - Always visible */}
+          {!layoutMenuOpen && (
+            <div 
+              ref={el => layoutIconsRef.current[columnLayout - 1] = el}
+              className="w-8 h-8 flex items-center justify-center text-white"
             >
-              <TfiLayoutWidthFull />
-            </button>
-            
-            <button
-              ref={el => layoutIconsRef.current[1] = el}
-              onClick={() => handleLayoutChange(2)}
-              className={`flex items-center justify-center w-8 h-8 transition-colors ${
-                columnLayout === 2 
-                  ? 'text-white' 
-                  : 'bg-white/10 text-white hover:bg-white/20'
-              }`}
-              style={{ opacity: 0 }}
+              {columnLayout === 1 && <TfiLayoutWidthFull />}
+              {columnLayout === 2 && <TfiLayoutColumn2 />}
+              {columnLayout === 3 && <TfiLayoutColumn3 />}
+            </div>
+          )}
+
+          {/* All Layout Options - Shown when menu is open */}
+          {layoutMenuOpen && (
+            <div className="flex gap-2">
+              <button
+                ref={el => layoutIconsRef.current[0] = el}
+                onClick={() => handleLayoutChange(1)}
+                className={`flex items-center justify-center w-8 h-8 transition-colors ${
+                  columnLayout === 1 
+                    ? 'text-white' 
+                    : 'bg-white/10 text-white hover:bg-white/20'
+                }`}
+                style={{ opacity: 0 }}
+              >
+                <TfiLayoutWidthFull />
+              </button>
+              
+              <button
+                ref={el => layoutIconsRef.current[1] = el}
+                onClick={() => handleLayoutChange(2)}
+                className={`flex items-center justify-center w-8 h-8 transition-colors ${
+                  columnLayout === 2 
+                    ? 'text-white' 
+                    : 'bg-white/10 text-white hover:bg-white/20'
+                }`}
+                style={{ opacity: 0 }}
+              >
+                <TfiLayoutColumn2 />
+              </button>
+              
+              <button
+                ref={el => layoutIconsRef.current[2] = el}
+                onClick={() => handleLayoutChange(3)}
+                className={`flex items-center justify-center w-8 h-8 transition-colors ${
+                  columnLayout === 3 
+                    ? 'text-white' 
+                    : 'bg-white/10 text-white hover:bg-white/20'
+                }`}
+                style={{ opacity: 0 }}
+              >
+                <TfiLayoutColumn3 />
+              </button>
+            </div>
+          )}
+        </div>
+
+        {/* Filter Button and Menu */}
+        <div className="flex items-center justify-end gap-2">
+          {/* Current Filter - Always visible */}
+          {!mobileMenuOpen && (
+            <div className="fixed top-10 right-18 flex justify-center h-full font-bold text-pink-500 text-sm">
+              {filters.find(f => f.id === activeFilter)?.label}
+            </div>
+          )}
+
+          <button
+            ref={filterButtonRef}
+            onClick={openFilterMenu}
+            className="fixed top-10 right-4 px-2 py-1 bg-black flex items-center justify-center text-white transition-colors hover:bg-white/20"
+          >
+            Filter
+          </button>
+
+          {/* Filter Menu */}
+          {mobileMenuOpen && (
+            <div
+              ref={mobileMenuRef}
+              className="fixed top-14 right-0 flex flex-col items-end w-[100px] bg-black mt-4 gap-2"
             >
-              <TfiLayoutColumn2 />
-            </button>
-            
-            <button
-              ref={el => layoutIconsRef.current[2] = el}
-              onClick={() => handleLayoutChange(3)}
-              className={`flex items-center justify-center w-8 h-8 transition-colors ${
-                columnLayout === 3 
-                  ? 'text-white' 
-                  : 'bg-white/10 text-white hover:bg-white/20'
-              }`}
-              style={{ opacity: 0 }}
-            >
-              <TfiLayoutColumn3 />
-            </button>
-          </div>
-        )}
+              {filters.map((filter) => (
+                <button
+                  key={filter.id}
+                  onClick={() => handleFilterClick(filter.id)}
+                  className={`py-1 px-3 transition-colors ${
+                    activeFilter === filter.id
+                      ? 'text-pink-500'
+                      : 'bg-white/10 text-white hover:bg-white/20'
+                  }`}
+                  style={{ opacity: 0 }}
+                >
+                  <span className="text-sm">{filter.label}</span>
+                  <span className="ml-1 text-xs opacity-60">({filter.count})</span>
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
+
+      {/* Overlay to prevent clicking images when menus are open - Mobile only */}
+      {isMobile && (mobileMenuOpen || layoutMenuOpen) && (
+        <div 
+          className="fixed inset-0 z-10 bg-transparent"
+          onClick={() => {
+            if (mobileMenuOpen) openFilterMenu();
+            if (layoutMenuOpen) openLayoutMenu();
+          }}
+        />
+      )}
 
       <div
         ref={itemsRef}
         className="absolute top-0 left-0 w-full h-full p-1 flex gap-1 overflow-y-auto scrollable-container"
       >
-        <div className={`${!isMobile ? "w-3/4" : "w-full"} h-max flex gap-1 max-md:w-full ${
+        <div className={`${!isMobile ? "w-3/4" : "w-full"} ${isMobile ? "mt-10" : "mt-10"} h-max flex gap-1 max-md:w-full ${
           columnLayout === 1 ? 'max-md:flex-col' : ''
         }`}>
           {columns.map((column, index) => (

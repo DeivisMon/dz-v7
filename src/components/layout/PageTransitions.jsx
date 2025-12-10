@@ -1,4 +1,4 @@
-import { motion as Motion } from "framer-motion";
+import { easeInOut, motion as Motion } from "framer-motion";
 import TextTransition from "../utils/TextTransition";
 export default function PageTransitions({ children }) {
 
@@ -17,7 +17,7 @@ export default function PageTransitions({ children }) {
     exit: {
       opacity: 0.8,
       y: -40,
-      transition: { duration: 1, ease: [0.65, 0, 0.35, 1] },
+      transition: { duration: 1, ease: easeInOut },
     },
   };
 
@@ -25,12 +25,8 @@ export default function PageTransitions({ children }) {
     initial: { y: "100vh" },
     animate: { y: "100vh" },
     exit: {
-      y: ["100vh", 0, 0], 
-      transition: {
-        duration: 1.5,
-        ease: [0.45, 0, 0.55, 0.25],
-        times: [0, 0.67, 1], 
-      },
+      y: 0,
+      transition: { duration: 1, delay: 0.1, ease: easeInOut },
     },
   };
 
@@ -38,10 +34,10 @@ export default function PageTransitions({ children }) {
     initial: { y: 0, scale: 1, opacity: 1 },
     animate: { y: 0, scale: 1, opacity: 1 },
     exit: {
-      y: 100,
-      scale: 0.7,
+      y: [0, -50, 50, 100],
+      scale: 0.8,
       opacity: 0.8,
-      transition: { duration: 1.5, ease: [0.75, 0.85, 0.95, 0.75] },
+      transition: { duration: 1.2, ease: easeInOut },
     },
   };
 

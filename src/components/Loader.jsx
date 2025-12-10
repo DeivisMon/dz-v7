@@ -181,7 +181,7 @@ export default function Loader({ onComplete }) {
     tl.to(".grid-container", {
       scale: 5,
       duration: 2.5,
-      ease: "expo.in",
+      ease: "expo.inOut",
       onComplete: () => {
         if (onComplete) onComplete();
       },
