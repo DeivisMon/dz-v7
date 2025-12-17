@@ -1,17 +1,20 @@
-import React, { useState, useEffect, useRef } from 'react';
-import gsap from 'gsap';
-import Lenis from 'lenis';
-import { TfiLayoutWidthFull, TfiLayoutColumn2, TfiLayoutColumn3 } from "react-icons/tfi";
+import React, { useState, useEffect, useRef } from "react";
+import gsap from "gsap";
+import Lenis from "lenis";
+import {
+  TfiLayoutWidthFull,
+  TfiLayoutColumn2,
+  TfiLayoutColumn3,
+} from "react-icons/tfi";
 import data from "./Items.json";
 import { useDeviceType } from "./hooks/useDeviceType";
-
+import ScrollProgressBar from "./utils/ProgressBar";
 
 const items = data.items;
 
 const FilterButton = ({ filter, isActive, onClick, index }) => {
   const h1Ref = useRef(null);
   const buttonRef = useRef(null);
-  
 
   useEffect(() => {
     gsap.fromTo(
@@ -25,19 +28,19 @@ const FilterButton = ({ filter, isActive, onClick, index }) => {
         x: 0,
         duration: 0.8,
         delay: 0.5 + index * 0.1,
-        ease: 'power3.out',
+        ease: "power3.out",
       }
     );
   }, [index]);
 
   useEffect(() => {
-    const spans = h1Ref.current?.querySelectorAll('span');
+    const spans = h1Ref.current?.querySelectorAll("span");
     if (spans) {
       gsap.to(spans, {
-        fontSize: isActive ? '100px' : '75px',
+        fontSize: isActive ? "100px" : "75px",
         stagger: 0.01,
         duration: 0.4,
-        ease: 'power3.inOut',
+        ease: "power3.inOut",
       });
     }
   }, [isActive]);
@@ -47,23 +50,23 @@ const FilterButton = ({ filter, isActive, onClick, index }) => {
     if (!button) return;
 
     const handleWheel = (e) => {
-      const scrollContainer = document.querySelector('.scrollable-container');
+      const scrollContainer = document.querySelector(".scrollable-container");
       if (scrollContainer) {
-        const event = new WheelEvent('wheel', {
+        const event = new WheelEvent("wheel", {
           deltaY: e.deltaY,
           deltaMode: e.deltaMode,
-          bubbles: true
+          bubbles: true,
         });
         scrollContainer.dispatchEvent(event);
       }
     };
 
-    button.addEventListener('wheel', handleWheel, { passive: true });
-    return () => button.removeEventListener('wheel', handleWheel);
+    button.addEventListener("wheel", handleWheel, { passive: true });
+    return () => button.removeEventListener("wheel", handleWheel);
   }, []);
 
   const renderTitle = (text) => {
-    return text.split('').map((char, i) => (
+    return text.split("").map((char, i) => (
       <span key={i} className="relative">
         {char}
       </span>
@@ -74,12 +77,12 @@ const FilterButton = ({ filter, isActive, onClick, index }) => {
     <div
       ref={buttonRef}
       className={`w-max flex items-end cursor-pointer mb-8 pb-2 pr-8 pointer-events-auto`}
-      style={{ height: '100px' }}
+      style={{ height: "100px" }}
       onClick={onClick}
     >
       <p
         className={`relative ${
-          isActive ? 'bottom-6' : 'bottom-2'
+          isActive ? "bottom-6" : "bottom-2"
         } px-2 text-xl font-medium text-white`}
       >
         ({filter.count})
@@ -91,7 +94,7 @@ const FilterButton = ({ filter, isActive, onClick, index }) => {
         .filter-${filter.id} span {
           text-transform: uppercase;
           font-size: 75px;
-          color: ${isActive ? '#fb5eff' : '#fff'};
+          color: ${isActive ? "#fb5eff" : "#fff"};
           transition: color 0.3s;
           font-weight: 900;
         }
@@ -101,7 +104,7 @@ const FilterButton = ({ filter, isActive, onClick, index }) => {
 };
 
 export default function PortolioGallery() {
-  const [activeFilter, setActiveFilter] = useState('all');
+  const [activeFilter, setActiveFilter] = useState("all");
   const [imageHeights, setImageHeights] = useState({});
   const [lightboxImage, setLightboxImage] = useState(null);
   const [lightboxIndex, setLightboxIndex] = useState(null);
@@ -121,75 +124,75 @@ export default function PortolioGallery() {
   const _touchState = useRef({
     startX: 0,
     startY: 0,
-    isSwiping: false
+    isSwiping: false,
   });
   const { isMobile } = useDeviceType();
 
   useEffect(() => {
-  if (!lightboxImage || !lightboxRef.current) return;
+    if (!lightboxImage || !lightboxRef.current) return;
 
-  const touchState = _touchState.current;
-  const lightbox = lightboxRef.current;
+    const touchState = _touchState.current;
+    const lightbox = lightboxRef.current;
 
-  const onTouchStart = (e) => {
-    const t = e.touches[0];
-    touchState.startX = t.clientX;
-    touchState.startY = t.clientY;
-    touchState.isSwiping = false;
-  };
+    const onTouchStart = (e) => {
+      const t = e.touches[0];
+      touchState.startX = t.clientX;
+      touchState.startY = t.clientY;
+      touchState.isSwiping = false;
+    };
 
-  const onTouchMove = (e) => {
-    if (isAnimating.current) return;
+    const onTouchMove = (e) => {
+      if (isAnimating.current) return;
 
-    const t = e.touches[0];
-    const dx = t.clientX - touchState.startX;
-    const dy = t.clientY - touchState.startY;
+      const t = e.touches[0];
+      const dx = t.clientX - touchState.startX;
+      const dy = t.clientY - touchState.startY;
 
-    if (Math.abs(dx) > Math.abs(dy)) {
-      e.preventDefault(); 
-      touchState.isSwiping = true;
+      if (Math.abs(dx) > Math.abs(dy)) {
+        e.preventDefault();
+        touchState.isSwiping = true;
+      }
+    };
+
+    const onTouchEnd = () => {
+      if (!touchState.isSwiping) return;
+
+      const dx = touchState.startX - event.changedTouches[0].clientX;
+
+      if (dx > 50) {
+        navigateLightbox(1);
+      }
+      if (dx < -50) {
+        navigateLightbox(-1);
+      }
+    };
+
+    lightbox.addEventListener("touchstart", onTouchStart, { passive: false });
+    lightbox.addEventListener("touchmove", onTouchMove, { passive: false });
+    lightbox.addEventListener("touchend", onTouchEnd);
+
+    return () => {
+      lightbox.removeEventListener("touchstart", onTouchStart);
+      lightbox.removeEventListener("touchmove", onTouchMove);
+      lightbox.removeEventListener("touchend", onTouchEnd);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lightboxImage]);
+
+  useEffect(() => {
+    if (lightboxImage) {
+      document.body.style.overflow = "hidden";
+      document.body.style.touchAction = "none";
+    } else {
+      document.body.style.overflow = "";
+      document.body.style.touchAction = "";
     }
-  };
 
-  const onTouchEnd = () => {
-    if (!touchState.isSwiping) return;
-
-    const dx = touchState.startX - event.changedTouches[0].clientX;
-
-    if (dx > 50) {
-      navigateLightbox(1);
-    }
-    if (dx < -50) {
-      navigateLightbox(-1);
-    }
-  };
-
-  lightbox.addEventListener("touchstart", onTouchStart, { passive: false });
-  lightbox.addEventListener("touchmove", onTouchMove, { passive: false });
-  lightbox.addEventListener("touchend", onTouchEnd);
-
-  return () => {
-    lightbox.removeEventListener("touchstart", onTouchStart);
-    lightbox.removeEventListener("touchmove", onTouchMove);
-    lightbox.removeEventListener("touchend", onTouchEnd);
-  };
-// eslint-disable-next-line react-hooks/exhaustive-deps
-}, [lightboxImage]);
-
-useEffect(() => {
-  if (lightboxImage) {
-    document.body.style.overflow = "hidden";
-    document.body.style.touchAction = "none";
-  } else {
-    document.body.style.overflow = "";
-    document.body.style.touchAction = "";
-  }
-
-  return () => {
-    document.body.style.overflow = "";
-    document.body.style.touchAction = "";
-  };
-}, [lightboxImage]);
+    return () => {
+      document.body.style.overflow = "";
+      document.body.style.touchAction = "";
+    };
+  }, [lightboxImage]);
 
   useEffect(() => {
     if (!itemsRef.current) return;
@@ -199,8 +202,8 @@ useEffect(() => {
       content: itemsRef.current,
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      orientation: 'vertical',
-      gestureOrientation: 'vertical',
+      orientation: "vertical",
+      gestureOrientation: "vertical",
       smoothWheel: true,
       wheelMultiplier: 1,
       touchMultiplier: 2,
@@ -221,10 +224,10 @@ useEffect(() => {
   }, []);
 
   const filters = [
-    { id: 'all', label: 'Visi', count: 34 },
-    { id: 'mergos', label: 'Mergos', count: 13 },
-    { id: 'menas', label: 'Menas', count: 11 },
-    { id: 'koncertai', label: 'Koncai', count: 10 },
+    { id: "all", label: "Visi", count: 34 },
+    { id: "mergos", label: "Mergos", count: 13 },
+    { id: "menas", label: "Menas", count: 11 },
+    { id: "koncertai", label: "Koncai", count: 10 },
   ];
 
   useEffect(() => {
@@ -252,8 +255,8 @@ useEffect(() => {
   }, []);
 
   const getFilteredItems = () => {
-    if (activeFilter === 'all') return items;
-    return items.filter(item => item.tag.includes(activeFilter));
+    if (activeFilter === "all") return items;
+    return items.filter((item) => item.tag.includes(activeFilter));
   };
 
   const openLightbox = (img, index) => {
@@ -274,58 +277,58 @@ useEffect(() => {
         if (lenisRef.current) {
           lenisRef.current.start();
         }
-      }
+      },
     });
   };
 
   const navigateLightbox = (direction) => {
     if (isAnimating.current) return;
-    
+
     const filtered = getFilteredItems();
     let newIndex = lightboxIndex + direction;
-    
+
     if (newIndex < 0) newIndex = filtered.length - 1;
     if (newIndex >= filtered.length) newIndex = 0;
-    
+
     const newImage = filtered[newIndex].img;
-    
+
     isAnimating.current = true;
-    
+
     const imgElement = currentImageRef.current;
     if (!imgElement) return;
-    
+
     gsap.to(imgElement, {
       x: direction === 1 ? -100 : 100,
       opacity: 0,
       duration: 0.3,
-      ease: 'power2.in',
+      ease: "power2.in",
       onComplete: () => {
         imgElement.src = newImage;
         setLightboxImage(newImage);
         setLightboxIndex(newIndex);
-        
+
         gsap.set(imgElement, {
           x: direction === 1 ? 100 : -100,
-          opacity: 0
+          opacity: 0,
         });
-        
+
         imgElement.onload = () => {
           gsap.to(imgElement, {
             x: 0,
             opacity: 1,
             duration: 0.3,
-            ease: 'power2.out',
+            ease: "power2.out",
             onComplete: () => {
               isAnimating.current = false;
               imgElement.onload = null;
-            }
+            },
           });
         };
-        
+
         if (imgElement.complete) {
           imgElement.onload();
         }
-      }
+      },
     });
   };
 
@@ -334,18 +337,18 @@ useEffect(() => {
 
     const handleKeyDown = (e) => {
       if (isAnimating.current) return;
-      if (e.key === 'Escape') closeLightbox();
-      if (e.key === 'ArrowLeft') navigateLightbox(-1);
-      if (e.key === 'ArrowRight') navigateLightbox(1);
+      if (e.key === "Escape") closeLightbox();
+      if (e.key === "ArrowLeft") navigateLightbox(-1);
+      if (e.key === "ArrowRight") navigateLightbox(1);
     };
 
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lightboxImage, lightboxIndex]);
 
   const hasAnimatedIn = useRef(false);
-  
+
   useEffect(() => {
     if (lightboxImage && lightboxRef.current && !hasAnimatedIn.current) {
       gsap.fromTo(
@@ -355,7 +358,7 @@ useEffect(() => {
       );
       hasAnimatedIn.current = true;
     }
-    
+
     if (!lightboxImage) {
       hasAnimatedIn.current = false;
     }
@@ -384,61 +387,63 @@ useEffect(() => {
 
   const handleLayoutChange = (columns) => {
     if (columns === columnLayout) return;
-    
+
     const icons = layoutIconsRef.current.filter(Boolean);
     gsap.to(icons, {
       x: -50,
       opacity: 0,
       duration: 0.3,
       stagger: 0.05,
-      ease: 'power2.in',
+      ease: "power2.in",
       onComplete: () => {
         setColumnLayout(columns);
         setLayoutMenuOpen(false);
-        
+
         setTimeout(() => {
           const selectedIcon = layoutIconsRef.current[columns - 1];
           if (selectedIcon) {
-            gsap.fromTo(selectedIcon,
+            gsap.fromTo(
+              selectedIcon,
               { x: 50, opacity: 0 },
-              { x: 0, opacity: 1, duration: 0.3, ease: 'power2.out' }
+              { x: 0, opacity: 1, duration: 0.3, ease: "power2.out" }
             );
           }
         }, 50);
-      }
+      },
     });
   };
 
   const openFilterMenu = () => {
     if (mobileMenuOpen) {
-      const menuItems = mobileMenuRef.current?.querySelectorAll('button');
+      const menuItems = mobileMenuRef.current?.querySelectorAll("button");
       if (menuItems) {
         gsap.to(menuItems, {
           x: 50,
           opacity: 0,
           duration: 0.3,
           stagger: 0.05,
-          ease: 'power2.in',
+          ease: "power2.in",
           onComplete: () => {
             setMobileMenuOpen(false);
-          }
+          },
         });
       }
     } else {
       setMobileMenuOpen(true);
       setLayoutMenuOpen(false);
-      
+
       setTimeout(() => {
-        const menuItems = mobileMenuRef.current?.querySelectorAll('button');
+        const menuItems = mobileMenuRef.current?.querySelectorAll("button");
         if (menuItems) {
-          gsap.fromTo(menuItems,
+          gsap.fromTo(
+            menuItems,
             { x: 50, opacity: 0 },
-            { 
-              x: 0, 
-              opacity: 1, 
-              duration: 0.4, 
+            {
+              x: 0,
+              opacity: 1,
+              duration: 0.4,
               stagger: 0.1,
-              ease: 'back.out(1.7)'
+              ease: "back.out(1.7)",
             }
           );
         }
@@ -454,25 +459,26 @@ useEffect(() => {
         opacity: 0,
         duration: 0.3,
         stagger: 0.05,
-        ease: 'power2.in',
+        ease: "power2.in",
         onComplete: () => {
           setLayoutMenuOpen(false);
-        }
+        },
       });
     } else {
       setLayoutMenuOpen(true);
       setMobileMenuOpen(false);
-      
+
       setTimeout(() => {
         const icons = layoutIconsRef.current.filter(Boolean);
-        gsap.fromTo(icons,
+        gsap.fromTo(
+          icons,
           { x: 50, opacity: 0 },
-          { 
-            x: 0, 
-            opacity: 1, 
-            duration: 0.4, 
+          {
+            x: 0,
+            opacity: 1,
+            duration: 0.4,
             stagger: 0.1,
-            ease: 'back.out(1.7)'
+            ease: "back.out(1.7)",
           }
         );
       }, 50);
@@ -490,13 +496,17 @@ useEffect(() => {
       const height = 400 * aspectRatio;
 
       const itemElement = (
-        <div key={i} className="pb-1 cursor-pointer" onClick={() => openLightbox(item.img, i)}>
+        <div
+          key={i}
+          className="pb-1 cursor-pointer"
+          onClick={() => openLightbox(item.img, i)}
+        >
           <div className="w-full group overflow-hidden">
             <img
               src={item.img}
               alt={item.title}
               className="w-full h-auto object-cover transition-all duration-300 ease-in group-hover:blur-[1px] md:group-hover:scale-108"
-              style={{ display: 'block' }}
+              style={{ display: "block" }}
             />
           </div>
         </div>
@@ -515,7 +525,11 @@ useEffect(() => {
   return (
     <div className="w-screen h-screen overflow-hidden relative bg-black">
       {/* Desktop Filters */}
-      <div className={`${isMobile ? "hidden" : "flex"} fixed top-0 right-0 w-1/2 h-screen pb-32 flex-col justify-end items-end z-10 mix-blend-difference pointer-events-none`}>
+      <div
+        className={`${
+          isMobile ? "hidden" : "flex"
+        } fixed top-0 right-0 w-1/2 h-screen pb-32 flex-col justify-end items-end z-10 mix-blend-difference pointer-events-none`}
+      >
         {filters.map((filter, index) => (
           <FilterButton
             key={filter.id}
@@ -528,20 +542,25 @@ useEffect(() => {
       </div>
 
       {/* Mobile Control Buttons Container */}
-      <div className={`${!isMobile ? "hidden" : "flex"} fixed top-10 left-0 w-full z-20 bg-black py-4 gap-2 items-center`}>
+      <div
+        className={`${
+          !isMobile ? "hidden" : "flex"
+        } fixed top-10 left-0 w-full z-20 bg-black py-4 gap-2 items-center`}
+      >
         {/* Layout Button and Menu */}
-        <div  ref={layoutButtonRef}
-            onClick={openLayoutMenu} className="fixed top-10 left-4 flex items-center gap-2">
-          <button
-            className="px-2 py-1 bg-black flex items-center justify-center text-white transition-colors hover:bg-white/20"
-          >
+        <div
+          ref={layoutButtonRef}
+          onClick={openLayoutMenu}
+          className="fixed top-10 left-4 flex items-center gap-2"
+        >
+          <button className="px-2 py-1 bg-black flex items-center justify-center text-white transition-colors hover:bg-white/20">
             Layout
           </button>
 
           {/* Current Layout Icon - Always visible */}
           {!layoutMenuOpen && (
-            <div 
-              ref={el => layoutIconsRef.current[columnLayout - 1] = el}
+            <div
+              ref={(el) => (layoutIconsRef.current[columnLayout - 1] = el)}
               className="w-8 h-8 flex items-center justify-center text-white"
             >
               {columnLayout === 1 && <TfiLayoutWidthFull />}
@@ -554,38 +573,38 @@ useEffect(() => {
           {layoutMenuOpen && (
             <div className="flex gap-2">
               <button
-                ref={el => layoutIconsRef.current[0] = el}
+                ref={(el) => (layoutIconsRef.current[0] = el)}
                 onClick={() => handleLayoutChange(1)}
                 className={`flex items-center justify-center w-8 h-8 transition-colors ${
-                  columnLayout === 1 
-                    ? 'text-white' 
-                    : 'bg-white/10 text-white hover:bg-white/20'
+                  columnLayout === 1
+                    ? "text-white"
+                    : "bg-white/10 text-white hover:bg-white/20"
                 }`}
                 style={{ opacity: 0 }}
               >
                 <TfiLayoutWidthFull />
               </button>
-              
+
               <button
-                ref={el => layoutIconsRef.current[1] = el}
+                ref={(el) => (layoutIconsRef.current[1] = el)}
                 onClick={() => handleLayoutChange(2)}
                 className={`flex items-center justify-center w-8 h-8 transition-colors ${
-                  columnLayout === 2 
-                    ? 'text-white' 
-                    : 'bg-white/10 text-white hover:bg-white/20'
+                  columnLayout === 2
+                    ? "text-white"
+                    : "bg-white/10 text-white hover:bg-white/20"
                 }`}
                 style={{ opacity: 0 }}
               >
                 <TfiLayoutColumn2 />
               </button>
-              
+
               <button
-                ref={el => layoutIconsRef.current[2] = el}
+                ref={(el) => (layoutIconsRef.current[2] = el)}
                 onClick={() => handleLayoutChange(3)}
                 className={`flex items-center justify-center w-8 h-8 transition-colors ${
-                  columnLayout === 3 
-                    ? 'text-white' 
-                    : 'bg-white/10 text-white hover:bg-white/20'
+                  columnLayout === 3
+                    ? "text-white"
+                    : "bg-white/10 text-white hover:bg-white/20"
                 }`}
                 style={{ opacity: 0 }}
               >
@@ -596,19 +615,19 @@ useEffect(() => {
         </div>
 
         {/* Filter Button and Menu */}
-        <div ref={filterButtonRef}
-            onClick={openFilterMenu} className="flex items-center justify-end gap-2">
+        <div
+          ref={filterButtonRef}
+          onClick={openFilterMenu}
+          className="flex items-center justify-end gap-2"
+        >
           {/* Current Filter - Always visible */}
           {!mobileMenuOpen && (
             <div className="fixed right-18 flex justify-center font-bold text-pink-500 text-sm">
-              {filters.find(f => f.id === activeFilter)?.label}
+              {filters.find((f) => f.id === activeFilter)?.label}
             </div>
           )}
 
-          <button
-            
-            className="fixed top-10 right-4 px-2 py-1 bg-black flex items-center justify-center text-white transition-colors hover:bg-white/20"
-          >
+          <button className="fixed top-10 right-4 px-2 py-1 bg-black flex items-center justify-center text-white transition-colors hover:bg-white/20">
             Filter
           </button>
 
@@ -624,13 +643,15 @@ useEffect(() => {
                   onClick={() => handleFilterClick(filter.id)}
                   className={`py-1 px-3 transition-colors ${
                     activeFilter === filter.id
-                      ? 'text-pink-500'
-                      : 'bg-white/10 text-white hover:bg-white/20'
+                      ? "text-pink-500"
+                      : "bg-white/10 text-white hover:bg-white/20"
                   }`}
                   style={{ opacity: 0 }}
                 >
                   <span className="text-sm">{filter.label}</span>
-                  <span className="ml-1 text-xs opacity-60">({filter.count})</span>
+                  <span className="ml-1 text-xs opacity-60">
+                    ({filter.count})
+                  </span>
                 </button>
               ))}
             </div>
@@ -640,7 +661,7 @@ useEffect(() => {
 
       {/* Overlay to prevent clicking images when menus are open - Mobile only */}
       {isMobile && (mobileMenuOpen || layoutMenuOpen) && (
-        <div 
+        <div
           className="fixed inset-0 z-10 bg-transparent"
           onClick={() => {
             if (mobileMenuOpen) openFilterMenu();
@@ -653,19 +674,25 @@ useEffect(() => {
         ref={itemsRef}
         className="absolute top-0 left-0 w-full h-full p-1 flex gap-1 overflow-y-auto scrollable-container"
       >
-        <div className={`${!isMobile ? "w-3/4" : "w-full"} ${isMobile ? "mt-10" : "mt-10"} h-max flex gap-1 max-md:w-full ${
-          columnLayout === 1 ? 'max-md:flex-col' : ''
-        }`}>
+        <div
+          className={`${!isMobile ? "w-3/4" : "w-full"} ${
+            isMobile ? "mt-10" : "mt-10"
+          } h-max flex gap-1 max-md:w-full ${
+            columnLayout === 1 ? "max-md:flex-col" : ""
+          }`}
+        >
           {columns.map((column, index) => (
-            <div 
-              key={index} 
+            <div
+              key={index}
               className={`h-max mt-[5vh] ${
-                columnLayout === 1 ? 'flex-1' :
-                columnLayout === 2 ? 'flex-1' :
-                columnLayout === 3 ? 'flex-1' : ''
-              } ${
-                columnLayout < 3 && index >= columnLayout ? 'hidden' : ''
-              }`}
+                columnLayout === 1
+                  ? "flex-1"
+                  : columnLayout === 2
+                  ? "flex-1"
+                  : columnLayout === 3
+                  ? "flex-1"
+                  : ""
+              } ${columnLayout < 3 && index >= columnLayout ? "hidden" : ""}`}
             >
               {column}
             </div>
@@ -674,14 +701,13 @@ useEffect(() => {
         <div className="flex-1"></div>
       </div>
 
-
       {/* Lightbox */}
       {lightboxImage && (
         <div
           ref={lightboxRef}
           className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center pointer-events-auto"
           style={{
-            touchAction: "none",        
+            touchAction: "none",
             overscrollBehavior: "none",
           }}
         >
@@ -720,6 +746,14 @@ useEffect(() => {
             {lightboxIndex + 1} / {getFilteredItems().length}
           </div>
         </div>
+      )}
+      {lenisRef.current && (
+        <ScrollProgressBar
+          lenis={lenisRef.current}
+          position="bottom"
+          backgroundColor="bg-gray-700/50"
+          progressColor="bg-gradient-to-r from-white via-black to-white"
+        />
       )}
     </div>
   );

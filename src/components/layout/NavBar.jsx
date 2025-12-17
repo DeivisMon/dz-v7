@@ -59,23 +59,20 @@ export default function NavBar() {
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
-  // Handle mobile navigation with delay
   const handleNavClick = (path) => {
     if (path === location.pathname) {
       setIsMenuOpen(false);
       return;
     }
+    setIsMenuOpen(false);
 
-    setIsMenuOpen(false); // trigger exit animation
-
-    // Wait for overlay animation to finish
     setTimeout(() => {
       navigate(path);
-    }, 250); // slightly longer than animation duration
+    }, 250);
   };
 
   const getNabarBackground = (path) => {
-    if (path === "/portfolio") return "bg-[#000000]";
+    if (path === "/portfolio") return "";
     return "mix-blend-difference";
   };
 
@@ -84,10 +81,10 @@ export default function NavBar() {
       <div
         className={`${getNabarBackground(
           location.pathname
-        )} navbar fixed z-[150] -top-1 left-0 w-full flex px-2 py-2 md:px-4 m-0 transition-all duration-700 ease-in-out select-none `}
+        )} navbar fixed z-[150] -top-5 left-0 w-full flex px-2 py-2 md:px-4 m-0 transition-all duration-700 ease-in-out select-none `}
       >
         <div className="w-full flex justify-between items-center">
-          {/* Logo */}{" "}
+          {/* Logo */}
           <div className="logo text-[24px] lg:text-[48px] h-full">
             {" "}
             <Link
@@ -97,7 +94,7 @@ export default function NavBar() {
             >
               {" "}
               <AnimatedText
-                text="Žvinklys"
+                text="Žvinklys ©"
                 duration={0.75}
                 delayChildren={1}
                 enableHover={false}

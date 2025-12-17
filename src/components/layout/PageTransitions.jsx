@@ -17,7 +17,7 @@ export default function PageTransitions({ children }) {
     exit: {
       opacity: 0.8,
       y: -40,
-      transition: { duration: 1, ease: easeInOut },
+      transition: { duration: 2, ease: easeInOut },
     },
   };
 
@@ -26,7 +26,7 @@ export default function PageTransitions({ children }) {
     animate: { y: "100vh" },
     exit: {
       y: 0,
-      transition: { duration: 1, delay: 0.1, ease: easeInOut },
+      transition: { duration: 2, delay: 0.1, ease: easeInOut },
     },
   };
 
@@ -35,9 +35,9 @@ export default function PageTransitions({ children }) {
     animate: { y: 0, scale: 1, opacity: 1 },
     exit: {
       y: [0, -50, 50, 100],
-      scale: 0.8,
+      scale: 0.9,
       opacity: 0.8,
-      transition: { duration: 1.2, ease: easeInOut },
+      transition: { duration: 2.2, ease: easeInOut },
     },
   };
 
