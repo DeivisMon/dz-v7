@@ -1,15 +1,14 @@
-import {motion as Motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
-export default function ScrollProgressBar({
+const ScrollProgressBar = ({
   lenis,
-  height = 4,
+  height = 6,
   backgroundColor = "bg-white/20",
   progressColor = "bg-white",
   position = "bottom",
   showPercentage = true,
-  idleDelay = 1200,
-}) {
+  idleDelay = 200,
+}) => {
   const [progress, setProgress] = useState(0);
   const [active, setActive] = useState(false);
   const idleTimeout = useRef(null);
@@ -17,20 +16,22 @@ export default function ScrollProgressBar({
   useEffect(() => {
     if (!lenis) return;
 
-    const onScroll = ({ progress }) => {
-      setProgress(progress);
+    const updateProgress = () => {
+      const scroll = lenis.scroll || 0;
+      const limit = lenis.limit || 0;
+      const p = limit > 0 ? scroll / limit : 0;
+      setProgress(Math.min(1, Math.max(0, p)));
       setActive(true);
 
       clearTimeout(idleTimeout.current);
-      idleTimeout.current = setTimeout(() => {
-        setActive(false);
-      }, idleDelay);
+      idleTimeout.current = setTimeout(() => setActive(false), idleDelay);
     };
 
-    lenis.on("scroll", onScroll);
+    lenis.on("scroll", updateProgress);
+    updateProgress();
 
     return () => {
-      lenis.off("scroll", onScroll);
+      lenis.off("scroll", updateProgress);
       clearTimeout(idleTimeout.current);
     };
   }, [lenis, idleDelay]);
@@ -38,47 +39,36 @@ export default function ScrollProgressBar({
   const positionClass = position === "top" ? "top-0" : "bottom-0";
 
   return (
-    <div className={`fixed ${positionClass} left-0 w-full z-50`}>
+    <div className={`fixed ${positionClass} left-0 w-full flex flex-col items-center`}>
+      {/* Percentage */}
+      {showPercentage && (
+        <div
+          className="pointer-events-none -mb-3 relative z-50"
+          style={{ opacity: active ? 1 : 0, transform: `translateY(${active ? 0 : 10}px)`, transition: 'opacity 0.2s, transform 0.25s' }}
+        >
+          <span className="text-white text-xl font-medium" style={{ mixBlendMode: "difference" }}>
+            {Math.round(progress * 100)}%
+          </span>
+        </div>
+      )}
+
       {/* Track */}
-      <div
-        className={`relative w-full ${backgroundColor}`}
-        style={{ height }}
-      >
-        {/* Center-expanding bar */}
-        <Motion.div
-          className={`absolute top-0 left-1/2 ${progressColor}`}
+      <div className={`relative w-full ${backgroundColor}`} style={{ height }}>
+        {/* Progress bar */}
+        <div
+          className={`${progressColor} absolute bottom-0 left-1/2`}
           style={{
             height,
-            width: "100%",          // 👈 REQUIRED
+            width: "100%",
             transformOrigin: "50% 50%",
-          }}
-          animate={{
-            scaleX: progress,
-            x: "-50%",
+            transform: `translateX(-50%) scaleX(${progress})`,
             opacity: active || progress > 0 ? 1 : 0,
-          }}
-          transition={{
-            scaleX: { duration: 0.15, ease: "linear" },
-            opacity: { duration: 0.3 },
+            transition: "transform 0.15s linear, opacity 0.3s",
           }}
         />
       </div>
-
-      {/* Percentage */}
-      {showPercentage && (
-        <Motion.div
-          className="absolute left-1/2 -translate-x-1/2 -top-8 mix-blend-difference pointer-events-none"
-          animate={{
-            opacity: active ? 1 : 0,
-            y: active ? 0 : 10,
-          }}
-          transition={{ duration: 0.25 }}
-        >
-          <span className="text-white text-lg font-medium">
-            {Math.round(progress * 100)}%
-          </span>
-        </Motion.div>
-      )}
     </div>
   );
-}
+};
+
+export default ScrollProgressBar;
