@@ -7,8 +7,10 @@ import {
   TfiLayoutColumn3,
 } from "react-icons/tfi";
 import data from "./Items.json";
-import { useDeviceType } from "./hooks/useDeviceType";
+import { useFindMobile } from "./hooks/useFindMobile";
 import ScrollProgressBar from "./utils/ProgressBar";
+import UpButton from "./utils/UpButton";
+import ScrollTop from "./utils/ScrollTop";
 
 const items = data.items;
 
@@ -37,7 +39,7 @@ const FilterButton = ({ filter, isActive, onClick, index }) => {
     const spans = h1Ref.current?.querySelectorAll("span");
     if (spans) {
       gsap.to(spans, {
-        fontSize: isActive ? "100px" : "75px",
+        fontSize: isActive ? "92px" : "66px",
         stagger: 0.01,
         duration: 0.4,
         ease: "power3.inOut",
@@ -67,7 +69,12 @@ const FilterButton = ({ filter, isActive, onClick, index }) => {
 
   const renderTitle = (text) => {
     return text.split("").map((char, i) => (
-      <span key={i} className="relative">
+      <span
+        key={i}
+        className={`relative uppercase font-black transition-colors duration-300 ${
+          isActive ? "text-gray-900 border-gray-900 border-b" : "text-white"
+        }`}
+      >
         {char}
       </span>
     ));
@@ -76,7 +83,7 @@ const FilterButton = ({ filter, isActive, onClick, index }) => {
   return (
     <div
       ref={buttonRef}
-      className={`w-max flex items-end cursor-pointer mb-8 pb-2 pr-8 pointer-events-auto`}
+      className={`w-max flex items-end cursor-pointer mb-8 pr-8 pointer-events-auto`}
       style={{ height: "100px" }}
       onClick={onClick}
     >
@@ -87,23 +94,14 @@ const FilterButton = ({ filter, isActive, onClick, index }) => {
       >
         ({filter.count})
       </p>
-      <h1 ref={h1Ref} className={`leading-[80%] filter-${filter.id}`}>
+      <h1 ref={h1Ref} className="leading-[80%]">
         {renderTitle(filter.label)}
       </h1>
-      <style jsx>{`
-        .filter-${filter.id} span {
-          text-transform: uppercase;
-          font-size: 75px;
-          color: ${isActive ? "#fb5eff" : "#fff"};
-          transition: color 0.3s;
-          font-weight: 900;
-        }
-      `}</style>
     </div>
   );
 };
 
-export default function PortolioGallery() {
+export default function PortfolioGallery() {
   const [activeFilter, setActiveFilter] = useState("all");
   const [imageHeights, setImageHeights] = useState({});
   const [lightboxImage, setLightboxImage] = useState(null);
@@ -111,89 +109,20 @@ export default function PortolioGallery() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [layoutMenuOpen, setLayoutMenuOpen] = useState(false);
   const [columnLayout, setColumnLayout] = useState(2);
+  const { isTouch, isMobileLayout, isPortrait } = useFindMobile();
+
   const itemsRef = useRef(null);
   const lenisRef = useRef(null);
   const lightboxRef = useRef(null);
   const isAnimating = useRef(false);
   const mobileMenuRef = useRef(null);
-  const layoutMenuRef = useRef(null);
   const filterButtonRef = useRef(null);
   const layoutButtonRef = useRef(null);
   const currentImageRef = useRef(null);
   const layoutIconsRef = useRef([]);
-  const _touchState = useRef({
-    startX: 0,
-    startY: 0,
-    isSwiping: false,
-  });
-  const { isMobile } = useDeviceType();
+  const hasAnimatedIn = useRef(false);
 
-  useEffect(() => {
-    if (!lightboxImage || !lightboxRef.current) return;
-
-    const touchState = _touchState.current;
-    const lightbox = lightboxRef.current;
-
-    const onTouchStart = (e) => {
-      const t = e.touches[0];
-      touchState.startX = t.clientX;
-      touchState.startY = t.clientY;
-      touchState.isSwiping = false;
-    };
-
-    const onTouchMove = (e) => {
-      if (isAnimating.current) return;
-
-      const t = e.touches[0];
-      const dx = t.clientX - touchState.startX;
-      const dy = t.clientY - touchState.startY;
-
-      if (Math.abs(dx) > Math.abs(dy)) {
-        e.preventDefault();
-        touchState.isSwiping = true;
-      }
-    };
-
-    const onTouchEnd = () => {
-      if (!touchState.isSwiping) return;
-
-      const dx = touchState.startX - event.changedTouches[0].clientX;
-
-      if (dx > 50) {
-        navigateLightbox(1);
-      }
-      if (dx < -50) {
-        navigateLightbox(-1);
-      }
-    };
-
-    lightbox.addEventListener("touchstart", onTouchStart, { passive: false });
-    lightbox.addEventListener("touchmove", onTouchMove, { passive: false });
-    lightbox.addEventListener("touchend", onTouchEnd);
-
-    return () => {
-      lightbox.removeEventListener("touchstart", onTouchStart);
-      lightbox.removeEventListener("touchmove", onTouchMove);
-      lightbox.removeEventListener("touchend", onTouchEnd);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lightboxImage]);
-
-  useEffect(() => {
-    if (lightboxImage) {
-      document.body.style.overflow = "hidden";
-      document.body.style.touchAction = "none";
-    } else {
-      document.body.style.overflow = "";
-      document.body.style.touchAction = "";
-    }
-
-    return () => {
-      document.body.style.overflow = "";
-      document.body.style.touchAction = "";
-    };
-  }, [lightboxImage]);
-
+  // Initialize Lenis
   useEffect(() => {
     if (!itemsRef.current) return;
 
@@ -215,12 +144,9 @@ export default function PortolioGallery() {
       lenis.raf(time);
       requestAnimationFrame(raf);
     }
-
     requestAnimationFrame(raf);
 
-    return () => {
-      lenis.destroy();
-    };
+    return () => lenis.destroy();
   }, []);
 
   const filters = [
@@ -230,6 +156,7 @@ export default function PortolioGallery() {
     { id: "koncertai", label: "Koncai", count: 10 },
   ];
 
+  // Load image heights
   useEffect(() => {
     const loadImageHeights = async () => {
       const heights = {};
@@ -250,9 +177,20 @@ export default function PortolioGallery() {
       await Promise.all(promises);
       setImageHeights(heights);
     };
-
     loadImageHeights();
   }, []);
+
+  // Trigger resize when images load
+  useEffect(() => {
+    if (Object.keys(imageHeights).length === 0) return;
+
+    // Wait for DOM to update, then resize multiple times to ensure accuracy
+    const timeouts = [0, 100, 300, 600].map((delay) =>
+      setTimeout(() => lenisRef.current?.resize(), delay)
+    );
+
+    return () => timeouts.forEach(clearTimeout);
+  }, [imageHeights]);
 
   const getFilteredItems = () => {
     if (activeFilter === "all") return items;
@@ -262,9 +200,7 @@ export default function PortolioGallery() {
   const openLightbox = (img, index) => {
     setLightboxImage(img);
     setLightboxIndex(index);
-    if (lenisRef.current) {
-      lenisRef.current.stop();
-    }
+    lenisRef.current?.stop();
   };
 
   const closeLightbox = () => {
@@ -274,26 +210,19 @@ export default function PortolioGallery() {
       onComplete: () => {
         setLightboxImage(null);
         setLightboxIndex(null);
-        if (lenisRef.current) {
-          lenisRef.current.start();
-        }
+        lenisRef.current?.start();
       },
     });
   };
 
   const navigateLightbox = (direction) => {
     if (isAnimating.current) return;
-
     const filtered = getFilteredItems();
     let newIndex = lightboxIndex + direction;
-
     if (newIndex < 0) newIndex = filtered.length - 1;
     if (newIndex >= filtered.length) newIndex = 0;
-
     const newImage = filtered[newIndex].img;
-
     isAnimating.current = true;
-
     const imgElement = currentImageRef.current;
     if (!imgElement) return;
 
@@ -306,12 +235,7 @@ export default function PortolioGallery() {
         imgElement.src = newImage;
         setLightboxImage(newImage);
         setLightboxIndex(newIndex);
-
-        gsap.set(imgElement, {
-          x: direction === 1 ? 100 : -100,
-          opacity: 0,
-        });
-
+        gsap.set(imgElement, { x: direction === 1 ? 100 : -100, opacity: 0 });
         imgElement.onload = () => {
           gsap.to(imgElement, {
             x: 0,
@@ -324,30 +248,22 @@ export default function PortolioGallery() {
             },
           });
         };
-
-        if (imgElement.complete) {
-          imgElement.onload();
-        }
+        if (imgElement.complete) imgElement.onload();
       },
     });
   };
 
   useEffect(() => {
     if (!lightboxImage) return;
-
     const handleKeyDown = (e) => {
       if (isAnimating.current) return;
       if (e.key === "Escape") closeLightbox();
       if (e.key === "ArrowLeft") navigateLightbox(-1);
       if (e.key === "ArrowRight") navigateLightbox(1);
     };
-
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lightboxImage, lightboxIndex]);
-
-  const hasAnimatedIn = useRef(false);
 
   useEffect(() => {
     if (lightboxImage && lightboxRef.current && !hasAnimatedIn.current) {
@@ -358,62 +274,15 @@ export default function PortolioGallery() {
       );
       hasAnimatedIn.current = true;
     }
-
-    if (!lightboxImage) {
-      hasAnimatedIn.current = false;
-    }
+    if (!lightboxImage) hasAnimatedIn.current = false;
   }, [lightboxImage]);
 
   const handleFilterClick = (filterId) => {
-    if (filterId === activeFilter) {
-      // Close menu if clicking same filter
-      openFilterMenu();
-      return;
-    }
+    if (filterId === activeFilter) return;
 
-    gsap.to(itemsRef.current, {
-      opacity: 0,
-      duration: 0.25,
-      onComplete: () => {
-        setActiveFilter(filterId);
-        openFilterMenu(); // Close the menu with animation
-        gsap.to(itemsRef.current, {
-          opacity: 1,
-          duration: 0.25,
-        });
-      },
-    });
-  };
+    setActiveFilter(filterId);
 
-  const handleLayoutChange = (columns) => {
-    if (columns === columnLayout) return;
-
-    const icons = layoutIconsRef.current.filter(Boolean);
-    gsap.to(icons, {
-      x: -50,
-      opacity: 0,
-      duration: 0.3,
-      stagger: 0.05,
-      ease: "power2.in",
-      onComplete: () => {
-        setColumnLayout(columns);
-        setLayoutMenuOpen(false);
-
-        setTimeout(() => {
-          const selectedIcon = layoutIconsRef.current[columns - 1];
-          if (selectedIcon) {
-            gsap.fromTo(
-              selectedIcon,
-              { x: 50, opacity: 0 },
-              { x: 0, opacity: 1, duration: 0.3, ease: "power2.out" }
-            );
-          }
-        }, 50);
-      },
-    });
-  };
-
-  const openFilterMenu = () => {
+    // Close mobile menu first if open
     if (mobileMenuOpen) {
       const menuItems = mobileMenuRef.current?.querySelectorAll("button");
       if (menuItems) {
@@ -428,10 +297,104 @@ export default function PortolioGallery() {
           },
         });
       }
+    }
+
+    // Animate the content
+    gsap.to(itemsRef.current, {
+      opacity: 0,
+      duration: 0.5,
+      y: 50,
+      onComplete: () => {
+        // Content is already filtered because state changed above
+        setTimeout(() => {
+          lenisRef.current?.scrollTo(0, { immediate: true });
+          lenisRef.current?.resize();
+        }, 50);
+
+        setTimeout(() => lenisRef.current?.resize(), 150);
+        setTimeout(() => lenisRef.current?.resize(), 350);
+        setTimeout(() => lenisRef.current?.resize(), 650);
+
+        gsap.to(itemsRef.current, {
+          opacity: 1,
+          duration: 0.5,
+          delay: 0.5,
+          y: 0,
+        });
+      },
+    });
+  };
+
+  const handleLayoutChange = (columns) => {
+    if (columns === columnLayout) return;
+
+    // Fade out content
+    gsap.to(itemsRef.current, {
+      opacity: 0,
+      duration: 0.5,
+      y: 50,
+      onComplete: () => {
+        const icons = layoutIconsRef.current.filter(Boolean);
+        gsap.to(icons, {
+          x: -50,
+          opacity: 0,
+          duration: 0.3,
+          stagger: 0.05,
+          ease: "power2.in",
+          onComplete: () => {
+            setColumnLayout(columns);
+            setLayoutMenuOpen(false);
+
+            // Multiple resize calls with delays
+            setTimeout(() => {
+              lenisRef.current?.scrollTo(0, { immediate: true });
+              lenisRef.current?.resize();
+            }, 50);
+
+            setTimeout(() => lenisRef.current?.resize(), 150);
+            setTimeout(() => lenisRef.current?.resize(), 350);
+            setTimeout(() => lenisRef.current?.resize(), 650);
+
+            setTimeout(() => {
+              const selectedIcon = layoutIconsRef.current[columns - 1];
+              if (selectedIcon) {
+                gsap.fromTo(
+                  selectedIcon,
+                  { x: 50, opacity: 0 },
+                  { x: 0, opacity: 1, duration: 0.3, ease: "power2.out" }
+                );
+              }
+            }, 50);
+
+            // Fade in content
+            gsap.to(itemsRef.current, {
+              opacity: 1,
+              duration: 0.5,
+              delay: 0.5,
+              y: 0,
+            });
+          },
+        });
+      },
+    });
+  };
+
+  const openFilterMenu = () => {
+    if (mobileMenuOpen) {
+      const menuItems = mobileMenuRef.current?.querySelectorAll("button");
+      if (menuItems) {
+        gsap.to(menuItems, {
+          x: 50,
+          opacity: 0,
+          duration: 0.3,
+          stagger: 0.05,
+          ease: "power2.in",
+          onComplete: () => setMobileMenuOpen(false),
+        });
+      }
     } else {
       setMobileMenuOpen(true);
       setLayoutMenuOpen(false);
-
       setTimeout(() => {
         const menuItems = mobileMenuRef.current?.querySelectorAll("button");
         if (menuItems) {
@@ -460,14 +423,11 @@ export default function PortolioGallery() {
         duration: 0.3,
         stagger: 0.05,
         ease: "power2.in",
-        onComplete: () => {
-          setLayoutMenuOpen(false);
-        },
+        onComplete: () => setLayoutMenuOpen(false),
       });
     } else {
       setLayoutMenuOpen(true);
       setMobileMenuOpen(false);
-
       setTimeout(() => {
         const icons = layoutIconsRef.current.filter(Boolean);
         gsap.fromTo(
@@ -505,8 +465,9 @@ export default function PortolioGallery() {
             <img
               src={item.img}
               alt={item.title}
-              className="w-full h-auto object-cover transition-all duration-300 ease-in group-hover:blur-[1px] md:group-hover:scale-108"
+              className="cursor-trigger w-full h-auto object-cover transition-all duration-300 ease-in group-hover:blur-[1px] md:group-hover:scale-105"
               style={{ display: "block" }}
+              data-cursor-type="expand"
             />
           </div>
         </div>
@@ -527,7 +488,7 @@ export default function PortolioGallery() {
       {/* Desktop Filters */}
       <div
         className={`${
-          isMobile ? "hidden" : "flex"
+          isTouch ? "hidden" : "flex"
         } fixed top-0 right-0 w-1/2 h-screen pb-32 flex-col justify-end items-end z-10 mix-blend-difference pointer-events-none`}
       >
         {filters.map((filter, index) => (
@@ -541,23 +502,23 @@ export default function PortolioGallery() {
         ))}
       </div>
 
-      {/* Mobile Control Buttons Container */}
+      {/* Mobile Controls */}
       <div
         className={`${
-          !isMobile ? "hidden" : "flex"
-        } fixed top-10 left-0 w-full z-20 bg-black py-4 gap-2 items-center`}
+          isMobileLayout ? "flex" : "hidden"
+        } ${
+          isPortrait? "top-12" : "top-12"
+        } fixed  left-0 w-full z-[1000] bg-black items-center justify-between px-4`}
       >
-        {/* Layout Button and Menu */}
+        {/* Layout Controls - Left Side */}
         <div
           ref={layoutButtonRef}
           onClick={openLayoutMenu}
-          className="fixed top-10 left-4 flex items-center gap-2"
+          className="flex gap-1 items-center"
         >
-          <button className="px-2 py-1 bg-black flex items-center justify-center text-white transition-colors hover:bg-white/20">
+          <button className="bg-black flex items-center justify-center text-white transition-colors hover:bg-white/20">
             Layout
           </button>
-
-          {/* Current Layout Icon - Always visible */}
           {!layoutMenuOpen && (
             <div
               ref={(el) => (layoutIconsRef.current[columnLayout - 1] = el)}
@@ -568,23 +529,20 @@ export default function PortolioGallery() {
               {columnLayout === 3 && <TfiLayoutColumn3 />}
             </div>
           )}
-
-          {/* All Layout Options - Shown when menu is open */}
           {layoutMenuOpen && (
-            <div className="flex gap-2">
+            <div className="flex">
               <button
                 ref={(el) => (layoutIconsRef.current[0] = el)}
                 onClick={() => handleLayoutChange(1)}
                 className={`flex items-center justify-center w-8 h-8 transition-colors ${
                   columnLayout === 1
-                    ? "text-white"
-                    : "bg-white/10 text-white hover:bg-white/20"
+                    ? "text-white border-white border-2"
+                    : "bg-violet/90 text-white hover:bg-white/20"
                 }`}
                 style={{ opacity: 0 }}
               >
                 <TfiLayoutWidthFull />
               </button>
-
               <button
                 ref={(el) => (layoutIconsRef.current[1] = el)}
                 onClick={() => handleLayoutChange(2)}
@@ -597,7 +555,6 @@ export default function PortolioGallery() {
               >
                 <TfiLayoutColumn2 />
               </button>
-
               <button
                 ref={(el) => (layoutIconsRef.current[2] = el)}
                 onClick={() => handleLayoutChange(3)}
@@ -614,53 +571,48 @@ export default function PortolioGallery() {
           )}
         </div>
 
-        {/* Filter Button and Menu */}
+        {/* Filter Controls - Right Side */}
         <div
           ref={filterButtonRef}
           onClick={openFilterMenu}
-          className="flex items-center justify-end gap-2"
+          className="flex items-center gap-2"
         >
-          {/* Current Filter - Always visible */}
           {!mobileMenuOpen && (
-            <div className="fixed right-18 flex justify-center font-bold text-pink-500 text-sm">
+            <div className="flex items-center justify-center font-bold text-pink-500 text-sm">
               {filters.find((f) => f.id === activeFilter)?.label}
             </div>
           )}
-
-          <button className="fixed top-10 right-4 px-2 py-1 bg-black flex items-center justify-center text-white transition-colors hover:bg-white/20">
+          <button className="px-2 py-2 bg-black flex items-center justify-center text-white transition-colors hover:bg-white/20">
             Filter
           </button>
-
-          {/* Filter Menu */}
-          {mobileMenuOpen && (
-            <div
-              ref={mobileMenuRef}
-              className="fixed top-14 right-0 flex flex-col items-end w-[100px] bg-black mt-4 gap-2"
-            >
-              {filters.map((filter) => (
-                <button
-                  key={filter.id}
-                  onClick={() => handleFilterClick(filter.id)}
-                  className={`py-1 px-3 transition-colors ${
-                    activeFilter === filter.id
-                      ? "text-pink-500"
-                      : "bg-white/10 text-white hover:bg-white/20"
-                  }`}
-                  style={{ opacity: 0 }}
-                >
-                  <span className="text-sm">{filter.label}</span>
-                  <span className="ml-1 text-xs opacity-60">
-                    ({filter.count})
-                  </span>
-                </button>
-              ))}
-            </div>
-          )}
         </div>
       </div>
 
-      {/* Overlay to prevent clicking images when menus are open - Mobile only */}
-      {isMobile && (mobileMenuOpen || layoutMenuOpen) && (
+      {/* Filter Dropdown - Outside the control bar */}
+      {mobileMenuOpen && (
+        <div
+          ref={mobileMenuRef}
+          className="fixed top-20 right-0 flex flex-col items-end w-[100px] bg-black z-30"
+        >
+          {filters.map((filter) => (
+            <button
+              key={filter.id}
+              onClick={() => handleFilterClick(filter.id)}
+              className={`py-1 px-3 transition-colors ${
+                activeFilter === filter.id
+                  ? "text-pink-500"
+                  : "text-white hover:bg-white/20"
+              }`}
+              style={{ opacity: 0 }}
+            >
+              <span className="text-sm">{filter.label}</span>
+              <span className="ml-1 text-xs opacity-60">({filter.count})</span>
+            </button>
+          ))}
+        </div>
+      )}
+
+      {isMobileLayout && (mobileMenuOpen || layoutMenuOpen) && (
         <div
           className="fixed inset-0 z-10 bg-transparent"
           onClick={() => {
@@ -672,12 +624,14 @@ export default function PortolioGallery() {
 
       <div
         ref={itemsRef}
-        className="absolute top-0 left-0 w-full h-full p-1 flex gap-1 overflow-y-auto scrollable-container"
+        className={`absolute left-0 w-full h-full p-1 flex gap-1 overflow-y-auto scrollable-container ${
+          isMobileLayout ? "top-2" : "top-0"
+        }`}
       >
         <div
-          className={`${!isMobile ? "w-3/4" : "w-full"} ${
-            isMobile ? "mt-10" : "mt-10"
-          } h-max flex gap-1 max-md:w-full ${
+          className={`${
+            !isTouch ? "w-3/4" : "w-full"
+          } mt-10 h-max flex gap-1 max-md:w-full pb-[5vh] ${
             columnLayout === 1 ? "max-md:flex-col" : ""
           }`}
         >
@@ -701,52 +655,45 @@ export default function PortolioGallery() {
         <div className="flex-1"></div>
       </div>
 
-      {/* Lightbox */}
       {lightboxImage && (
         <div
           ref={lightboxRef}
           className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center pointer-events-auto"
-          style={{
-            touchAction: "none",
-            overscrollBehavior: "none",
-          }}
+          style={{ touchAction: "none", overscrollBehavior: "none" }}
         >
           <div
-            className="cursor-trigger absolute left-0 top-0 w-1/3 h-full z-10"
-            data-cursor-type="prev"
+            className="cursor-trigger absolute left-0 top-0 w-1/5 h-full z-10"
             onClick={(e) => {
               e.stopPropagation();
               navigateLightbox(-1);
             }}
+            data-cursor-type="prev"
           />
-
           <div
-            className="cursor-trigger absolute left-1/3 top-0 w-1/3 h-full z-10"
-            data-cursor-type="close"
+            className="cursor-trigger absolute top-0 w-3/5 h-full z-10"
             onClick={closeLightbox}
+            data-cursor-type="close"
           />
-
           <div
-            className="cursor-trigger absolute right-0 top-0 w-1/3 h-full z-10"
-            data-cursor-type="next"
+            className="cursor-trigger absolute right-0 top-0 w-1/5 h-full z-10"
             onClick={(e) => {
               e.stopPropagation();
               navigateLightbox(1);
             }}
+            data-cursor-type="next"
           />
-
           <img
             ref={currentImageRef}
             src={lightboxImage}
             alt="Lightbox"
             className="max-w-[95vw] max-h-[95vh] w-auto h-auto object-contain pointer-events-none relative z-1"
           />
-
           <div className="absolute bottom-8 text-white text-lg mix-blend-difference pointer-events-none z-20">
             {lightboxIndex + 1} / {getFilteredItems().length}
           </div>
         </div>
       )}
+
       {lenisRef.current && (
         <ScrollProgressBar
           lenis={lenisRef.current}
@@ -755,6 +702,8 @@ export default function PortolioGallery() {
           progressColor="bg-gradient-to-r from-white via-black to-white"
         />
       )}
+      {/* <UpButton lenis={lenisRef.current} /> */}
+      <ScrollTop lenis={lenisRef.current} />
     </div>
   );
 }

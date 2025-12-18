@@ -1,7 +1,7 @@
 import React , { useState, useEffect } from "react";
 import NavBar from "../components/layout/NavBar";
 import Footer from "../components/layout/Footer";
-import WiperDesktop from '../components/WiperDesktop'
+import WiperDesktop from '../components/layout/WiperDesktop'
 import PortolioGallery from "../components/Portfolio";
 
 

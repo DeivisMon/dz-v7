@@ -15,7 +15,7 @@ export default function Footer() {
     );
 
   return (
-    <div className="footer fixed bottom-0 w-full z-20 select-none mix-blend-difference">
+    <div className="footer fixed bottom-1 w-full z-20 select-none mix-blend-difference">
       <footer className="flex items-end justify-center md:justify-between text-white">
         {!isMobile ? (
           <>

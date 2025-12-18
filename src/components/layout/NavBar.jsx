@@ -2,7 +2,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
 import gsap from "gsap";
 import AnimatedText from "../utils/AnimatedText";
-import { useDeviceType } from "../hooks/useDeviceType";
+import { useFindMobile } from "../hooks/useFindMobile";
 
 export default function NavBar() {
   const location = useLocation();
@@ -10,7 +10,8 @@ export default function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const overlayRef = useRef(null);
   const menuLinksRef = useRef([]);
-  const { isMobile } = useDeviceType();
+  const { isMobileLayout } = useFindMobile();
+
 
   const isActive = (path) => location.pathname === path;
 
@@ -72,7 +73,7 @@ export default function NavBar() {
   };
 
   const getNabarBackground = (path) => {
-    if (path === "/portfolio") return "";
+    if (path === "/portfolio") return "bg-[#000000]";
     return "mix-blend-difference";
   };
 
@@ -81,11 +82,13 @@ export default function NavBar() {
       <div
         className={`${getNabarBackground(
           location.pathname
-        )} navbar fixed z-[150] -top-5 left-0 w-full flex px-2 py-2 md:px-4 m-0 transition-all duration-700 ease-in-out select-none `}
+        )} navbar fixed z-[150] ${
+          isMobileLayout ? "" : "-top-5"
+        } left-0 w-full flex px-2 py-2 md:px-4 m-0 transition-all duration-700 ease-in-out select-none `}
       >
         <div className="w-full flex justify-between items-center">
           {/* Logo */}
-          <div className="logo text-[24px] lg:text-[48px] h-full">
+          <div className={`logo ${isMobileLayout ? "text-[24px]" : "text-[48px]"} h-full`}>
             {" "}
             <Link
               className="font-bold transition-all duration-500 ease-in-out"
@@ -94,7 +97,7 @@ export default function NavBar() {
             >
               {" "}
               <AnimatedText
-                text="Žvinklys ©"
+                text="Žvinklys"
                 duration={0.75}
                 delayChildren={1}
                 enableHover={false}
@@ -106,7 +109,7 @@ export default function NavBar() {
           {/* Desktop Navigation */}
           <div
             className={`${
-              isMobile ? "hidden" : "flex"
+              isMobileLayout ? "hidden" : "flex"
             } nav-links relative z-[1000] nav-item items-center gap-0 lg:gap-4 font-bold text-[20px] backdrop-blur transition-all duration-500 ease-in-out`}
           >
             {[
@@ -132,12 +135,12 @@ export default function NavBar() {
           </div>
         </div>
       </div>
-      {/* Mobile Menu Button */}
 
+      {/* Mobile Menu Button */}
       <button
         onClick={toggleMenu}
         className={`${
-          !isMobile ? "hidden" : "flex"
+          !isMobileLayout ? "hidden" : "flex"
         } fixed right-2 z-[1000] w-10 h-10  flex-col justify-center items-center gap-1.5 mix-blend-difference`}
         aria-label="Toggle menu"
       >
@@ -162,7 +165,7 @@ export default function NavBar() {
       <div
         ref={overlayRef}
         className={`${
-          !isMobile ? "hidden" : "flex"
+          !isMobileLayout ? "hidden" : "flex"
         } fixed top-0 left-0 w-full h-screen bg-black z-[150] flex-col justify-center items-center`}
         style={{ clipPath: "circle(0% at 100% 0%)" }}
       >

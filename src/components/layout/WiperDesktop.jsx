@@ -35,7 +35,7 @@ export default function WiperDesktop() {
     gsap.to(wipeRef.current, {
       delay: 0.15,
       scaleY: 0,
-      duration: 0.8,
+      duration: 1.05,
       ease: "expo.inOut",
     });
   }, []);

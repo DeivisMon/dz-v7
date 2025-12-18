@@ -14,9 +14,9 @@ export default function MobileWiper({ trigger }) {
 
       tl.to(wipeRef.current, {
         scaleY: 0,
-        delay: 0.20,
-        duration: 0.75,
-        ease: "expo.out",
+        delay: 0.25,
+        duration: 1.15,
+        ease: "expo.inOut",
       });
     }, wipeRef);
 

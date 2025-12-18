@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router";
 import { AnimatePresence } from "framer-motion";
 import PageTransitions from "./components/layout/PageTransitions";
-import MobileWiper from "./components/layout/MobilePageWiper";
+import MobileWiper from "./components/layout/WiperMobile";
 import Loader from "./components/Loader";
 import Index from "./pages/Index";
 import Portfolio from "./pages/Portfolio";

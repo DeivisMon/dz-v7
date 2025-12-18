@@ -3,7 +3,7 @@ import NavBar from "../components/layout/NavBar";
 import Carousel from "../components/Carousel";
 import Footer from "../components/layout/Footer";
 import WiperIndex from "../components/Wiper Index";
-import WiperDesktop from "../components/WiperDesktop";
+import WiperDesktop from "../components/layout/WiperDesktop";
 import Slider from "../components/Slider";
 
 export default function Index() {
