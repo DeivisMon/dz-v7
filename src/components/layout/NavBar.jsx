@@ -83,7 +83,7 @@ export default function NavBar() {
         className={`${getNabarBackground(
           location.pathname
         )} navbar fixed z-[150] ${
-          isMobileLayout ? "" : "-top-5"
+          isMobileLayout ? "" : "-top-3"
         } left-0 w-full flex px-2 py-2 md:px-4 m-0 transition-all duration-700 ease-in-out select-none `}
       >
         <div className="w-full flex justify-between items-center">

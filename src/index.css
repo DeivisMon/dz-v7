@@ -10,7 +10,7 @@
 @import url('https://fonts.cdnfonts.com/css/lt-binary-neue');
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poiret+One&family=Sevillana&family=Syne:wght@400..800&display=swap');
 @import url('https://db.onlinewebfonts.com/c/384a6031928e262848e4e7ef80037466?family=Kudryashev+Display+Sans');
-/* @import url("https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap"); */
+@import url("https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap");
 
 @import "tailwindcss";
 
@@ -53,9 +53,10 @@ body {
   /* font-family: 'Neroit Mission', sans-serif; */
   /* font-family: 'Mories', sans-serif; */
   /* font-family: 'LT Binary Neue', sans-serif; */
-  font-family: 'Syne', sans-serif;
+  /* font-family: 'Syne', sans-serif; */
   /* font-family: 'Anton', sans-serif; */
-  /* font-family: "Kudryashev Display Sans", sans-serif; */
+  font-family: "Kudryashev Display Sans", sans-serif;
+  /* font-family: 'Poiret One', cursive; */
   background-color: rgb(0, 0, 0);
 }
 

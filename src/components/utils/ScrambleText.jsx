@@ -18,7 +18,7 @@ export default function ScrambleText({ text }) {
       let count = 0;
 
       const scrambleChar = () => {
-        // ⛔ ignore stale animations
+        // ignore stale animations
         if (animationId.current !== id) return;
 
         setCharStates((prev) =>
@@ -52,7 +52,7 @@ export default function ScrambleText({ text }) {
     <Motion.span
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8, delay: 1.8, ease: "easeInOut" }}
+      transition={{ duration: 0.75, delay: 1.75, ease: "easeInOut" }}
       onAnimationComplete={handleHover}
       // onMouseEnter={handleHover}
       className="inline-flex gap-[0.05em] cursor-pointer"

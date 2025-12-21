@@ -1,30 +1,15 @@
 import { useState, useRef } from "react";
 import { useFindMobile } from "../hooks/useFindMobile";
 import SocialsContact from "./SocialsContact";
-
-// Placeholder SocialIcons component
-// function SocialIcons() {
-//   return (
-//     <div className="flex gap-4 text-2xl">
-//       <a href="#" className="hover:text-gray-400 transition">
-//         <i className="fab fa-twitter">𝕏</i>
-//       </a>
-//       <a href="#" className="hover:text-gray-400 transition">
-//         <i className="fab fa-linkedin">in</i>
-//       </a>
-//       <a href="#" className="hover:text-gray-400 transition">
-//         <i className="fab fa-github">GH</i>
-//       </a>
-//     </div>
-//   );
-// }
+import { motion as Motion } from "framer-motion";
+import ChangeContactButton from "./ChangeContactButton";
 
 export default function ContactFrom() {
   const [isContactVisible, setIsContactVisible] = useState(true);
   const [isFlipped, setIsFlipped] = useState(false);
   const [buttonTransform, setButtonTransform] = useState({ x: 0, y: 0 });
   const buttonRef = useRef(null);
-  const { isMobileLayout, isPortrait } = useFindMobile();
+  const { isMobileLayout } = useFindMobile();
 
   const handleMouseMove = (e) => {
     if (!buttonRef.current) return;
@@ -101,8 +86,8 @@ export default function ContactFrom() {
         onMouseLeave={handleMouseLeave}
       >
         {/* Success Message */}
-        <div className="w-full flex-1 h-1/2 md:w-1/2 md:h-full flex flex-col items-center justify-center bg-black">
-          <h2 className="text-2xl font-bold mb-4 text-center">
+        <div className="w-full flex-1 h-1/2 md:w-1/2 md:h-full flex flex-col items-center text-4xl justify-center bg-black">
+          <h2 className="font-bold mb-4 text-center">
             Message Sent
           </h2>
           <p>Thank you! We'll be in touch soon.</p>
@@ -126,51 +111,59 @@ export default function ContactFrom() {
                   WebkitBackfaceVisibility: 'hidden'
                 }}
               >
-                <h2 className={`${isMobileLayout ? "text-3xl" : "text-[5.5em] "} ${isPortrait ? "text-[3rem] font-extrabold" : ""} px-28 tracking-widest`}>
-                  Let's Connect
-                </h2>
                 <SocialsContact />
                 
                 {/* Circular Button */}
-                <button
-                  ref={buttonRef}
-                  onClick={toggleCard}
-                  className="cursor-trigger cursor-pointer fixed bottom-24 right-16 w-24 h-24 rounded-full bg-gray-500 hover:bg-gray-400 text-white font-bold flex items-center justify-center transition-all duration-200 ease-out shadow-lg"
-                  type="button"
-                  style={{
-                    transform: `translate(${buttonTransform.x}px, ${buttonTransform.y}px)`
-                  }}
-                >
-                  Write Me
-                </button>
+                <Motion.div className="fixed bottom-8 right-8 md:bottom-24 md:right-16" initial={{ opacity: 0, x: 100 }}
+                    animate={{ opacity: 1, x: 0, transition: { duration: 1.75, delay: 0.75 } }}
+                    exit={{ opacity: 0, x: 100 }}    >
+                  {/* <button                        
+                    ref={buttonRef}
+                    onClick={toggleCard}
+                    className="cursor-trigger cursor-pointer  w-16 h-16 md:w-24 md:h-24 rounded-full bg-gray-500 hover:bg-gray-400 hover:text-gray-900 text-white text-xs md:text-sm font-bold flex items-center justify-center transition-all duration-500 ease-out shadow-lg"
+                    type="button"
+                    style={{
+                      transform: `translate(${buttonTransform.x}px, ${buttonTransform.y}px)`
+                    }}
+                  >
+                    Write Me
+                  </button> */}
+                  <ChangeContactButton onClick={toggleCard} buttonRef={buttonRef} buttonTransform={buttonTransform} text="Write Me" />
+                </Motion.div>
               </div>
 
               {/* Back Side - Form */}
               <div
-                className="absolute inset-0 flex items-center justify-center px-8"
+                className="absolute inset-0 flex md:items-center md:justify-center px-24"
                 style={{
                   backfaceVisibility: 'hidden',
                   WebkitBackfaceVisibility: 'hidden',
                   transform: 'rotateY(180deg)'
                 }}
               >
-                <form className="flex flex-col lg:gap-2 w-full max-w-xl">
-                  <h2 className={`${isMobileLayout ? "text-2xl" : "text-[3.5em] font-extrabold"} lg:mb-4 text-center`}>
+                <form className="flex flex-col lg:gap-2 w-full">
+                  <h2 className={`${isMobileLayout ? "text-2xl" : "text-[3.5em] font-bold"} lg:mb-4 text-center tracking-[25px]`}>
                     Contact Me
                   </h2>
                   <input
-                    className="input-hover p-2 border-b border-white/40 font-thin focus:outline-none bg-transparent text-white placeholder-gray-400"
+                    className="input-hover p-2 border-b border-white/40 font-thin focus:outline-none bg-transparent text-white md:text-[1.5em] placeholder-gray-600"
                     placeholder="Name"
                     required
                   />
                   <input
-                    className="input-hover p-2 border-b border-white/40 font-thin focus:outline-none bg-transparent text-white placeholder-gray-400"
+                    className="input-hover p-2 border-b border-white/40 font-thin focus:outline-none bg-transparent text-white md:text-[1.5em] placeholder-gray-600"
                     type="email"
                     placeholder="Your email"
                     required
                   />
+                  <input
+                    className="input-hover p-2 border-b border-white/40 font-thin focus:outline-none bg-transparent text-white md:text-[1.5em] placeholder-gray-600"
+                    type="phone"
+                    placeholder="Your Phone"
+                    required
+                  />
                   <textarea
-                    className="input-hover p-2 border-b border-white/40 font-thin focus:outline-none bg-transparent text-white placeholder-gray-400"
+                    className="input-hover p-2 border-b border-white/40 font-thin focus:outline-none bg-transparent text-white md:text-[1.5em] placeholder-gray-600"
                     placeholder="Your message"
                     rows="2"
                     required
@@ -187,18 +180,19 @@ export default function ContactFrom() {
                   </button>
 
                   {/* Circular Button to go back */}
-                  <div className="flex justify-center mt-4">
-                    <button
+                  <div className="flex justify-center mt-4 fixed bottom-8 left-8 md:bottom-24 md:left-16">
+                    {/* <button
                     ref={buttonRef}
                       onClick={toggleCard}
-                      className="cursor-trigger cursor-pointer fixed bottom-24 left-16 w-24 h-24 rounded-full bg-gray-500 hover:bg-gray-400 text-white font-bold flex items-center justify-center transition duration-300 ease-in-out shadow-lg text-sm"
+                      className="cursor-trigger cursor-pointer  w-16 h-16 md:w-24 md:h-24 rounded-full bg-gray-500 hover:bg-gray-400 hover:text-gray-900 text-white font-bold flex items-center justify-center transition-all duration-500 ease-in-out shadow-lg text-xs md:text-sm"
                       type="button"
                       style={{
                     transform: `translate(${buttonTransform.x}px, ${buttonTransform.y}px)`
                   }}
                     >
                       Socials
-                    </button>
+                    </button> */}
+                  <ChangeContactButton onClick={toggleCard} buttonRef={buttonRef} buttonTransform={buttonTransform} text="Socials" />
                   </div>
                 </form>
               </div>

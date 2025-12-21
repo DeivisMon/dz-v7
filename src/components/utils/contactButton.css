@@ -1,0 +1,25 @@
+@keyframes spin-slow {
+          to {
+            transform: translate(-50%, -50%) rotate(360deg);
+          }
+        }
+        @keyframes sparkle-1 {
+          0%, 34%, 71%, 100% {
+            transform: scale(1);
+          }
+          17% {
+            transform: scale(1.2);
+          }
+          49% {
+            transform: scale(1.2);
+          }
+          83% {
+            transform: scale(1.2);
+          }
+        }
+        .animate-spin-slow {
+          animation: spin-slow 3s ease-in infinite;
+        }
+        .animate-sparkle-1 {
+          animation: sparkle-1 1.5s linear 0.5s infinite;
+        }
