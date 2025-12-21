@@ -26,9 +26,9 @@ export default function TextTransition() {
         delay: 0.2,
         ease: "expo.inOut",
         keyframes: {
-          scale: [6, 5, 4, 3, 4, 3, 4, 5, 6],
-          y: [-10, -5, 0, 0, 0, 0, 0, 0, 0],
-          opacity: [0, 1, 1, 1, 1, 1, 1, 0.75, 0],
+          scale: [6, 5, 4, 3, 5],
+          y: [-10, -5, 0, 0, 0, 0, 0, 0, 0, 0],
+          opacity: [0, 1, 1, 0.5, 0],
         }
       }
     );
@@ -45,9 +45,9 @@ export default function TextTransition() {
         delay: 0.275,
         ease: "expo.inOut",
         keyframes: {
-          scale: [6, 5, 4, 3, 4, 3, 4, 5, 6],
-          y: [10, 5, 0, 0, 0, 0, 0, 0, 0],
-          opacity: [0, 1, 1, 1, 1, 1, 1, 0.75, 0],
+          scale: [6, 5, 4, 3, 5],
+          y: [10, 5, 0, 0, 0, 0, 0, 0, 0, 0],
+          opacity: [0, 1, 1, 0.5, 0],
         }
       }
     );

@@ -141,7 +141,7 @@ export default function NavBar() {
         onClick={toggleMenu}
         className={`${
           !isMobileLayout ? "hidden" : "flex"
-        } fixed right-2 z-[1000] w-10 h-10  flex-col justify-center items-center gap-1.5 mix-blend-difference`}
+        } fixed right-2 z-[2000] w-10 h-10  flex-col justify-center items-center gap-1.5 mix-blend-difference`}
         aria-label="Toggle menu"
       >
         <span
@@ -166,7 +166,7 @@ export default function NavBar() {
         ref={overlayRef}
         className={`${
           !isMobileLayout ? "hidden" : "flex"
-        } fixed top-0 left-0 w-full h-screen bg-black z-[150] flex-col justify-center items-center`}
+        } fixed top-0 left-0 w-full h-screen bg-black z-[1500] flex-col justify-center items-center`}
         style={{ clipPath: "circle(0% at 100% 0%)" }}
       >
         <nav className="flex flex-col gap-8 text-center">
