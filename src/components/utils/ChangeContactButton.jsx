@@ -25,7 +25,7 @@ export default function ChangeContactButton({
     >
       {/* Base background with inset shadow */}
       <div className="absolute inset-0 m-auto w-[98%] h-[98%] rounded-full bg-gray-700 transition-all duration-300" />
-      <div className="absolute inset-0 m-auto w-[80%] h-[80%] rounded-full border-2 border-gray-200 group-hover:scale-115 transition-all duration-300" />
+      <div className="absolute inset-0 m-auto w-[90%] h-[90%] rounded-full border border-gray-200 group-hover:scale-[108%] transition-all duration-300" />
 
 
       {/* Rotating dots border */}

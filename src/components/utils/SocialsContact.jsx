@@ -104,13 +104,13 @@ export default function SocialsContact() {
 
             {/* Tooltip */}
             {isHovering && !copied && (
-              <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 rounded bg-gray-600/25 px-2 py-1 text-xs text-[#e95c5ce7] whitespace-nowrap tracking-[1px]">
+              <span className="absolute left-1/2 -translate-x-1/2 bottom-8 mb-2 rounded bg-gray-600/25 px-2 py-1 text-xs text-[#e95c5ce7] whitespace-nowrap tracking-[1px]">
                 Copy
               </span>
             )}
 
             {copied && (
-              <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 rounded bg-gray-600/25 px-2 py-1 text-xs text-[#e95c5ce7] whitespace-nowrap tracking-[1px]">
+              <span className="absolute left-1/2 -translate-x-1/2 bottom-8 mb-2 rounded bg-gray-600/25 px-2 py-1 text-xs text-[#e95c5ce7] whitespace-nowrap tracking-[1px]">
                 Copied!
               </span>
             )}

@@ -101,7 +101,7 @@ export default function NavBar() {
                 duration={0.75}
                 delayChildren={1}
                 enableHover={false}
-                letterSpacing="px-[3px]"
+                letterSpacing="px-[15px]"
                 key={location.pathname}
               />{" "}
             </Link>{" "}
@@ -128,6 +128,7 @@ export default function NavBar() {
                 <AnimatedText
                   text={item.label}
                   duration={0.3 + i * 0.1}
+                  letterSpacing="px-[3px]"
                   key={location.pathname}
                 />
               </Link>

@@ -114,7 +114,7 @@ export default function ContactFrom() {
                 <SocialsContact />
                 
                 {/* Circular Button */}
-                <Motion.div className="fixed bottom-8 right-8 md:bottom-24 md:right-16" initial={{ opacity: 0, x: 100 }}
+                <div className="fixed bottom-8 right-8 md:bottom-24 md:right-16" initial={{ opacity: 0, x: 100 }}
                     animate={{ opacity: 1, x: 0, transition: { duration: 1.75, delay: 0.75 } }}
                     exit={{ opacity: 0, x: 100 }}    >
                   {/* <button                        
@@ -129,7 +129,7 @@ export default function ContactFrom() {
                     Write Me
                   </button> */}
                   <ChangeContactButton onClick={toggleCard} buttonRef={buttonRef} buttonTransform={buttonTransform} text="Write Me" />
-                </Motion.div>
+                </div>
               </div>
 
               {/* Back Side - Form */}
@@ -163,9 +163,9 @@ export default function ContactFrom() {
                     required
                   />
                   <textarea
-                    className="input-hover p-2 border-b border-white/40 font-thin focus:outline-none bg-transparent text-white md:text-[1.5em] placeholder-gray-600"
+                    className="input-hover p-2 border-b border-white/40 font-thin focus:outline-none bg-transparent text-white md:text-[1.5em] placeholder-gray-600 resize-none"
                     placeholder="Your message"
-                    rows="2"
+                    rows="3"
                     required
                   />
                   <button
