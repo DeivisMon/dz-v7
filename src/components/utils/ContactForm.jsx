@@ -81,12 +81,12 @@ export default function ContactFrom() {
 
       {/* Content Container */}
       <div 
-        className="relative z-10 flex flex-col  md:flex-row w-full h-full text-white"
+        className="relative z-10 flex flex-col md:flex-row w-full h-full text-white"
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
       >
         {/* Success Message */}
-        <div className="w-full flex-1 h-1/2 md:w-1/2 md:h-full flex flex-col items-center text-4xl justify-center bg-black">
+        <div className="w-full flex-1 h-1/2 md:w-1/2 md:h-full flex flex-col items-center text-[clamp(1.25rem,2.5vw,2.25rem)] justify-center bg-black">
           <h2 className="font-bold mb-4 text-center">
             Message Sent
           </h2>
@@ -94,7 +94,7 @@ export default function ContactFrom() {
         </div>
 
         {/* Flip Card Container */}
-        <div className="w-full flex-1 h-1/2 md:w-1/2 md:h-full pt-12 md:pt-0 flex items-start md:items-center justify-center perspective-1000">
+        <div className="w-full flex-1 w-full h-full pt-0 md:pt-8 flex perspective-1000">
           <div className="relative w-full h-full" style={{ perspective: '1000px' }}>
             <div
               className="relative w-full h-full transition-transform duration-700"
@@ -105,7 +105,7 @@ export default function ContactFrom() {
             >
               {/* Front Side - Socials */}
               <div
-                className="absolute inset-0 flex flex-col justify-center gap-8 px-8 space-y-8"
+                className="absolute inset-0 flex flex-col mt-8"
                 style={{
                   backfaceVisibility: 'hidden',
                   WebkitBackfaceVisibility: 'hidden'
@@ -114,7 +114,7 @@ export default function ContactFrom() {
                 <SocialsContact />
                 
                 {/* Circular Button */}
-                <div className="fixed bottom-8 right-8 md:bottom-24 md:right-16" initial={{ opacity: 0, x: 100 }}
+                <div className="fixed bottom-4 right-4 md:bottom-24 md:right-16" initial={{ opacity: 0, x: 100 }}
                     animate={{ opacity: 1, x: 0, transition: { duration: 1.75, delay: 0.75 } }}
                     exit={{ opacity: 0, x: 100 }}    >
                   {/* <button                        
@@ -134,7 +134,7 @@ export default function ContactFrom() {
 
               {/* Back Side - Form */}
               <div
-                className="absolute inset-0 flex md:items-center md:justify-center px-24"
+                className="absolute inset-0 flex md:items-center md:justify-center px-[clamp(2rem,8vw,8rem)] mt-8"
                 style={{
                   backfaceVisibility: 'hidden',
                   WebkitBackfaceVisibility: 'hidden',
@@ -142,7 +142,7 @@ export default function ContactFrom() {
                 }}
               >
                 <form className="flex flex-col lg:gap-2 w-full">
-                  <h2 className={`${isMobileLayout ? "text-2xl" : "text-[3.5em] font-bold"} lg:mb-4 text-center tracking-[25px]`}>
+                  <h2 className={`${isMobileLayout ? "text-2xl" : "text-[3.5em] font-bold"} lg:mb-4 text-center tracking-[clamp(0.12em,0.6vw,0.35em)]`}>
                     Contact Me
                   </h2>
                   <input
@@ -180,7 +180,7 @@ export default function ContactFrom() {
                   </button>
 
                   {/* Circular Button to go back */}
-                  <div className="flex justify-center mt-4 fixed bottom-8 left-8 md:bottom-24 md:left-16">
+                  <div className="flex justify-center mt-4 fixed bottom-4 left-4 md:bottom-24 md:left-16">
                     {/* <button
                     ref={buttonRef}
                       onClick={toggleCard}

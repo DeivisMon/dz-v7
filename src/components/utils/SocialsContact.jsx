@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { motion as Motion } from "framer-motion";
-import { useFindMobile } from "../hooks/useFindMobile";
 import ScrambleText from "./ScrambleText";
 import { MdArrowOutward } from "react-icons/md";
 import { GoArrowUpRight } from "react-icons/go";
 import { PiCopy } from "react-icons/pi";
+import { useFindMobile } from "../hooks/useFindMobile";
 
 const containerVariants = {
   hidden: { y: 65, opacity: 0 },
@@ -36,7 +36,8 @@ const iconVariants = {
 export default function SocialsContact() {
   const [copied, setCopied] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
-  const { isMobileLayout, isPortrait } = useFindMobile();
+
+  const { isMobileLayout } = useFindMobile();
 
   const icons = [
     { id: "facebook", label: "Facebook" },
@@ -61,38 +62,39 @@ export default function SocialsContact() {
       initial="hidden"
       animate="show"
       exit="exit"
-      className="social-icons flex flex-col gap-6 mix-blend-difference"
+      className="social-icons flex flex-col justify-center mix-blend-difference space-y-8"
     >
-      <h2
-        className={`${isMobileLayout ? "text-3xl" : "text-[5.5em] "} ${
-          isPortrait ? "text-[3rem] font-extrabold" : ""
-        } px-24 tracking-widest`}
-      >
-        Let's Connect
-      </h2>
-      {icons.map(({ id, label }) => (
-        <div
-          key={id}
-          className="cursor-trigger group flex items-center px-32"
-          data-cursor-type="link"
-        >
-          <Motion.div
-            variants={iconVariants}
-            className="font-bold tracking-[25px]"
-            style={{ fontSize: 36, cursor: "pointer" }}
-            aria-label={label}
+      <div className="flex flex-col items-center md:items-start space-y-4">
+        <h2 className="text-[clamp(1rem,6vw,5.5rem)] tracking-[clamp(0.12em,0.6vw,0.35em)] px-[clamp(1.5rem,6vw,6rem)] font-extrabold">
+          Let's Connect
+        </h2>
+        {icons.map(({ id, label }) => (
+          <div
+            key={id}
+            className="cursor-trigger group flex items-center px-[clamp(2rem,8vw,8rem)]"
+            data-cursor-type="link"
           >
-            <ScrambleText text={label} />
-          </Motion.div>
-          <span className="opacity-0 -rotate-180 translate-y-2 group-hover:translate-y-0 group-hover:opacity-100 group-hover:rotate-0 bg-gray-600/10 rounded-full transition-all duration-300 ease-in-out ">
-            <MdArrowOutward size={54} color="#e95c5ce7" />
-            {/* <GoArrowUpRight size={42} /> */}
-          </span>
-        </div>
-      ))}
-      <div className="space-y-8">
-        <h2 className="text-[5.5em] px-24">Email</h2>
-        <p className="relative text-3xl tracking-[10px] px-32">
+            <Motion.div
+              variants={iconVariants}
+              className="font-bold text-[clamp(1rem,2.5vw,2.25rem)] tracking-[clamp(0.5em,0.5vw,0.35em)]"
+              aria-label={label}
+            >
+              <ScrambleText text={label} />
+            </Motion.div>
+            {isMobileLayout ? null : (
+              <span className="opacity-0 -rotate-180 translate-y-2 group-hover:translate-y-0 group-hover:opacity-100 group-hover:rotate-0 bg-gray-600/10 rounded-full transition-all duration-300 ease-in-out ">
+                <MdArrowOutward size={54} color="#e95c5ce7" />
+                {/* <GoArrowUpRight size={42} /> */}
+              </span>
+            )}
+          </div>
+        ))}
+      </div>
+      <div className="flex flex-col items-center md:items-start">
+        <h2 className="text-[clamp(1rem,6vw,5.5rem)] px-[clamp(1.5rem,6vw,6rem)]">
+          Email
+        </h2>
+        <p className="relative text-[clamp(1.25rem,2.8vw,1.875rem)] tracking-[clamp(0.15em,0.6vw,0.4em)] px-[clamp(2rem,8vw,8rem)]">
           zvinklys@zvinklys.com{" "}
           <span
             onClick={copy}
