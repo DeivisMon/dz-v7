@@ -34,7 +34,7 @@ export default function PageTransitions({ children }) {
     initial: { y: 0, scale: 1, opacity: 1 },
     animate: { y: 0, scale: 1, opacity: 1 },
     exit: {
-      y: [0, -50, 150, -50],
+      y: [0, -50, 150, -25],
       scale: 0.9,
       opacity: 0.8,
       transition: { duration: 1.7, ease: easeInOut },

@@ -9,7 +9,7 @@ const getContainer = (delayChildren, staggerChildren) => ({
     y: 0,
     opacity: 1,
     transition: {
-      delay: 1.2,
+      delay: 1,
       duration: 0.25,
       delayChildren,
       staggerChildren,

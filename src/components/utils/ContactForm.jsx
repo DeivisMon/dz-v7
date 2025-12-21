@@ -1,22 +1,23 @@
 import { useState, useRef } from "react";
 import { useFindMobile } from "../hooks/useFindMobile";
+import SocialsContact from "./SocialsContact";
 
 // Placeholder SocialIcons component
-function SocialIcons() {
-  return (
-    <div className="flex gap-4 text-2xl">
-      <a href="#" className="hover:text-gray-400 transition">
-        <i className="fab fa-twitter">𝕏</i>
-      </a>
-      <a href="#" className="hover:text-gray-400 transition">
-        <i className="fab fa-linkedin">in</i>
-      </a>
-      <a href="#" className="hover:text-gray-400 transition">
-        <i className="fab fa-github">GH</i>
-      </a>
-    </div>
-  );
-}
+// function SocialIcons() {
+//   return (
+//     <div className="flex gap-4 text-2xl">
+//       <a href="#" className="hover:text-gray-400 transition">
+//         <i className="fab fa-twitter">𝕏</i>
+//       </a>
+//       <a href="#" className="hover:text-gray-400 transition">
+//         <i className="fab fa-linkedin">in</i>
+//       </a>
+//       <a href="#" className="hover:text-gray-400 transition">
+//         <i className="fab fa-github">GH</i>
+//       </a>
+//     </div>
+//   );
+// }
 
 export default function ContactFrom() {
   const [isContactVisible, setIsContactVisible] = useState(true);
@@ -41,7 +42,7 @@ export default function ContactFrom() {
     const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
     
     const maxDistance = 150; // Magnetic field radius
-    const maxMove = 20; // Maximum pixels to move
+    const maxMove = 25; // Maximum pixels to move
     
     if (distance < maxDistance) {
       const strength = 1 - (distance / maxDistance);
@@ -75,7 +76,7 @@ export default function ContactFrom() {
     // Return to initial state after delay
     setTimeout(() => {
       setIsContactVisible(true);
-    }, 3500);
+    }, 3000);
   };
 
   const toggleCard = () => {
@@ -95,7 +96,7 @@ export default function ContactFrom() {
 
       {/* Content Container */}
       <div 
-        className="relative z-10 flex flex-col md:flex-row w-full h-full text-white"
+        className="relative z-10 flex flex-col  md:flex-row w-full h-full text-white"
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
       >
@@ -119,22 +120,22 @@ export default function ContactFrom() {
             >
               {/* Front Side - Socials */}
               <div
-                className="absolute inset-0 flex flex-col items-center w-full h-full justify-center gap-8 px-8"
+                className="absolute inset-0 flex flex-col justify-center gap-8 px-8 space-y-8"
                 style={{
                   backfaceVisibility: 'hidden',
                   WebkitBackfaceVisibility: 'hidden'
                 }}
               >
-                <h2 className={`${isMobileLayout ? "text-3xl" : "text-[3.5em] font-extrabold"} ${isPortrait ? "text-[3rem] font-extrabold" : ""} text-center`}>
-                  Connect With Me
+                <h2 className={`${isMobileLayout ? "text-3xl" : "text-[5.5em] "} ${isPortrait ? "text-[3rem] font-extrabold" : ""} px-28 tracking-widest`}>
+                  Let's Connect
                 </h2>
-                <SocialIcons />
+                <SocialsContact />
                 
                 {/* Circular Button */}
                 <button
                   ref={buttonRef}
                   onClick={toggleCard}
-                  className="fixed bottom-24 right-16 w-24 h-24 rounded-full bg-gray-500 hover:bg-gray-400 text-white font-bold flex items-center justify-center transition-all duration-200 ease-out shadow-lg"
+                  className="cursor-trigger cursor-pointer fixed bottom-24 right-16 w-24 h-24 rounded-full bg-gray-500 hover:bg-gray-400 text-white font-bold flex items-center justify-center transition-all duration-200 ease-out shadow-lg"
                   type="button"
                   style={{
                     transform: `translate(${buttonTransform.x}px, ${buttonTransform.y}px)`
@@ -190,7 +191,7 @@ export default function ContactFrom() {
                     <button
                     ref={buttonRef}
                       onClick={toggleCard}
-                      className="fixed bottom-24 left-16 w-24 h-24 rounded-full bg-gray-500 hover:bg-gray-400 text-white font-bold flex items-center justify-center transition duration-300 ease-in-out shadow-lg text-sm"
+                      className="cursor-trigger cursor-pointer fixed bottom-24 left-16 w-24 h-24 rounded-full bg-gray-500 hover:bg-gray-400 text-white font-bold flex items-center justify-center transition duration-300 ease-in-out shadow-lg text-sm"
                       type="button"
                       style={{
                     transform: `translate(${buttonTransform.x}px, ${buttonTransform.y}px)`

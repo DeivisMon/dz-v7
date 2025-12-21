@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import gsap from "gsap";
+import { motion as Motion } from "framer-motion";
 import Lenis from "lenis";
 import {
   TfiLayoutWidthFull,
@@ -578,9 +579,9 @@ export default function PortfolioGallery() {
           className="flex items-center gap-2"
         >
           {!mobileMenuOpen && (
-            <div className="flex items-center justify-center font-bold text-pink-500 text-sm">
+            <Motion.div initial={{ opacity: 0, x: 25 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 25 }} className="flex items-center justify-center font-bold text-pink-500 text-sm">
               {filters.find((f) => f.id === activeFilter)?.label}
-            </div>
+            </Motion.div>
           )}
           <button className="px-2 py-2 bg-black flex items-center justify-center text-white transition-colors hover:bg-white/20">
             Filter
