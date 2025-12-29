@@ -1,39 +1,41 @@
 import { useState, useRef } from "react";
-import { useFindMobile } from "../hooks/useFindMobile";
+import { useResponsive } from "../hooks/useResopnsive";
 import SocialsContact from "./SocialsContact";
-import { motion as Motion } from "framer-motion";
 import ChangeContactButton from "./ChangeContactButton";
 
-export default function ContactFrom() {
+export default function ContactForm() {
   const [isContactVisible, setIsContactVisible] = useState(true);
   const [isFlipped, setIsFlipped] = useState(false);
   const [buttonTransform, setButtonTransform] = useState({ x: 0, y: 0 });
   const buttonRef = useRef(null);
-  const { isMobileLayout } = useFindMobile();
+  const responsive = useResponsive();
+
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    message: ''
+  });
 
   const handleMouseMove = (e) => {
-    if (!buttonRef.current) return;
+    if (!buttonRef.current || responsive.isTouch) return;
     
     const button = buttonRef.current;
     const rect = button.getBoundingClientRect();
     const buttonCenterX = rect.left + rect.width / 2;
     const buttonCenterY = rect.top + rect.height / 2;
     
-    const mouseX = e.clientX;
-    const mouseY = e.clientY;
-    
-    const distanceX = mouseX - buttonCenterX;
-    const distanceY = mouseY - buttonCenterY;
+    const distanceX = e.clientX - buttonCenterX;
+    const distanceY = e.clientY - buttonCenterY;
     const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
     
-    const maxDistance = 150; // Magnetic field radius
-    const maxMove = 25; // Maximum pixels to move
+    const maxDistance = 150;
+    const maxMove = 25;
     
     if (distance < maxDistance) {
       const strength = 1 - (distance / maxDistance);
       const moveX = distanceX * strength * (maxMove / maxDistance);
       const moveY = distanceY * strength * (maxMove / maxDistance);
-      
       setButtonTransform({ x: moveX, y: moveY });
     } else {
       setButtonTransform({ x: 0, y: 0 });
@@ -44,23 +46,27 @@ export default function ContactFrom() {
     setButtonTransform({ x: 0, y: 0 });
   };
 
+  // Determine layout direction based on screen
+  const isVerticalLayout = responsive.isMobilePortrait || (responsive.isShortScreen && responsive.isMobile);
+
   const getTransform = () => {
     if (isContactVisible) return "translate(0, 0)";
-    return isMobileLayout ? "translateY(100%)" : "translateX(100%)";
+    
+    // If vertical layout (image on top), slide DOWN
+    if (isVerticalLayout) {
+      return "translateY(100%)";
+    }
+    
+    // If horizontal layout (image on left), slide RIGHT
+    return "translateX(100%)";
   };
 
   const handleSend = () => {
-    // First slide the image to cover the card
     setIsContactVisible(false);
-    
-    // Then flip the card while it's hidden behind the image
-    setTimeout(() => {
-      setIsFlipped(false);
-    }, 500);
-    
-    // Return to initial state after delay
+    setTimeout(() => setIsFlipped(false), 500);
     setTimeout(() => {
       setIsContactVisible(true);
+      setFormData({ name: '', email: '', phone: '', message: '' });
     }, 3000);
   };
 
@@ -68,33 +74,28 @@ export default function ContactFrom() {
     setIsFlipped(!isFlipped);
   };
 
-  return (
-    <div className="relative w-[100vw] h-[100vh] overflow-hidden shadow-xl flex flex-col md:flex-row items-center z-20">
-      {/* Sliding Image */}
-      <div
-        className="absolute bg-cover bg-center bg-no-repeat transition-transform delay-300 duration-500 ease-[cubic-bezier(0.5, 0, 0.75, 0)] z-20 w-full h-1/2 md:w-1/2 md:h-full"
-        style={{
-          backgroundImage: `url('${import.meta.env.BASE_URL}images/contact.jpg')`,
-          transform: getTransform(),
-        }}
-      />
+  const handleInputChange = (field, value) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
 
-      {/* Content Container */}
+  return (
+    <div className="relative w-[100vw] h-[100vh] overflow-hidden shadow-xl bg-black text-white">
+      {/* Content Container - splits screen 50/50 */}
       <div 
-        className="relative z-10 flex flex-col md:flex-row w-full h-full text-white"
+        className={`relative z-10 flex w-full h-full ${isVerticalLayout ? 'flex-col' : 'flex-row'}`}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
       >
-        {/* Success Message */}
-        <div className="w-full flex-1 h-1/2 md:w-1/2 md:h-full flex flex-col items-center text-[clamp(1.25rem,2.5vw,2.25rem)] justify-center bg-black">
-          <h2 className="font-bold mb-4 text-center">
+        {/* Image Container Success Message */}
+        <div className={`flex flex-col items-center justify-center bg-black ${isVerticalLayout ? 'h-1/2 w-full' : 'w-1/2 h-full'}`}>
+          <h2 className="font-bold mb-4 text-center text-2xl sm:text-3xl lg:text-4xl">
             Message Sent
           </h2>
-          <p>Thank you! We'll be in touch soon.</p>
+          <p className="text-lg sm:text-xl">Thank you! We'll be in touch soon.</p>
         </div>
 
         {/* Flip Card Container */}
-        <div className="w-full flex-1 w-full h-full pt-0 md:pt-8 flex perspective-1000">
+        <div className={`relative flex justify-center ${isVerticalLayout ? 'h-1/2 w-full' : 'w-1/2 h-full'} p-4 lg:p-8`}>
           <div className="relative w-full h-full" style={{ perspective: '1000px' }}>
             <div
               className="relative w-full h-full transition-transform duration-700"
@@ -105,7 +106,7 @@ export default function ContactFrom() {
             >
               {/* Front Side - Socials */}
               <div
-                className="absolute inset-0 flex flex-col mt-8"
+                className="absolute inset-0 flex items-top justify-center"
                 style={{
                   backfaceVisibility: 'hidden',
                   WebkitBackfaceVisibility: 'hidden'
@@ -113,93 +114,87 @@ export default function ContactFrom() {
               >
                 <SocialsContact />
                 
-                {/* Circular Button */}
-                <div className="fixed bottom-4 right-4 md:bottom-24 md:right-16" initial={{ opacity: 0, x: 100 }}
-                    animate={{ opacity: 1, x: 0, transition: { duration: 1.75, delay: 0.75 } }}
-                    exit={{ opacity: 0, x: 100 }}    >
-                  {/* <button                        
-                    ref={buttonRef}
-                    onClick={toggleCard}
-                    className="cursor-trigger cursor-pointer  w-16 h-16 md:w-24 md:h-24 rounded-full bg-gray-500 hover:bg-gray-400 hover:text-gray-900 text-white text-xs md:text-sm font-bold flex items-center justify-center transition-all duration-500 ease-out shadow-lg"
-                    type="button"
-                    style={{
-                      transform: `translate(${buttonTransform.x}px, ${buttonTransform.y}px)`
-                    }}
-                  >
-                    Write Me
-                  </button> */}
-                  <ChangeContactButton onClick={toggleCard} buttonRef={buttonRef} buttonTransform={buttonTransform} text="Write Me" />
+                <div className="fixed bottom-4 right-4 lg:bottom-8 lg:right-8 z-30">
+                  <ChangeContactButton 
+                    onClick={toggleCard} 
+                    buttonRef={buttonRef} 
+                    buttonTransform={buttonTransform} 
+                    text="Write Me" 
+                  />
                 </div>
               </div>
 
               {/* Back Side - Form */}
               <div
-                className="absolute inset-0 flex md:items-center md:justify-center px-[clamp(2rem,8vw,8rem)] mt-8"
+                className="absolute inset-0 flex items-center justify-center py-4 px-0 sm:px-8 lg:px-12"
                 style={{
                   backfaceVisibility: 'hidden',
                   WebkitBackfaceVisibility: 'hidden',
                   transform: 'rotateY(180deg)'
                 }}
               >
-                <form className="flex flex-col lg:gap-2 w-full">
-                  <h2 className={`${isMobileLayout ? "text-2xl" : "text-[3.5em] font-bold"} lg:mb-4 text-center tracking-[clamp(0.12em,0.6vw,0.35em)]`}>
+                <div className="flex flex-col gap-3 lg:gap-4 w-full">
+                  <h2 className="text-2xl sm:text-3xl lg:text-5xl font-bold text-center tracking-[clamp(0.5em,calc(0.05em+0.3vw),0.35em)] mb-2 lg:mb-4">
                     Contact Me
                   </h2>
                   <input
-                    className="input-hover p-2 border-b border-white/40 font-thin focus:outline-none bg-transparent text-white md:text-[1.5em] placeholder-gray-600"
+                    className="p-1 md:p-3 border-b border-white/40 focus:outline-none focus:border-white/80 bg-transparent text-white text-base lg:text-lg placeholder-gray-400 transition-colors"
                     placeholder="Name"
-                    required
+                    value={formData.name}
+                    onChange={(e) => handleInputChange('name', e.target.value)}
                   />
                   <input
-                    className="input-hover p-2 border-b border-white/40 font-thin focus:outline-none bg-transparent text-white md:text-[1.5em] placeholder-gray-600"
+                    className="p-1 md:p-3 border-b border-white/40 focus:outline-none focus:border-white/80 bg-transparent text-white text-base lg:text-lg placeholder-gray-400 transition-colors"
                     type="email"
                     placeholder="Your email"
-                    required
+                    value={formData.email}
+                    onChange={(e) => handleInputChange('email', e.target.value)}
                   />
                   <input
-                    className="input-hover p-2 border-b border-white/40 font-thin focus:outline-none bg-transparent text-white md:text-[1.5em] placeholder-gray-600"
-                    type="phone"
+                    className="p-1 md:p-3 border-b border-white/40 focus:outline-none focus:border-white/80 bg-transparent text-white text-base lg:text-lg placeholder-gray-400 transition-colors"
+                    type="tel"
                     placeholder="Your Phone"
-                    required
+                    value={formData.phone}
+                    onChange={(e) => handleInputChange('phone', e.target.value)}
                   />
                   <textarea
-                    className="input-hover p-2 border-b border-white/40 font-thin focus:outline-none bg-transparent text-white md:text-[1.5em] placeholder-gray-600 resize-none"
+                    className="p-1 md:p-3 border-b border-white/40 focus:outline-none focus:border-white/80 bg-transparent text-white text-base lg:text-lg placeholder-gray-400 resize-none transition-colors"
                     placeholder="Your message"
-                    rows="3"
-                    required
+                    rows={responsive.isShortScreen ? "1" : "2"}
+                    value={formData.message}
+                    onChange={(e) => handleInputChange('message', e.target.value)}
                   />
                   <button
-                    className="bg-gray-500 group text-white font-bold mt-2 hover:bg-gray-200 cursor-pointer transition duration-300 ease-in-out"
+                    className="bg-gray-500 text-white font-bold py-1 md:py-3 hover:bg-gray-200 hover:text-gray-900 transition duration-300 ease-in-out mt-2"
                     type="button"
-                    style={{ padding: '8px 0' }}
                     onClick={handleSend}
                   >
-                    <span className="group-hover:text-gray-500 transition duration-300 ease-in-out">
-                      Send
-                    </span>
+                    Send
                   </button>
 
-                  {/* Circular Button to go back */}
-                  <div className="flex justify-center mt-4 fixed bottom-4 left-4 md:bottom-24 md:left-16">
-                    {/* <button
-                    ref={buttonRef}
-                      onClick={toggleCard}
-                      className="cursor-trigger cursor-pointer  w-16 h-16 md:w-24 md:h-24 rounded-full bg-gray-500 hover:bg-gray-400 hover:text-gray-900 text-white font-bold flex items-center justify-center transition-all duration-500 ease-in-out shadow-lg text-xs md:text-sm"
-                      type="button"
-                      style={{
-                    transform: `translate(${buttonTransform.x}px, ${buttonTransform.y}px)`
-                  }}
-                    >
-                      Socials
-                    </button> */}
-                  <ChangeContactButton onClick={toggleCard} buttonRef={buttonRef} buttonTransform={buttonTransform} text="Socials" />
+                  <div className={` fixed bottom-4 left-4 lg:bottom-8 lg:left-8 z-30`}>
+                    <ChangeContactButton 
+                      onClick={toggleCard} 
+                      buttonRef={buttonRef} 
+                      buttonTransform={buttonTransform} 
+                      text="Socials" 
+                    />
                   </div>
-                </form>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Sliding Image - Overlays on top with z-20 */}
+      <div
+        className={`absolute top-0 left-0 bg-cover bg-center bg-no-repeat transition-transform delay-300 duration-500 ease-out z-20 ${isVerticalLayout ? 'h-1/2 w-full' : 'w-1/2 h-full'}`}
+        style={{
+          backgroundImage: `url('${import.meta.env.BASE_URL}images/contact.jpg')`,
+          transform: getTransform(),
+        }}
+      />
     </div>
   );
 }

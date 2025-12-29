@@ -41,7 +41,7 @@ export default function App() {
                 <Routes location={location}>
                   <Route path="/" element={<Index />} />
                   <Route path="/portfolio" element={<Portfolio />} />
-                  <Route path="/contact" element={<Contact />} />
+                  <Route path="/kontaktai" element={<Contact />} />
                 </Routes>
               </PageTransitions>
             </AnimatePresence>
@@ -49,7 +49,7 @@ export default function App() {
             <Routes location={location} key={location.pathname}>
               <Route path="/" element={<Index />} />
               <Route path="/portfolio" element={<Portfolio />} />
-              <Route path="/contact" element={<Contact />} />
+              <Route path="/kontaktai" element={<Contact />} />
             </Routes>
           )}
 

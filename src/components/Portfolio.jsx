@@ -8,7 +8,7 @@ import {
   TfiLayoutColumn3,
 } from "react-icons/tfi";
 import data from "./Items.json";
-import { useFindMobile } from "./hooks/useFindMobile";
+import { useResponsive } from "./hooks/useResopnsive";
 import ScrollProgressBar from "./utils/ProgressBar";
 import UpButton from "./utils/UpButton";
 import ScrollTop from "./utils/ScrollTop";
@@ -110,7 +110,7 @@ export default function PortfolioGallery() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [layoutMenuOpen, setLayoutMenuOpen] = useState(false);
   const [columnLayout, setColumnLayout] = useState(2);
-  const { isTouch, isMobileLayout, isPortrait } = useFindMobile();
+  const responsive = useResponsive();
 
   const itemsRef = useRef(null);
   const lenisRef = useRef(null);
@@ -489,7 +489,7 @@ export default function PortfolioGallery() {
       {/* Desktop Filters */}
       <div
         className={`${
-          isTouch ? "hidden" : "flex"
+          responsive.isMobile ? "hidden" : "flex"
         } fixed top-0 right-0 w-1/2 h-screen pb-32 flex-col justify-end items-end z-10 mix-blend-difference pointer-events-none`}
       >
         {filters.map((filter, index) => (
@@ -506,9 +506,9 @@ export default function PortfolioGallery() {
       {/* Mobile Controls */}
       <div
         className={`${
-          isMobileLayout ? "flex" : "hidden"
+          responsive.isMobile ? "flex" : "hidden"
         } ${
-          isPortrait? "top-12" : "top-12"
+          responsive.isPortrait? "top-12" : "top-12"
         } fixed  left-0 w-full z-[1000] bg-black items-center justify-between px-4`}
       >
         {/* Layout Controls - Left Side */}
@@ -613,7 +613,7 @@ export default function PortfolioGallery() {
         </div>
       )}
 
-      {isMobileLayout && (mobileMenuOpen || layoutMenuOpen) && (
+      {responsive.isMobile && (mobileMenuOpen || layoutMenuOpen) && (
         <div
           className="fixed inset-0 z-10 bg-transparent"
           onClick={() => {
@@ -626,12 +626,12 @@ export default function PortfolioGallery() {
       <div
         ref={itemsRef}
         className={`absolute left-0 w-full h-full p-1 flex gap-1 overflow-y-auto scrollable-container ${
-          isMobileLayout ? "top-2" : "top-0"
+          responsive.isMobile ? "top-2" : "top-0"
         }`}
       >
         <div
           className={`${
-            !isTouch ? "w-3/4" : "w-full"
+            responsive.isDesktop ? "w-3/4" : "w-full"
           } mt-10 h-max flex gap-1 max-md:w-full pb-[5vh] ${
             columnLayout === 1 ? "max-md:flex-col" : ""
           }`}

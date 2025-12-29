@@ -17,9 +17,13 @@
             transform: scale(1.2);
           }
         }
-        .animate-spin-slow {
+
+        @media (min-width: 840px) {
+         .animate-spin-slow {
           animation: spin-slow 3s ease-in infinite;
         }
         .animate-sparkle-1 {
           animation: sparkle-1 1.5s linear 0.5s infinite;
         }
+        }
+        

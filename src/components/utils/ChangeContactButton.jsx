@@ -15,7 +15,7 @@ export default function ChangeContactButton({
       onClick={onClick}
       onMouseEnter={() => setIsActive(true)}
       onMouseLeave={() => setIsActive(false)}
-      className="cursor-trigger cursor-pointer group relative w-16 h-16 md:w-24 md:h-24 rounded-full text-white text-xs md:text-sm font-bold flex items-center justify-center transition-all duration-500 ease-out overflow-hidden"
+      className="cursor-trigger cursor-pointer group relative w-16 h-16 xl:w-24 xl:h-24 rounded-full text-white text-[8px] md:text-xs xl:text-sm font-bold flex items-center justify-center transition-all duration-500 ease-out overflow-hidden"
       type="button"
       style={{
         transform: `translate(${buttonTransform.x}px, ${

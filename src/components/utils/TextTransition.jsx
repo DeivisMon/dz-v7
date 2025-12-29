@@ -7,19 +7,33 @@ export default function TextTransition() {
   const text1Ref = useRef(null);
   const text2Ref = useRef(null);
 
+  const ROUTE_LABELS = {
+    "/": "Index",
+    "/portfolio": "Mano darbai",
+    "/kontaktai": "Kontaktai",
+  };
+
+  const getLabel = (pathname) => {
+    return ROUTE_LABELS[pathname] ?? "";
+  };
+
   const getFontSize = (path) => {
-    if (path === "/contact") return "text-[0.75rem] md:text-[2rem] xl:text-[3rem]";
-    if (path === "/portfolio") return "text-[0.75rem] md:text-[2rem] xl:text-[3rem]";
-    return "text-[1rem] md:text-[2rem] xl:text-[3rem]";
+    switch (path) {
+      case "/kontaktai":
+      case "/portfolio":
+        return "text-[0.75rem] md:text-[2rem] xl:text-[3rem]";
+      default:
+        return "text-[1rem] md:text-[2rem] xl:text-[3rem]";
+    }
   };
 
   useEffect(() => {
     gsap.fromTo(
       text1Ref.current,
-      { 
-        scale: 6, 
-        y: -10, 
-        opacity: 0 
+      {
+        scale: 6,
+        y: -10,
+        opacity: 0,
       },
       {
         duration: 2.25,
@@ -29,16 +43,16 @@ export default function TextTransition() {
           scale: [6, 5, 4, 3, 5],
           y: [-10, -5, 0, 0, 0, 0, 0, 0, 0, 0],
           opacity: [0, 1, 1, 0.5, 0],
-        }
+        },
       }
     );
 
     gsap.fromTo(
       text2Ref.current,
-      { 
-        scale: 6, 
-        y: 10, 
-        opacity: 0 
+      {
+        scale: 6,
+        y: 10,
+        opacity: 0,
       },
       {
         duration: 2.25,
@@ -48,10 +62,10 @@ export default function TextTransition() {
           scale: [6, 5, 4, 3, 5],
           y: [10, 5, 0, 0, 0, 0, 0, 0, 0, 0],
           opacity: [0, 1, 1, 0.5, 0],
-        }
+        },
       }
     );
-  }, [location.pathname]); 
+  }, [location.pathname]);
 
   return (
     <div>
@@ -61,9 +75,7 @@ export default function TextTransition() {
           location.pathname
         )} uppercase font-bold text-shadow-lg text-white mix-blend-difference`}
       >
-        {location.pathname === "/"
-          ? "index"
-          : location.pathname.split("/").pop()}
+        {getLabel(location.pathname)}
       </p>
       <p
         ref={text2Ref}
@@ -71,9 +83,7 @@ export default function TextTransition() {
           location.pathname
         )} uppercase font-bold text-shadow-lg text-white mix-blend-difference blur-[0.5px]`}
       >
-        {location.pathname === "/"
-          ? "index"
-          : location.pathname.split("/").pop()}
+        {getLabel(location.pathname)}
       </p>
     </div>
   );

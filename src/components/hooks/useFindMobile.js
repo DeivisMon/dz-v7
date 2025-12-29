@@ -7,8 +7,9 @@ export function useFindMobile() {
 
     return {
       isTouch,
-      isPortrait: window.matchMedia("(orientation: portrait)").matches,
-      isMobileLayout: isTouch && window.innerWidth <= 1368,
+      isPortrait: isTouch && window.matchMedia("(orientation: portrait)").matches,
+      isLandscape: isTouch && window.matchMedia("(orientation: landscape)").matches,
+      isMobileLayout: isTouch && window.matchMedia("(orientation: portrait)").matches && window.matchMedia("(orientation: landscape)").matches && window.innerWidth <= 1368,
     };
   });
 
@@ -19,8 +20,9 @@ export function useFindMobile() {
 
       setState({
         isTouch,
-        isPortrait: window.matchMedia("(orientation: portrait)").matches,
-        isMobileLayout: isTouch && window.innerWidth <= 1368,
+        isPortrait: isTouch && window.matchMedia("(orientation: portrait)").matches,
+        isLandscape: isTouch && window.matchMedia("(orientation: landscape)").matches,
+        isMobileLayout: isTouch && window.matchMedia("(orientation: portrait)").matches && window.matchMedia("(orientation: landscape)").matches && window.innerWidth <= 1368,
       });
     };
 

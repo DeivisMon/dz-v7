@@ -53,7 +53,8 @@ const getLetter = (duration) => ({
 
 
 const AnimatedText = ({ 
-  text, 
+  text,
+  textColor = "text-current", 
   duration = 0.35, 
   delayChildren = 1.8, 
   staggerChildren = 0.025,
@@ -88,7 +89,7 @@ const AnimatedText = ({
                   ...letter,
                   hover: enableHover ? { y: "-100%" } : {},
                 }}
-                className={`inline-block text-white flex justify-center ${letterSpacing}`}
+                className={`inline-block ${textColor} flex justify-center ${letterSpacing}`}
                 transition={{
                   ...letter.show.transition,
                   ...(enableHover && {
@@ -119,7 +120,7 @@ const AnimatedText = ({
                     show: { y: "100%" },
                     hover: { y: 0 },
                   }}
-                  className={`inline-block text-white flex justify-center ${letterSpacing}`}
+                  className={`inline-block ${textColor} flex justify-center ${letterSpacing}`}
                   transition={{
                     duration: 0.25,
                     ease: "easeInOut",

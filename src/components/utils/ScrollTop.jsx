@@ -27,10 +27,10 @@ export default function ScrollTop({ lenis }) {
   return (
     <AnimatePresence>
       {visible && (
-        <div className={`fixed ${isMobile ? "bottom-4" : "bottom-16"}  right-4 z-[9999] mix-blend-difference animate-pulse cursor-trigger rotate-180`} data-cursor-type="up"
+        <div className={`fixed ${isMobile ? "bottom-4" : "bottom-16"}  right-4 z-[99] mix-blend-difference animate-pulse cursor-trigger rotate-180`} data-cursor-type="up"
         onClick={toTop}>
           <Motion.a
-            initial={{ opacity: 0.5 }}
+            initial={{ opacity: 0.75 }}
             animate={{ y: [0, 3, 0], opacity: 1 }}
             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
             className="scroll"
@@ -87,7 +87,7 @@ export default function ScrollTop({ lenis }) {
                   strokeLinejoin="round"
                 ></path>
                 <Motion.path
-                  initial={{ opacity: 0.5 }}
+                  initial={{ opacity: 0.75 }}
                   animate={{
                     pathLength: [0, 1, 0],
                     y: [0, 3, 0],
