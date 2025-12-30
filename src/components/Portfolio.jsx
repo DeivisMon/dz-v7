@@ -12,8 +12,6 @@ import { useResponsive } from "./hooks/useResopnsive";
 import ScrollProgressBar from "./utils/ProgressBar";
 import ScrollTop from "./utils/ScrollTop";
 
-// const items = data.items;
-
 function shuffleArray(array) {
   const arr = [...array]; 
   for (let i = arr.length - 1; i > 0; i--) {
@@ -161,10 +159,10 @@ export default function PortfolioGallery() {
   }, []);
 
   const filters = [
-    { id: "all", label: "Visi", count: 34 },
-    { id: "fotosesijos", label: "Fotosesijos", count: 13 },
-    { id: "menas", label: "Juoda/Balta", count: 11 },
-    { id: "renginiai", label: "Renginiai", count: 10 },
+    { id: "all", label: "Visi", count: items.length },
+    { id: "fotosesijos", label: "Fotosesijos", count: items.filter(i => i.tag.includes("fotosesijos")).length },
+    { id: "menas", label: "Juoda/Balta", count: items.filter(i => i.tag.includes("menas")).length },
+    { id: "renginiai", label: "Renginiai", count: items.filter(i => i.tag.includes("renginiai")).length },
   ];
 
   // Load image heights
@@ -291,8 +289,6 @@ export default function PortfolioGallery() {
   const handleFilterClick = (filterId) => {
     if (filterId === activeFilter) return;
 
-    setActiveFilter(filterId);
-
     // Close mobile menu first if open
     if (mobileMenuOpen) {
       const menuItems = mobileMenuRef.current?.querySelectorAll("button");
@@ -315,7 +311,9 @@ export default function PortfolioGallery() {
       opacity: 0,
       duration: 0.5,
       y: 50,
+      ease: "power2.in",
       onComplete: () => {
+        setActiveFilter(filterId);
         // Content is already filtered because state changed above
         setTimeout(() => {
           lenisRef.current?.scrollTo(0, { immediate: true });
@@ -328,8 +326,9 @@ export default function PortfolioGallery() {
 
         gsap.to(itemsRef.current, {
           opacity: 1,
-          duration: 0.5,
+          duration: 0.75,
           delay: 0.5,
+          ease: "power3.out",
           y: 0,
         });
       },
@@ -380,7 +379,7 @@ export default function PortfolioGallery() {
             // Fade in content
             gsap.to(itemsRef.current, {
               opacity: 1,
-              duration: 0.5,
+              duration: 0.75,
               delay: 0.5,
               y: 0,
             });
@@ -476,6 +475,7 @@ export default function PortfolioGallery() {
             <img
               src={item.img}
               alt={item.title}
+              loading="lazy"
               className="cursor-trigger w-full h-auto object-cover transition-all duration-300 ease-in group-hover:blur-[1px] md:group-hover:scale-105"
               style={{ display: "block" }}
               data-cursor-type="expand"
