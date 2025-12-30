@@ -678,14 +678,14 @@ export default function PortfolioGallery() {
         <div
           className={`${
             responsive.isDesktop ? "w-3/4" : "w-full"
-          } mt-10 h-max flex gap-1 max-md:w-full pb-[5vh] ${
+          } mt-6 mb-12 h-max flex gap-1 max-md:w-full ${
             columnLayout === 1 ? "max-md:flex-col" : ""
           }`}
         >
           {columns.map((column, index) => (
             <div
               key={index}
-              className={`h-max mt-[5vh] ${
+              className={`h-max ${
                 columnLayout === 1
                   ? "flex-1"
                   : columnLayout === 2
@@ -710,7 +710,7 @@ export default function PortfolioGallery() {
           style={{ touchAction: "none", overscrollBehavior: "none" }}
         >
           <div
-            className="cursor-trigger absolute left-0 top-0 w-1/5 h-full z-10"
+            className="cursor-trigger absolute left-0 top-0 w-1/3 h-full z-10"
             onClick={(e) => {
               e.stopPropagation();
               navigateLightbox(-1);
@@ -718,12 +718,12 @@ export default function PortfolioGallery() {
             data-cursor-type="prev"
           />
           <div
-            className="cursor-trigger absolute top-0 w-3/5 h-full z-10"
+            className="cursor-trigger absolute top-0 w-1/3 h-full z-10"
             onClick={closeLightbox}
             data-cursor-type="close"
           />
           <div
-            className="cursor-trigger absolute right-0 top-0 w-1/5 h-full z-10"
+            className="cursor-trigger absolute right-0 top-0 w-1/3 h-full z-10"
             onClick={(e) => {
               e.stopPropagation();
               navigateLightbox(1);
