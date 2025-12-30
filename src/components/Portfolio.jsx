@@ -7,12 +7,23 @@ import {
   TfiLayoutColumn2,
   TfiLayoutColumn3,
 } from "react-icons/tfi";
-import data from "./Items.json";
+import { galleryData } from "./galleryData";
 import { useResponsive } from "./hooks/useResopnsive";
 import ScrollProgressBar from "./utils/ProgressBar";
 import ScrollTop from "./utils/ScrollTop";
 
-const items = data.items;
+// const items = data.items;
+
+function shuffleArray(array) {
+  const arr = [...array]; 
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+const items = shuffleArray(galleryData);
 
 const FilterButton = ({ filter, isActive, onClick, index }) => {
   const h1Ref = useRef(null);

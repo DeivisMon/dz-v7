@@ -10,7 +10,7 @@ export default function ScrollTop({ lenis }) {
     if (!lenis) return;
 
     const onScroll = ({ progress }) => {
-      setVisible(progress > 0.1);
+      setVisible(progress > 0.9);
     };
 
     lenis.on("scroll", onScroll);
@@ -27,7 +27,7 @@ export default function ScrollTop({ lenis }) {
   return (
     <AnimatePresence>
       {visible && (
-        <div className={`fixed ${isMobile ? "bottom-4" : "bottom-16"}  right-4 z-[99] mix-blend-difference animate-pulse cursor-trigger rotate-180`} data-cursor-type="up"
+        <div className={`fixed ${isMobile ? "bottom-4" : "bottom-16"}  right-4 z-[10] mix-blend-difference animate-pulse cursor-trigger rotate-180`} data-cursor-type="up"
         onClick={toTop}>
           <Motion.a
             initial={{ opacity: 0.75 }}
