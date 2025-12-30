@@ -10,7 +10,6 @@ import {
 import data from "./Items.json";
 import { useResponsive } from "./hooks/useResopnsive";
 import ScrollProgressBar from "./utils/ProgressBar";
-import UpButton from "./utils/UpButton";
 import ScrollTop from "./utils/ScrollTop";
 
 const items = data.items;
@@ -40,10 +39,10 @@ const FilterButton = ({ filter, isActive, onClick, index }) => {
     const spans = h1Ref.current?.querySelectorAll("span");
     if (spans) {
       gsap.to(spans, {
-        fontSize: isActive ? "92px" : "66px",
-        stagger: 0.01,
+        fontSize: isActive ? "64px" : "56px",
+        stagger: 0.025,
         duration: 0.4,
-        ease: "power3.inOut",
+        ease: "expo.inOut",
       });
     }
   }, [isActive]);
@@ -73,7 +72,7 @@ const FilterButton = ({ filter, isActive, onClick, index }) => {
       <span
         key={i}
         className={`relative uppercase font-black transition-colors duration-300 ${
-          isActive ? "text-gray-900 border-gray-900 border-b" : "text-white"
+          isActive ? "text-gray-500 border-gray-600 border-b" : "text-white"
         }`}
       >
         {char}
@@ -84,18 +83,18 @@ const FilterButton = ({ filter, isActive, onClick, index }) => {
   return (
     <div
       ref={buttonRef}
-      className={`w-max flex items-end cursor-pointer mb-8 pr-8 pointer-events-auto`}
+      className={`h-full flex items-center cursor-pointer pr-4 pointer-events-auto`}
       style={{ height: "100px" }}
       onClick={onClick}
     >
       <p
         className={`relative ${
-          isActive ? "bottom-6" : "bottom-2"
+          isActive ? "bottom-4" : "bottom-2"
         } px-2 text-xl font-medium text-white`}
       >
         ({filter.count})
       </p>
-      <h1 ref={h1Ref} className="leading-[80%]">
+      <h1 ref={h1Ref} className="leading-[40%] ">
         {renderTitle(filter.label)}
       </h1>
     </div>
@@ -152,9 +151,9 @@ export default function PortfolioGallery() {
 
   const filters = [
     { id: "all", label: "Visi", count: 34 },
-    { id: "mergos", label: "Mergos", count: 13 },
-    { id: "menas", label: "Menas", count: 11 },
-    { id: "koncertai", label: "Koncai", count: 10 },
+    { id: "fotosesijos", label: "Fotosesijos", count: 13 },
+    { id: "menas", label: "Juoda/Balta", count: 11 },
+    { id: "renginiai", label: "Renginiai", count: 10 },
   ];
 
   // Load image heights
@@ -490,7 +489,7 @@ export default function PortfolioGallery() {
       <div
         className={`${
           responsive.isMobile ? "hidden" : "flex"
-        } fixed top-0 right-0 w-1/2 h-screen pb-32 flex-col justify-end items-end z-10 mix-blend-difference pointer-events-none`}
+        } fixed top-0 right-0 w-1/2 h-screen flex-col justify-center items-end gap-8 z-10 mix-blend-difference pointer-events-none`}
       >
         {filters.map((filter, index) => (
           <FilterButton
@@ -508,7 +507,7 @@ export default function PortfolioGallery() {
         className={`${
           responsive.isMobile ? "flex" : "hidden"
         } ${
-          responsive.isPortrait? "top-12" : "top-12"
+          responsive.isPortrait? "top-10" : "top-12"
         } fixed  left-0 w-full z-[1000] bg-black items-center justify-between px-4`}
       >
         {/* Layout Controls - Left Side */}
@@ -593,7 +592,7 @@ export default function PortfolioGallery() {
       {mobileMenuOpen && (
         <div
           ref={mobileMenuRef}
-          className="fixed top-20 right-0 flex flex-col items-end w-[100px] bg-black z-30"
+          className="fixed top-20 right-0 flex flex-col items-end w-[120px] bg-black z-30"
         >
           {filters.map((filter) => (
             <button
@@ -656,6 +655,7 @@ export default function PortfolioGallery() {
         <div className="flex-1"></div>
       </div>
 
+      {/* Lightbox */}
       {lightboxImage && (
         <div
           ref={lightboxRef}
@@ -703,7 +703,6 @@ export default function PortfolioGallery() {
           progressColor="bg-gradient-to-r from-white via-black to-white"
         />
       )}
-      {/* <UpButton lenis={lenisRef.current} /> */}
       <ScrollTop lenis={lenisRef.current} />
     </div>
   );
