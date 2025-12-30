@@ -1,34 +1,130 @@
 export const sliderData = [
   {
-    title: "Echoes of Silence",
-    img: `${import.meta.env.BASE_URL}images/img1.avif`,
+    id: 1,
+    img: `${import.meta.env.BASE_URL}images/slider/slider-01.webp`,
   },
   {
-    title: "Floral Circuit",
-    img: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=1920",
+    id: 2,
+    img: `${import.meta.env.BASE_URL}images/slider/slider-02.webp`,
   },
   {
-    title: "Synthetic Horizon",
-    img: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=1920",
+    id: 3,
+    img: `${import.meta.env.BASE_URL}images/slider/slider-03.webp`,
   },
   {
-    title: "Portal Sequence",
-    img: "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=1920",
+    id: 4,
+    img: `${import.meta.env.BASE_URL}images/slider/slider-04.webp`,
   },
   {
-    title: "Projected Memory",
-    img: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1920",
+    id: 5,
+    img: `${import.meta.env.BASE_URL}images/slider/slider-05.webp`,
   },
   {
-    title: "Fractured Self",
-    img: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=1920" ,
+    id: 6,
+    img: `${import.meta.env.BASE_URL}images/slider/slider-06.webp`,
   },
   {
-    title: "Moonlit Constructs",
-    img: "https://images.unsplash.com/photo-1561214115-f2f134cc4912?w=1920",
+    id: 7,
+    img: `${import.meta.env.BASE_URL}images/slider/slider-07.webp`,
   },
   {
-    title: "Fading Room",
-    img: "https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=1920",
+    id: 8,
+    img: `${import.meta.env.BASE_URL}images/slider/slider-08.webp`,
+  },
+  {
+    id: 9,
+    img: `${import.meta.env.BASE_URL}images/slider/slider-09.webp`,
+  },
+  {
+    id: 10,
+    img: `${import.meta.env.BASE_URL}images/slider/slider-10.webp`,
+  },
+  {
+    id: 11,
+    img: `${import.meta.env.BASE_URL}images/slider/slider-11.webp`,
+  },
+  {
+    id: 12,
+    img: `${import.meta.env.BASE_URL}images/slider/slider-12.webp`,
+  },
+  {
+    id: 13,
+    img: `${import.meta.env.BASE_URL}images/slider/slider-13.webp`,
+  },
+  {
+    id: 14,
+    img: `${import.meta.env.BASE_URL}images/slider/slider-14.webp`,
+  },
+  {
+    id: 15,
+    img: `${import.meta.env.BASE_URL}images/slider/slider-15.webp`,
+  },
+  {
+    id: 16,
+    img: `${import.meta.env.BASE_URL}images/slider/slider-16.webp`,
+  },
+  {
+    id: 17,
+    img: `${import.meta.env.BASE_URL}images/slider/slider-17.webp`,
+  },
+  {
+    id: 18,
+    img: `${import.meta.env.BASE_URL}images/slider/slider-18.webp`,
+  },
+  {
+    id: 19,
+    img: `${import.meta.env.BASE_URL}images/slider/slider-19.webp`,
+  },
+  {
+    id: 20,
+    img: `${import.meta.env.BASE_URL}images/slider/slider-20.webp`,
+  },
+  {
+    id: 21,
+    img: `${import.meta.env.BASE_URL}images/slider/slider-21.webp`,
+  },
+  {
+    id: 22,
+    img: `${import.meta.env.BASE_URL}images/slider/slider-22.webp`,
+  },
+  {
+    id: 23,
+    img: `${import.meta.env.BASE_URL}images/slider/slider-23.webp`,
+  },
+  {
+    id: 24,
+    img: `${import.meta.env.BASE_URL}images/slider/slider-24.webp`,
+  },
+  {
+    id: 25,
+    img: `${import.meta.env.BASE_URL}images/slider/slider-25.webp`,
+  },
+  {
+    id: 26,
+    img: `${import.meta.env.BASE_URL}images/slider/slider-26.webp`,
+  },
+  {
+    id: 27,
+    img: `${import.meta.env.BASE_URL}images/slider/slider-27.webp`,
+  },
+  {
+    id: 28,
+    img: `${import.meta.env.BASE_URL}images/slider/slider-28.webp`,
+  },
+  {
+    id: 29,
+    img: `${import.meta.env.BASE_URL}images/slider/slider-29.webp`,
+  },
+  {
+    id: 30,
+    img: `${import.meta.env.BASE_URL}images/slider/slider-30.webp`,
+  },
+  {
+    id: 31,
+    img: `${import.meta.env.BASE_URL}images/slider/slider-31.webp`,
+  },
+  {
+    id: 32,
+    img: `${import.meta.env.BASE_URL}images/slider/slider-32.webp`,
   },
 ];

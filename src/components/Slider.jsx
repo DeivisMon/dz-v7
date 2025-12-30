@@ -1,11 +1,16 @@
 import "./slider.css";
-import { useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useDeviceType } from "./hooks/useDeviceType";
 import { sliderData } from "./sliderData";
 
 const Slider = () => {
   const sliderRef = useRef(null);
   const { isVerticalMobile, isHorizontalMobile } = useDeviceType();
+
+  const [randomImages] = useState(() => {
+    const shuffled = [...sliderData].sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, 8);
+  });
 
   useEffect(() => {
     const config = {
@@ -16,7 +21,7 @@ const Slider = () => {
       SNAP_DELAY: 100,
     };
 
-    const totalSlideCount = sliderData.length;
+    const totalSlideCount = randomImages.length;
 
     const state = {
       currentX: 0,
@@ -53,8 +58,8 @@ const Slider = () => {
 
       const img = document.createElement("img");
       const dataIndex = index % totalSlideCount;
-      img.src = sliderData[dataIndex].img;
-      img.alt = sliderData[dataIndex].title;
+      img.src = randomImages[dataIndex].img; 
+      img.alt = randomImages[dataIndex].id.toString(); 
 
       const overlay = document.createElement("div");
       overlay.className = "slide-overlay";
@@ -342,7 +347,7 @@ const Slider = () => {
     const cleanup = initializeSlider();
 
     return cleanup;
-  }, [isVerticalMobile, isHorizontalMobile]);
+  }, [isVerticalMobile, isHorizontalMobile, randomImages]);
 
   return (
     <div className="slider" ref={sliderRef}>
