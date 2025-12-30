@@ -12,9 +12,6 @@ export default function NavBar() {
   const menuLinksRef = useRef([]);
   const responsive = useResponsive();
 
-
-
-
   const isActive = (path) => location.pathname === path;
 
   useEffect(() => {
@@ -116,7 +113,7 @@ export default function NavBar() {
           >
             {[
               { path: "/", label: "Index" },
-              { path: "/portfolio", label: "Mano Darbai" },
+              { path: "/portfolio", label: "Darbai" },
               { path: "/kontaktai", label: "Kontaktai" },
             ].map((item, i) => (
               <Link
@@ -176,7 +173,7 @@ export default function NavBar() {
         <nav className="flex flex-col gap-8 text-center">
           {[
             { path: "/", label: "Index" },
-            { path: "/portfolio", label: "Mano Darbai" },
+            { path: "/portfolio", label: "Darbai" },
             { path: "/kontaktai", label: "Kontaktai" },
           ].map((item, i) => (
             <Link

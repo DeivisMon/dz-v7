@@ -26,6 +26,19 @@ const items = shuffleArray(galleryData);
 const FilterButton = ({ filter, isActive, onClick, index }) => {
   const h1Ref = useRef(null);
   const buttonRef = useRef(null);
+  const counterRef = useRef(null); 
+  
+  useEffect(() => {
+  const btn = buttonRef.current;
+  if (!btn) return;
+
+  btn.style.pointerEvents = "none";
+
+  gsap.delayedCall(1, () => {
+    btn.style.pointerEvents = "auto";
+  });
+}, []);
+
 
   useEffect(() => {
     gsap.fromTo(
@@ -45,12 +58,34 @@ const FilterButton = ({ filter, isActive, onClick, index }) => {
   }, [index]);
 
   useEffect(() => {
+  if (!counterRef.current) return;
+
+  gsap.set(counterRef.current, {
+    opacity: 0,
+    y: 50,
+  });
+}, []);
+
+
+  useEffect(() => {
     const spans = h1Ref.current?.querySelectorAll("span");
+    const counter = counterRef.current;
+
+    if (!spans || !counter) return;
+
     if (spans) {
       gsap.to(spans, {
         fontSize: isActive ? "64px" : "56px",
         stagger: 0.025,
         duration: 0.4,
+        ease: "expo.inOut",
+      });
+
+      gsap.to(counter, {
+        opacity: isActive ? 1 : 0,
+        y: isActive ? 0 : 50,
+        duration: 0.4,
+        delay: 0.25,
         ease: "expo.inOut",
       });
     }
@@ -80,7 +115,7 @@ const FilterButton = ({ filter, isActive, onClick, index }) => {
     return text.split("").map((char, i) => (
       <span
         key={i}
-        className={`relative uppercase font-black transition-colors duration-300 ${
+        className={`relative inline-block uppercase font-black transition-colors duration-300 ${
           isActive ? "text-gray-500 border-gray-600 border-b" : "text-white"
         }`}
       >
@@ -92,20 +127,21 @@ const FilterButton = ({ filter, isActive, onClick, index }) => {
   return (
     <div
       ref={buttonRef}
-      className={`h-full flex items-center cursor-pointer pr-4 pointer-events-auto`}
+      className={`relative h-full cursor-pointer pr-4 pointer-events-auto`}
       style={{ height: "100px" }}
       onClick={onClick}
     >
+      <h1 ref={h1Ref} className={`inline-block uppercase font-black ${
+    isActive ? "border-b border-gray-600" : ""
+  }`}>
+        {renderTitle(filter.label)}
+      </h1>
       <p
-        className={`relative ${
-          isActive ? "bottom-4" : "bottom-2"
-        } px-2 text-xl font-medium text-white`}
+        ref={counterRef}
+        className="absolute right-2 top-[108px] transform -translate-y-1/2 px-2 text-xl font-medium text-white pointer-events-none"
       >
         ({filter.count})
       </p>
-      <h1 ref={h1Ref} className="leading-[40%] ">
-        {renderTitle(filter.label)}
-      </h1>
     </div>
   );
 };

@@ -9,7 +9,7 @@ export default function TextTransition() {
 
   const ROUTE_LABELS = {
     "/": "Index",
-    "/portfolio": "Mano darbai",
+    "/portfolio": "Darbai",
     "/kontaktai": "Kontaktai",
   };
 

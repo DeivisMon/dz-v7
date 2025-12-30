@@ -40,15 +40,6 @@ const getLetter = (duration) => ({
       ease: easeInOut,
     },
   },
-  // exit : {
-  //   y: "-100%",
-  //   skewX: 45,
-  //   opacity: 0,
-  //   transition: {
-  //     duration,
-  //     ease: easeInOut,
-  //   },
-  // }
 })
 
 
