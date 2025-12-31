@@ -138,7 +138,7 @@ const FilterButton = ({ filter, isActive, onClick, index }) => {
       </h1>
       <p
         ref={counterRef}
-        className="absolute right-2 top-[108px] transform -translate-y-1/2 px-2 text-xl font-medium text-white pointer-events-none"
+        className="absolute -right-2 top-[108px] transform -translate-y-1/2 px-2 text-xl font-medium text-white tracking-[0.8em] pointer-events-none"
       >
         ({filter.count})
       </p>

@@ -19,6 +19,17 @@ const Slider = () => {
       MAX_VELOCITY: 150,
       SNAP_THRESHOLD: 0.5,
       SNAP_DELAY: 100,
+      IMAGE_SCALE: 1.25, // Change this to adjust crop
+      PARALLAX_MULTIPLIER: -0.085, // Adjust with scale
+      // Calculated buffer
+      get VISIBILITY_BUFFER() {
+        return Math.max(
+          (window.innerWidth / 2 + 255) *
+            Math.abs(this.PARALLAX_MULTIPLIER) *
+            1.5,
+          200
+        );
+      },
     };
 
     const totalSlideCount = randomImages.length;
@@ -58,8 +69,8 @@ const Slider = () => {
 
       const img = document.createElement("img");
       const dataIndex = index % totalSlideCount;
-      img.src = randomImages[dataIndex].img; 
-      img.alt = randomImages[dataIndex].id.toString(); 
+      img.src = randomImages[dataIndex].img;
+      img.alt = randomImages[dataIndex].id.toString();
 
       const overlay = document.createElement("div");
       overlay.className = "slide-overlay";
@@ -77,7 +88,7 @@ const Slider = () => {
 
       track.innerHTML = "";
       state.slides = [];
-      
+
       if (isVerticalMobile) {
         state.slideWidth = window.innerWidth;
       } else if (isHorizontalMobile) {
@@ -86,7 +97,7 @@ const Slider = () => {
         state.slideWidth = 510;
       }
 
-      const copies = 6;
+      const copies = 8;
       const totalSlides = totalSlideCount * copies;
 
       for (let i = 0; i < totalSlides; i++) {
@@ -127,17 +138,17 @@ const Slider = () => {
         const slideRect = slide.getBoundingClientRect();
 
         if (
-          slideRect.right < -500 ||
-          slideRect.left > window.innerWidth + 500
+          slideRect.right < -config.VISIBILITY_BUFFER ||
+          slideRect.left > window.innerWidth + config.VISIBILITY_BUFFER
         ) {
           return;
         }
 
         const slideCenter = slideRect.left + slideRect.width / 2;
         const distanceFromCenter = slideCenter - viewportCenter;
-        const parallaxOffset = distanceFromCenter * -0.25;
+        const parallaxOffset = distanceFromCenter * config.PARALLAX_MULTIPLIER;
 
-        img.style.transform = `translateX(${parallaxOffset}px) scale(1.75)`;
+        img.style.transform = `translateX(${parallaxOffset}px) scale(${config.IMAGE_SCALE})`;
       });
     }
 
@@ -147,15 +158,15 @@ const Slider = () => {
       }
 
       const viewportCenter = window.innerWidth / 2;
-      
+
       const slideCenter = state.slideWidth / 2;
       const centerOffset = viewportCenter - slideCenter;
-      
+
       const currentOffset = state.currentX + centerOffset;
       const nearestSlideIndex = Math.round(currentOffset / state.slideWidth);
-      
-      const newTarget = (nearestSlideIndex * state.slideWidth) - centerOffset;
-      
+
+      const newTarget = nearestSlideIndex * state.slideWidth - centerOffset;
+
       state.targetX = newTarget;
     }
 
@@ -175,7 +186,7 @@ const Slider = () => {
       state.snapTimeout = setTimeout(() => {
         const timeSinceScroll = Date.now() - state.lastScrollTime;
         const isStill = state.velocity < config.SNAP_THRESHOLD;
-        
+
         if (timeSinceScroll > 50 && isStill && !state.isDragging) {
           snapToNearestSlide();
         }
@@ -188,12 +199,17 @@ const Slider = () => {
 
       const isSlowEnough = state.velocity < 0.1;
       const hasBeenStillLongEnough = Date.now() - state.lastScrollTime > 200;
-      
+
       const wasMoving = state.isMoving;
       state.isMoving =
         state.hasActuallyDragged || !isSlowEnough || !hasBeenStillLongEnough;
 
-      if (wasMoving && !state.isMoving && !state.isDragging && isVerticalMobile) {
+      if (
+        wasMoving &&
+        !state.isMoving &&
+        !state.isDragging &&
+        isVerticalMobile
+      ) {
         checkAndInitiateSnap();
       }
     }
@@ -232,7 +248,7 @@ const Slider = () => {
       state.dragDistance = 0;
       state.hasActuallyDragged = false;
       state.lastScrollTime = Date.now();
-      
+
       if (state.snapTimeout) {
         clearTimeout(state.snapTimeout);
         state.snapTimeout = null;
@@ -271,7 +287,7 @@ const Slider = () => {
       state.dragDistance = 0;
       state.hasActuallyDragged = false;
       state.lastScrollTime = Date.now();
-      
+
       if (state.snapTimeout) {
         clearTimeout(state.snapTimeout);
         state.snapTimeout = null;
