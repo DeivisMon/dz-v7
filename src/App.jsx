@@ -6,8 +6,8 @@ import MobileWiper from "./components/layout/WiperMobile";
 import Loader from "./components/Loader";
 import Index from "./pages/Index";
 import Portfolio from "./pages/Portfolio";
+import AboutMe from "./pages/AboutMe";
 import Contact from "./pages/Contact";
-import { AboutMe } from "./pages/AboutMe";
 import CustomCursor from "./components/utils/CustomCursor";
 
 export default function App() {

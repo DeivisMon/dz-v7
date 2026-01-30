@@ -86,7 +86,7 @@ export default function NavBar() {
       >
         <div className="w-full flex justify-between items-center">
           {/* Logo */}
-          <div className={`logo ${responsive.isMobile ? "text-[20px]" : "text-[38px]"} h-full`}>
+          <div className={`logo text-[24px] xl:text-[38px]`}>
             {" "}
             <Link
               className="font-bold transition-all duration-500 ease-in-out"
@@ -100,7 +100,7 @@ export default function NavBar() {
                 duration={0.75}
                 delayChildren={1}
                 enableHover={false}
-                letterSpacing={`${responsive.isMobile ? "px-[8px]" : "px-[15px]"}`}
+                letterSpacing={`${responsive.isTablet || responsive.isMobile ? "px-[8px]" : "px-[10px]"}`}
                 key={location.pathname}
               />{" "}
             </Link>{" "}
@@ -109,7 +109,7 @@ export default function NavBar() {
           <div
             className={`${
               responsive.isMobile ? "hidden" : "flex"
-            } nav-links relative z-[1000] nav-item items-center gap-0 lg:gap-4 font-bold text-[20px] backdrop-blur upercase transition-all duration-500 ease-in-out`}
+            } nav-links relative z-[1000] nav-item items-center gap-0 lg:gap-4 font-bold text-[12px] lg:text-[14px] xl:text-[20px] backdrop-blur upercase transition-all duration-500 ease-in-out`}
           >
             {[
               { path: "/", label: "Index" },

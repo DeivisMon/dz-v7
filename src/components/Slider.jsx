@@ -58,10 +58,10 @@ const Slider = () => {
 
       if (isVerticalMobile) {
         slide.style.width = "97vw";
-        slide.style.height = "90vh";
+        slide.style.height = "90dvh";
       } else if (isHorizontalMobile) {
         slide.style.width = "175px";
-        slide.style.height = "80vh";
+        slide.style.height = "80dvh";
       }
 
       const imageContainer = document.createElement("div");

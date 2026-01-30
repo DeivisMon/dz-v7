@@ -1,13 +1,10 @@
 import AnimatedText from "../utils/AnimatedText";
 import Socials from "../utils/Socials";
-import { CgScrollH } from "react-icons/cg";
-import { useDeviceType } from "../hooks/useDeviceType";
 import { useLocation } from "react-router-dom";
 import { LuArrowBigLeftDash, LuArrowBigRightDash } from "react-icons/lu";
 
 
 export default function Footer() {
-  const { isMobile, isHorizontalMobile } = useDeviceType();
     const location = useLocation();
   
     const getPath = () => (
@@ -17,8 +14,6 @@ export default function Footer() {
   return (
     <div className="footer fixed bottom-1 w-full z-20 select-none hidden xl:block">
       <footer className="flex items-end justify-center md:justify-between text-white mix-blend-difference">
-        {!isMobile ? (
-          <>
             <div className="capitalize font-normal pl-4 whitespace-nowrap">
               Darius Žvinklys. &copy; {new Date().getFullYear()}
             </div>
@@ -28,15 +23,12 @@ export default function Footer() {
               <LuArrowBigRightDash />
             </span>
             <Socials />
-          </>
-        ) : (
-          <div
+          {/* <div
             className="relative z-10 capitalize font-normal whitespace-nowrap"
             style={{ paddingLeft: isHorizontalMobile ? "0.5rem" : "0" }}
           >
             Darius Žvinklys. &copy; {new Date().getFullYear()}
-          </div>
-        )}
+          </div> */}
       </footer>
     </div>
   );

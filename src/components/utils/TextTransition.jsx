@@ -11,6 +11,7 @@ export default function TextTransition() {
     "/": "Index",
     "/portfolio": "Darbai",
     "/kontaktai": "Kontaktai",
+    "/apie-mane": "Apie mane",
   };
 
   const getLabel = (pathname) => {
@@ -20,6 +21,7 @@ export default function TextTransition() {
   const getFontSize = (path) => {
     switch (path) {
       case "/kontaktai":
+      case "/apie-mane":
       case "/portfolio":
         return "text-[0.75rem] md:text-[2rem] xl:text-[3rem]";
       default:
