@@ -89,7 +89,7 @@ export default function SocialsContact() {
       className="social-icons flex flex-col justify-center space-y-4 md:space-y-16"
     >
       {/* Socials with underline hover */}
-      <div className="flex flex-col items-center py-4 md:border-b border-white/40">
+      <div className="flex flex-col items-center py-4 border-t md:border-b border-white/40">
         <h2 className="text-2xl sm:text-3xl lg:text-5xl font-bold tracking-[clamp(0.5em,calc(0.05em+0.3vw),0.35em)]">
           Let's Connect
         </h2>

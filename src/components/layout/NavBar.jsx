@@ -114,6 +114,7 @@ export default function NavBar() {
             {[
               { path: "/", label: "Index" },
               { path: "/portfolio", label: "Darbai" },
+              { path: "/apie-mane", label: "Apie mane" },
               { path: "/kontaktai", label: "Kontaktai" },
             ].map((item, i) => (
               <Link
@@ -174,6 +175,7 @@ export default function NavBar() {
           {[
             { path: "/", label: "Index" },
             { path: "/portfolio", label: "Darbai" },
+            { path: "/apie-mane", label: "Apie mane" },
             { path: "/kontaktai", label: "Kontaktai" },
           ].map((item, i) => (
             <Link

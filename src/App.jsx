@@ -7,6 +7,7 @@ import Loader from "./components/Loader";
 import Index from "./pages/Index";
 import Portfolio from "./pages/Portfolio";
 import Contact from "./pages/Contact";
+import { AboutMe } from "./pages/AboutMe";
 import CustomCursor from "./components/utils/CustomCursor";
 
 export default function App() {
@@ -42,6 +43,7 @@ export default function App() {
                   <Route path="/" element={<Index />} />
                   <Route path="/portfolio" element={<Portfolio />} />
                   <Route path="/kontaktai" element={<Contact />} />
+                  <Route path="/apie-mane" element={<AboutMe />} />
                 </Routes>
               </PageTransitions>
             </AnimatePresence>
@@ -50,6 +52,7 @@ export default function App() {
               <Route path="/" element={<Index />} />
               <Route path="/portfolio" element={<Portfolio />} />
               <Route path="/kontaktai" element={<Contact />} />
+              <Route path="/apie-mane" element={<AboutMe />} />
             </Routes>
           )}
 
