@@ -4,8 +4,8 @@ import SocialsContact from "./SocialsContact";
 import ChangeContactButton from "./ChangeContactButton";
 
 export default function ContactForm() {
-  const [isContactVisible, setIsContactVisible] = useState(true);
-  const [isFlipped, setIsFlipped] = useState(false);
+  const [showSocials, setShowSocials] = useState(true); // true = show socials, false = show form
+  const [isFlipped, setIsFlipped] = useState(false); // for success message flip
   const [buttonTransform, setButtonTransform] = useState({ x: 0, y: 0 });
   const buttonRef = useRef(null);
   const responsive = useResponsive();
@@ -49,29 +49,32 @@ export default function ContactForm() {
   // Determine layout direction based on screen
   const isVerticalLayout = responsive.isMobilePortrait || (responsive.isShortScreen && responsive.isMobile);
 
-  const getTransform = () => {
-    if (isContactVisible) return "translate(0, 0)";
+  const getImageTransform = () => {
+    // showSocials = true: image covering form (at bottom on mobile, left on desktop), socials visible
+    // showSocials = false: image slides to cover socials (to top on mobile, right on desktop), form visible
     
-    // If vertical layout (image on top), slide DOWN
-    if (isVerticalLayout) {
-      return "translateY(100%)";
+    if (showSocials) {
+      return "translate(0, 0)"; // Image covering form
     }
     
-    // If horizontal layout (image on left), slide RIGHT
-    return "translateX(100%)";
+    // Slide to cover socials instead
+    if (isVerticalLayout) {
+      return "translateY(-100%)"; // Slide up to cover socials (top half)
+    }
+    
+    return "translateX(100%)"; // Slide right to cover socials (right half)
   };
 
   const handleSend = () => {
-    setIsContactVisible(false);
-    setTimeout(() => setIsFlipped(false), 500);
+    setIsFlipped(true);
     setTimeout(() => {
-      setIsContactVisible(true);
+      setIsFlipped(false);
       setFormData({ name: '', email: '', phone: '', message: '' });
     }, 3000);
   };
 
-  const toggleCard = () => {
-    setIsFlipped(!isFlipped);
+  const toggleView = () => {
+    setShowSocials(!showSocials);
   };
 
   const handleInputChange = (field, value) => {
@@ -79,23 +82,15 @@ export default function ContactForm() {
   };
 
   return (
-    <div className="relative w-[100vw] h-[100vh] overflow-hidden shadow-xl bg-black text-white">
-      {/* Content Container - splits screen 50/50 */}
+    <div className="relative w-[100vw] h-[100dvh] overflow-hidden shadow-xl bg-black text-white">
+      {/* Content Container - positioned absolutely for proper 50/50 split */}
       <div 
-        className={`relative z-10 flex w-full h-full ${isVerticalLayout ? 'flex-col' : 'flex-row'}`}
+        className={`absolute inset-0 flex ${isVerticalLayout ? 'flex-col' : 'flex-row'}`}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
       >
-        {/* Image Container Success Message */}
-        <div className={`flex flex-col items-center justify-center bg-black ${isVerticalLayout ? 'h-1/2 w-full' : 'w-1/2 h-full'}`}>
-          <h2 className="font-bold mb-4 text-center text-2xl sm:text-3xl lg:text-4xl">
-            Message Sent
-          </h2>
-          <p className="text-lg sm:text-xl">Thank you! We'll be in touch soon.</p>
-        </div>
-
-        {/* Flip Card Container */}
-        <div className={`relative flex justify-center ${isVerticalLayout ? 'h-1/2 w-full' : 'w-1/2 h-full'} p-4 lg:p-8`}>
+        {/* Form Section (LEFT) with Flip Card for Success Message */}
+        <div className={`absolute ${isVerticalLayout ? 'top-1/2 left-0 w-full h-1/2' : 'left-0 top-0 w-1/2 h-full'} flex justify-center p-4 lg:p-8 z-10 bg-black`}>
           <div className="relative w-full h-full" style={{ perspective: '1000px' }}>
             <div
               className="relative w-full h-full transition-transform duration-700"
@@ -104,33 +99,12 @@ export default function ContactForm() {
                 transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)'
               }}
             >
-              {/* Front Side - Socials */}
-              <div
-                className="absolute inset-0 flex items-top justify-center"
-                style={{
-                  backfaceVisibility: 'hidden',
-                  WebkitBackfaceVisibility: 'hidden'
-                }}
-              >
-                <SocialsContact />
-                
-                <div className="fixed bottom-4 right-4 lg:bottom-8 lg:right-8 z-30">
-                  <ChangeContactButton 
-                    onClick={toggleCard} 
-                    buttonRef={buttonRef} 
-                    buttonTransform={buttonTransform} 
-                    text="Write Me" 
-                  />
-                </div>
-              </div>
-
-              {/* Back Side - Form */}
+              {/* Front Side - Form */}
               <div
                 className="absolute inset-0 flex items-center justify-center py-4 px-0 sm:px-8 lg:px-12"
                 style={{
                   backfaceVisibility: 'hidden',
-                  WebkitBackfaceVisibility: 'hidden',
-                  transform: 'rotateY(180deg)'
+                  WebkitBackfaceVisibility: 'hidden'
                 }}
               >
                 <div className="flex flex-col gap-3 lg:gap-4 w-full">
@@ -171,30 +145,61 @@ export default function ContactForm() {
                   >
                     Send
                   </button>
-
-                  <div className={` fixed bottom-4 left-4 lg:bottom-8 lg:left-8 z-30`}>
-                    <ChangeContactButton 
-                      onClick={toggleCard} 
-                      buttonRef={buttonRef} 
-                      buttonTransform={buttonTransform} 
-                      text="Socials" 
-                    />
-                  </div>
                 </div>
+              </div>
+
+              {/* Back Side - Success Message */}
+              <div
+                className="absolute inset-0 flex flex-col items-center justify-center"
+                style={{
+                  backfaceVisibility: 'hidden',
+                  WebkitBackfaceVisibility: 'hidden',
+                  transform: 'rotateY(180deg)'
+                }}
+              >
+                <h2 className="font-bold mb-4 text-center text-2xl sm:text-3xl lg:text-4xl">
+                  Message Sent
+                </h2>
+                <p className="text-lg sm:text-xl">Thank you! We'll be in touch soon.</p>
               </div>
             </div>
           </div>
         </div>
+
+        {/* Socials Section (RIGHT) */}
+        <div className={`absolute ${isVerticalLayout ? 'top-0 left-0 w-full h-1/2' : 'right-0 top-0 w-1/2 h-full'} flex justify-center items-top p-4 lg:p-8 z-10`}>
+          <SocialsContact />
+        </div>
       </div>
 
-      {/* Sliding Image - Overlays on top with z-20 */}
+      {/* Sliding Image Overlay - Controlled by ChangeContactButton - slides to reveal form */}
       <div
-        className={`absolute top-0 left-0 bg-cover bg-center bg-no-repeat transition-transform delay-300 duration-500 ease-out z-20 ${isVerticalLayout ? 'h-1/2 w-full' : 'w-1/2 h-full'}`}
+        className={`absolute transition-transform duration-500 ease-out z-20 ${isVerticalLayout ? 'h-1/2 w-full' : 'w-1/2 h-full'} bg-cover bg-center bg-no-repeat`}
         style={{
           backgroundImage: `url('${import.meta.env.BASE_URL}images/contact.jpg')`,
-          transform: getTransform(),
+          transform: getImageTransform(),
+          // Position image to cover form initially
+          top: isVerticalLayout ? '50%' : 0,
+          left: 0,
         }}
       />
+
+      {/* ChangeContactButton - Positioned at center between sections */}
+      <div 
+        className={`absolute z-30 ${
+          isVerticalLayout 
+            ? 'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2' 
+            : 'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'
+        }`}
+      >
+        <ChangeContactButton 
+          onClick={toggleView} 
+          buttonRef={buttonRef} 
+          buttonTransform={buttonTransform} 
+          currentText={showSocials ? "Write Me" : "Socials"}
+          nextText={showSocials ? "Socials" : "Write Me"}
+        />
+      </div>
     </div>
   );
 }

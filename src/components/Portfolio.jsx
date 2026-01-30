@@ -166,6 +166,12 @@ export default function PortfolioGallery() {
   const currentImageRef = useRef(null);
   const layoutIconsRef = useRef([]);
   const hasAnimatedIn = useRef(false);
+  
+  // Touch swipe state for lightbox
+  const touchStartX = useRef(0);
+  const touchStartY = useRef(0);
+  const touchEndX = useRef(0);
+  const touchEndY = useRef(0);
 
   // Initialize Lenis
   useEffect(() => {
@@ -296,6 +302,45 @@ export default function PortfolioGallery() {
         if (imgElement.complete) imgElement.onload();
       },
     });
+  };
+
+  // Touch swipe handlers for lightbox
+  const handleTouchStart = (e) => {
+    touchStartX.current = e.touches[0].clientX;
+    touchStartY.current = e.touches[0].clientY;
+  };
+
+  const handleTouchMove = (e) => {
+    touchEndX.current = e.touches[0].clientX;
+    touchEndY.current = e.touches[0].clientY;
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStartX.current || !touchEndX.current) return;
+    
+    const deltaX = touchStartX.current - touchEndX.current;
+    const deltaY = touchStartY.current - touchEndY.current;
+    const minSwipeDistance = 50;
+    
+    // Check if horizontal swipe is more significant than vertical
+    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > minSwipeDistance) {
+      if (deltaX > 0) {
+        // Swipe left - next image
+        navigateLightbox(1);
+      } else {
+        // Swipe right - previous image
+        navigateLightbox(-1);
+      }
+    } else if (Math.abs(deltaY) > minSwipeDistance && deltaY > 0) {
+      // Swipe up - close lightbox
+      closeLightbox();
+    }
+    
+    // Reset values
+    touchStartX.current = 0;
+    touchStartY.current = 0;
+    touchEndX.current = 0;
+    touchEndY.current = 0;
   };
 
   useEffect(() => {
@@ -708,6 +753,9 @@ export default function PortfolioGallery() {
           ref={lightboxRef}
           className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center pointer-events-auto"
           style={{ touchAction: "none", overscrollBehavior: "none" }}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
         >
           <div
             className="cursor-trigger absolute left-0 top-0 w-1/3 h-full z-10"
@@ -739,6 +787,21 @@ export default function PortfolioGallery() {
           <div className="absolute bottom-8 text-white text-lg mix-blend-difference pointer-events-none z-20">
             {lightboxIndex + 1} / {getFilteredItems().length}
           </div>
+          
+          {/* Visual swipe indicators for mobile */}
+          {/* {responsive.isMobile && (
+            <>
+              <div className="absolute left-4 top-1/2 -translate-y-1/2 text-white/50 text-sm pointer-events-none z-20">
+                ‹
+              </div>
+              <div className="absolute right-4 top-1/2 -translate-y-1/2 text-white/50 text-sm pointer-events-none z-20">
+                ›
+              </div>
+              <div className="absolute top-4 left-1/2 -translate-x-1/2 text-white/50 text-lg pointer-events-none z-20">
+                Swipe up to close
+              </div>
+            </>
+          )} */}
         </div>
       )}
 

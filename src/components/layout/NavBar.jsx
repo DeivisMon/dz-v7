@@ -100,7 +100,7 @@ export default function NavBar() {
                 duration={0.75}
                 delayChildren={1}
                 enableHover={false}
-                letterSpacing={`${responsive.isMobile ? "px-[8px]" : "px-[25px]"}`}
+                letterSpacing={`${responsive.isMobile ? "px-[8px]" : "px-[15px]"}`}
                 key={location.pathname}
               />{" "}
             </Link>{" "}

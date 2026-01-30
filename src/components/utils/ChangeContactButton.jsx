@@ -1,18 +1,35 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./contactButton.css";
 
 export default function ChangeContactButton({
   onClick,
   buttonRef,
   buttonTransform,
-  text,
+  currentText,
+  nextText,
 }) {
   const [isActive, setIsActive] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [displayText, setDisplayText] = useState(currentText);
+
+  // Update display text only after animation completes
+  useEffect(() => {
+    if (!isAnimating) {
+      setDisplayText(currentText);
+    }
+  }, [currentText, isAnimating]);
+
+  const handleClick = () => {
+    setIsAnimating(true);
+    onClick();
+    // Reset animation state after transition completes
+    setTimeout(() => setIsAnimating(false), 500);
+  };
 
   return (
     <button
       ref={buttonRef}
-      onClick={onClick}
+      onClick={handleClick}
       onMouseEnter={() => setIsActive(true)}
       onMouseLeave={() => setIsActive(false)}
       className="cursor-trigger cursor-pointer group relative w-16 h-16 xl:w-24 xl:h-24 rounded-full text-white text-[8px] md:text-xs xl:text-sm font-bold flex items-center justify-center transition-all duration-500 ease-out overflow-hidden"
@@ -27,7 +44,6 @@ export default function ChangeContactButton({
       <div className="absolute inset-0 m-auto w-[98%] h-[98%] rounded-full bg-gray-700 transition-all duration-300" />
       <div className="absolute inset-0 m-auto w-[90%] h-[90%] rounded-full border border-gray-200 group-hover:scale-[108%] transition-all duration-300" />
 
-
       {/* Rotating dots border */}
       <div className="absolute inset-[-4px] rounded-full overflow-hidden -z-10">
         <div
@@ -41,20 +57,42 @@ export default function ChangeContactButton({
         />
       </div>
 
-      {/* Text with gradient */}
-      <span
-        className="relative z-10 font-bold transition-all duration-500"
-        style={{
-          backgroundImage: isActive
-            ? "linear-gradient(90deg, hsla(0 0% 100% / 1) 0%, hsla(0 0% 100% / 0) 120%)"
-            : "linear-gradient(90deg, hsla(0 0% 100% / 1) 0%, hsla(0 0% 100% / 1) 120%)",
-          backgroundClip: "text",
-          WebkitBackgroundClip: "text",
-          color: "transparent",
-        }}
-      >
-        {text}
-      </span>
+      {/* Text Container with Slide Animation */}
+      <div className="relative z-10 w-full h-full flex items-center justify-center overflow-hidden">
+        {/* Current Text - Slides Down */}
+        <span
+          className="absolute font-bold transition-all duration-500 ease-in-out"
+          style={{
+            backgroundImage: isActive
+              ? "linear-gradient(90deg, hsla(0 0% 100% / 1) 0%, hsla(0 0% 100% / 0) 120%)"
+              : "linear-gradient(90deg, hsla(0 0% 100% / 1) 0%, hsla(0 0% 100% / 1) 120%)",
+            backgroundClip: "text",
+            WebkitBackfaceVisibility: "text",
+            color: "transparent",
+            transform: isAnimating ? "translateY(100%)" : "translateY(0)",
+            opacity: isAnimating ? 0 : 1,
+          }}
+        >
+          {displayText}
+        </span>
+
+        {/* Next Text - Slides Up from Top */}
+        <span
+          className="absolute font-bold transition-all duration-500 ease-in-out"
+          style={{
+            backgroundImage: isActive
+              ? "linear-gradient(90deg, hsla(0 0% 100% / 1) 0%, hsla(0 0% 100% / 0) 120%)"
+              : "linear-gradient(90deg, hsla(0 0% 100% / 1) 0%, hsla(0 0% 100% / 1) 120%)",
+            backgroundClip: "text",
+            WebkitBackfaceVisibility: "text",
+            color: "transparent",
+            transform: isAnimating ? "translateY(0)" : "translateY(-100%)",
+            opacity: isAnimating ? 1 : 0,
+          }}
+        >
+          {nextText}
+        </span>
+      </div>
     </button>
   );
 }
