@@ -673,7 +673,7 @@ export default function PortfolioGallery() {
           className="flex items-center gap-2"
         >
           {!mobileMenuOpen && (
-            <Motion.div initial={{ opacity: 0, x: 25 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 25 }} className="flex items-center justify-center font-bold text-pink-500 text-sm">
+            <Motion.div initial={{ opacity: 0, x: 25 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 25 }} className="flex items-center justify-center font-bold text-[#e08c8ce7] text-sm">
               {filters.find((f) => f.id === activeFilter)?.label}
             </Motion.div>
           )}
@@ -695,7 +695,7 @@ export default function PortfolioGallery() {
               onClick={() => handleFilterClick(filter.id)}
               className={`py-1 px-3 transition-colors ${
                 activeFilter === filter.id
-                  ? "text-pink-500"
+                  ? "text-[#e08c8ce7]"
                   : "text-white hover:bg-white/20"
               }`}
               style={{ opacity: 0 }}

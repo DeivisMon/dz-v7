@@ -14,10 +14,6 @@
 
 @import "tailwindcss";
 
-html {
-  scroll-behavior: smooth;
-}
-
 /* hide scrollbar for all browsers */
 html {
   overflow: -moz-scrollbar-none;
@@ -25,7 +21,13 @@ html {
   scrollbar-width: none;
   /* New Firefox */
   -ms-overflow-style: none;
-  /* IE & Edge */
+  scroll-behavior: smooth;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
+  overscroll-behavior: none;
 }
 
 html,
@@ -34,13 +36,9 @@ body {
   overscroll-behavior: none;
 }
 
-html::-webkit-scrollbar,
-body::-webkit-scrollbar {
-  display: none;
-}
 
 ::selection {
-  background: transparent;
+  background: white;
 }
 
 body {
@@ -54,17 +52,18 @@ body {
   /* font-family: 'Mories', sans-serif; */
   /* font-family: 'LT Binary Neue', sans-serif; */
   font-family: 'Syne', sans-serif;
+  /* font-family: 'Playfair Display',Georgia,serif; */
   /* font-family: 'Anton', sans-serif; */
   /* font-family: "Kudryashev Display Sans", sans-serif; */
   /* font-family: 'Poiret One', cursive; */
   background-color: rgb(0, 0, 0);
 }
 
-@media (pointer: coarse) {
+/* @media (pointer: coarse) {
   .custom-cursor {
     display: none !important;
   }
-}
+} */
 
 textarea {
   min-height: 50px;

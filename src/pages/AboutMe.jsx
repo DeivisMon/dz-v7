@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import NavBar from "../components/layout/NavBar";
 import Footer from "../components/layout/Footer";
 import WiperDesktop from "../components/layout/WiperDesktop";
+import About from "../components/AboutMeComponent";
 
 export default function AboutMe () {
   const [isTouchDevice, setIsTouchDevice] = useState(false);
@@ -13,10 +14,7 @@ export default function AboutMe () {
   return (
     <>
       <NavBar />
-
-      <div className="text-[50px] w-full h-[100dvh] flex justify-center items-center text-white">
-        <h1>Coming Soon</h1>
-      </div>
+      <About />
       <Footer />
       {!isTouchDevice ? <WiperDesktop /> : ""}
     </>

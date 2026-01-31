@@ -108,7 +108,7 @@ export default function ContactForm() {
                 }}
               >
                 <div className="flex flex-col gap-3 lg:gap-4 w-full">
-                  <h2 className="text-2xl sm:text-3xl lg:text-5xl font-bold text-center tracking-[clamp(0.5em,calc(0.05em+0.3vw),0.35em)] mb-2 lg:mb-4">
+                  <h2 className="text-2xl lg:text-5xl font-bold text-center tracking-[clamp(0.5em,calc(0.05em+0.3vw),0.35em)] lg:mb-2">
                     Contact Me
                   </h2>
                   <input

@@ -90,14 +90,14 @@ export default function SocialsContact() {
     >
       {/* Socials with underline hover */}
       <div className="flex flex-col items-center py-2 md:border-b border-white/40">
-        <h2 className="text-2xl sm:text-3xl lg:text-5xl font-bold tracking-[clamp(0.35em,calc(0.05em+0.3vw),0.25em)]">
+        <h2 className="text-2xl lg:text-4xl font-bold tracking-[clamp(0.35em,calc(0.05em+0.3vw),0.25em)]">
           Let's Connect
         </h2>
         <div className="flex flex-col items-center lg:items-start w-full min-w-0 ">
           {icons.map(({ id, label }) => (
             <div
               key={id}
-              className="cursor-trigger group relative w-full"
+              className="cursor-trigger group relative w-full px-8"
               data-cursor-type="link"
               onMouseEnter={() => setHoveredIcon(id)}
               onMouseLeave={() => setHoveredIcon(null)}
@@ -105,7 +105,7 @@ export default function SocialsContact() {
               <div className="flex items-center justify-between py-1 lg:py-4">
                 <Motion.div
                   variants={iconVariants}
-                  className="font-bold text-[clamp(1rem,calc(0.5rem+1vw),2.25rem)] tracking-[clamp(0.03em,0.25vw,0.2em)] relative"
+                  className="font-bold text-[clamp(1rem,calc(0.5rem+1vw),2.25rem)] tracking-[0.25em] relative"
                   aria-label={label}
                 >
                   <AnimatedText
@@ -121,7 +121,7 @@ export default function SocialsContact() {
 
                 {!responsive.isMobile && (
                   <span className="opacity-0 -rotate-180 translate-y-2 group-hover:translate-y-0 group-hover:opacity-100 group-hover:rotate-0 bg-gray-600/10 rounded-full transition-all duration-300 ease-in-out ">
-                    <MdArrowOutward className="w-6 h-6 lg:w-24 lg:h-24" color="#e08c8ce7" />
+                    <MdArrowOutward className="w-6 h-6 lg:w-12 lg:h-12" color="#e08c8ce7" />
                   </span>
                 )}
               </div>
@@ -139,13 +139,13 @@ export default function SocialsContact() {
         </div>
       </div>
 
-      <div className="hidden md:flex flex-col items-center">
-        <h2 className="text-2xl sm:text-3xl lg:text-5xl font-bold lg:mb-4">
+      <div className="flex flex-col items-center justify-center">
+        <h2 className="text-2xl lg:text-4xl font-bold lg:mb-4">
           Email
         </h2>
 
         {/* Email with underline hover */}
-        <div className="relative w-full max-w-xl">
+        <div className="relative">
           <div
             onClick={copy}
             onMouseEnter={() => setIsHoveringEmail(true)}
