@@ -9,6 +9,7 @@ import {
 } from "react-icons/tfi";
 import { galleryData } from "./galleryData";
 import { useResponsive } from "./hooks/useResopnsive";
+import { useDeviceType } from "./hooks/useDeviceType";
 import ScrollProgressBar from "./utils/ProgressBar";
 import ScrollTop from "./utils/ScrollTop";
 
@@ -155,6 +156,8 @@ export default function PortfolioGallery() {
   const [layoutMenuOpen, setLayoutMenuOpen] = useState(false);
   const [columnLayout, setColumnLayout] = useState(2);
   const responsive = useResponsive();
+  const { isMobile } = useDeviceType();
+
 
   const itemsRef = useRef(null);
   const lenisRef = useRef(null);
@@ -580,7 +583,7 @@ export default function PortfolioGallery() {
       {/* Desktop Filters */}
       <div
         className={`${
-          responsive.isMobile ? "hidden" : "flex"
+          isMobile ? "hidden" : "flex"
         } fixed top-0 right-0 w-1/2 h-screen flex-col justify-center items-end gap-8 z-10 mix-blend-difference pointer-events-none`}
       >
         {filters.map((filter, index) => (
@@ -597,9 +600,9 @@ export default function PortfolioGallery() {
       {/* Mobile Controls */}
       <div
         className={`${
-          responsive.isMobile ? "flex" : "hidden"
+          isMobile ? "flex" : "hidden"
         } ${
-          responsive.isPortrait? "top-10" : "top-12"
+          responsive.isPortrait? "top-10" : "top-8"
         } fixed  left-0 w-full z-[1000] bg-black items-center justify-between px-4`}
       >
         {/* Layout Controls - Left Side */}
@@ -608,7 +611,7 @@ export default function PortfolioGallery() {
           onClick={openLayoutMenu}
           className="flex gap-1 items-center"
         >
-          <button className="bg-black flex items-center justify-center text-white transition-colors hover:bg-white/20">
+          <button className="bg-black flex items-center justify-center text-white transition-colors">
             Layout
           </button>
           {!layoutMenuOpen && (
@@ -674,7 +677,7 @@ export default function PortfolioGallery() {
               {filters.find((f) => f.id === activeFilter)?.label}
             </Motion.div>
           )}
-          <button className="px-2 py-2 bg-black flex items-center justify-center text-white transition-colors hover:bg-white/20">
+          <button className="px-2 py-2 bg-black flex items-center justify-center text-white transition-colors">
             Filter
           </button>
         </div>

@@ -86,23 +86,23 @@ export default function SocialsContact() {
       initial="hidden"
       animate="show"
       exit="exit"
-      className="social-icons flex flex-col justify-center space-y-4 md:space-y-16"
+      className="social-icons w-full flex flex-col justify-center space-y-4 xl:space-y-16"
     >
       {/* Socials with underline hover */}
-      <div className="flex flex-col items-center py-4 border-t md:border-b border-white/40">
-        <h2 className="text-2xl sm:text-3xl lg:text-5xl font-bold tracking-[clamp(0.5em,calc(0.05em+0.3vw),0.35em)]">
+      <div className="flex flex-col items-center py-2 border-t md:border-b border-white/40">
+        <h2 className="text-2xl sm:text-3xl lg:text-5xl font-bold tracking-[clamp(0.35em,calc(0.05em+0.3vw),0.25em)]">
           Let's Connect
         </h2>
-        <div className="flex flex-col items-start w-full max-w-xl ">
+        <div className="flex flex-col items-center lg:items-start w-full max-w-xl ">
           {icons.map(({ id, label }) => (
             <div
               key={id}
-              className="cursor-trigger group relative w-full"
+              className="cursor-trigger group relative w-full px-4"
               data-cursor-type="link"
               onMouseEnter={() => setHoveredIcon(id)}
               onMouseLeave={() => setHoveredIcon(null)}
             >
-              <div className="flex items-center justify-between py-2 md:py-4">
+              <div className="flex items-center justify-between py-2 lg:py-4">
                 <Motion.div
                   variants={iconVariants}
                   className="font-bold text-[clamp(1rem,calc(0.5rem+1vw),4.25rem)] tracking-[clamp(0.5em,calc(0.05em+0.3vw),0.35em)] relative"

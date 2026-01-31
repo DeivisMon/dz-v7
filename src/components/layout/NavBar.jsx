@@ -3,6 +3,8 @@ import { useState, useRef, useEffect } from "react";
 import gsap from "gsap";
 import AnimatedText from "../utils/AnimatedText";
 import { useResponsive } from "../hooks/useResopnsive";
+// import { useDeviceType } from "./hooks/useDeviceType";
+
 
 export default function NavBar() {
   const location = useLocation();
@@ -11,6 +13,7 @@ export default function NavBar() {
   const overlayRef = useRef(null);
   const menuLinksRef = useRef([]);
   const responsive = useResponsive();
+  // const { isMobile } = useDeviceType();
 
   const isActive = (path) => location.pathname === path;
 
@@ -81,8 +84,8 @@ export default function NavBar() {
         className={`${getNabarBackground(
           location.pathname
         )} navbar fixed z-[150] ${
-          responsive.isMobile ? "" : "-top-3"
-        } left-0 w-full flex px-2 py-2 md:px-4 m-0 transition-all duration-700 ease-in-out select-none `}
+          responsive.isMobile ? "" : "-top-2"
+        } left-0 w-full flex px-2 py-1 md:py-2 xl:py-2 xl:px-4 m-0 transition-all duration-700 ease-in-out select-none `}
       >
         <div className="w-full flex justify-between items-center">
           {/* Logo */}
@@ -120,7 +123,7 @@ export default function NavBar() {
               <Link
                 key={item.path}
                 className={`cursor-trigger flex justify-center items-center p-1 cursor-none ${
-                  !isActive(item.path) ? "opacity-95 font-normal" : "opacity-100 font-bold"
+                  !isActive(item.path) ? "opacity-80 font-normal" : "opacity-100 font-bold "
                 }`}
                 data-cursor-type="link"
                 to={item.path}
@@ -129,7 +132,7 @@ export default function NavBar() {
                   text={item.label}
                   textColor="text-white"
                   duration={0.3 + i * 0.1}
-                  letterSpacing="px-[2px]"
+                  letterSpacing="px-[1px]"
                   key={location.pathname}
                 />
               </Link>

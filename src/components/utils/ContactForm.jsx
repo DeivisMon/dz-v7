@@ -90,7 +90,7 @@ export default function ContactForm() {
         onMouseLeave={handleMouseLeave}
       >
         {/* Form Section (LEFT) with Flip Card for Success Message */}
-        <div className={`absolute ${isVerticalLayout ? 'top-1/2 left-0 w-full h-1/2' : 'left-0 top-0 w-1/2 h-full'} flex justify-center p-4 lg:p-8 z-10 bg-black`}>
+        <div className={`absolute ${isVerticalLayout ? 'top-1/2 left-0 w-full h-1/2' : 'left-0 top-0 w-1/2 h-full'} flex justify-center px-2 z-10`}>
           <div className="relative w-full h-full" style={{ perspective: '1000px' }}>
             <div
               className="relative w-full h-full transition-transform duration-700"
@@ -101,7 +101,7 @@ export default function ContactForm() {
             >
               {/* Front Side - Form */}
               <div
-                className="absolute inset-0 flex items-center justify-center py-4 px-0 sm:px-8 lg:px-12"
+                className="absolute inset-0 flex items-center justify-center py-4 px-0 sm:px-8 lg:px-18"
                 style={{
                   backfaceVisibility: 'hidden',
                   WebkitBackfaceVisibility: 'hidden'
@@ -139,7 +139,7 @@ export default function ContactForm() {
                     onChange={(e) => handleInputChange('message', e.target.value)}
                   />
                   <button
-                    className="bg-gray-500 text-white font-bold py-1 md:py-3 hover:bg-gray-200 hover:text-gray-900 transition duration-300 ease-in-out mt-2"
+                    className="bg-gray-500 text-white font-bold py-1 md:py-3 hover:bg-gray-200 hover:text-gray-900 transition duration-300 ease-in-out mt-1"
                     type="button"
                     onClick={handleSend}
                   >
@@ -167,7 +167,7 @@ export default function ContactForm() {
         </div>
 
         {/* Socials Section (RIGHT) */}
-        <div className={`absolute ${isVerticalLayout ? 'top-0 left-0 w-full h-1/2' : 'right-0 top-0 w-1/2 h-full'} flex justify-center items-top p-4 lg:p-8 z-10`}>
+        <div className={`absolute ${isVerticalLayout ? 'top-0 left-0 w-full h-1/2' : 'right-0 top-0 w-1/2 h-full'} flex justify-center px-2 z-10`}>
           <SocialsContact />
         </div>
       </div>
