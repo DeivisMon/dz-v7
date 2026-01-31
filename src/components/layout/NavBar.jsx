@@ -85,11 +85,11 @@ export default function NavBar() {
           location.pathname
         )} navbar fixed z-[150] ${
           responsive.isMobile ? "" : "-top-2"
-        } left-0 w-full flex px-2 py-1 md:py-2 xl:py-2 xl:px-4 m-0 transition-all duration-700 ease-in-out select-none `}
+        } left-0 w-full flex items-start px-2 py-1 md:py-2 xl:py-2 xl:px-4 m-0 transition-all duration-700 ease-in-out select-none `}
       >
         <div className="w-full flex justify-between items-center">
           {/* Logo */}
-          <div className={`logo text-[24px] xl:text-[38px]`}>
+          <div className={`logo text-[24px] xl:text-[32px]`}>
             {" "}
             <Link
               className="font-bold transition-all duration-500 ease-in-out"
