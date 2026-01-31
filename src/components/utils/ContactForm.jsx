@@ -30,7 +30,7 @@ export default function ContactForm() {
     const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
     
     const maxDistance = 150;
-    const maxMove = 25;
+    const maxMove = 75;
     
     if (distance < maxDistance) {
       const strength = 1 - (distance / maxDistance);
@@ -70,7 +70,7 @@ export default function ContactForm() {
     setTimeout(() => {
       setIsFlipped(false);
       setFormData({ name: '', email: '', phone: '', message: '' });
-    }, 3000);
+    }, 2000);
   };
 
   const toggleView = () => {
@@ -90,7 +90,7 @@ export default function ContactForm() {
         onMouseLeave={handleMouseLeave}
       >
         {/* Form Section (LEFT) with Flip Card for Success Message */}
-        <div className={`absolute ${isVerticalLayout ? 'top-1/2 left-0 w-full h-1/2' : 'left-0 top-0 w-1/2 h-full'} flex justify-center px-2 z-10`}>
+        <div className={`absolute ${isVerticalLayout ? 'top-1/2 left-0 w-full h-1/2' : 'left-0 top-0 w-1/2 h-full'} flex justify-center px-2 z-10 px-0 sm:px-8 lg:px-18`}>
           <div className="relative w-full h-full" style={{ perspective: '1000px' }}>
             <div
               className="relative w-full h-full transition-transform duration-700"
@@ -101,7 +101,7 @@ export default function ContactForm() {
             >
               {/* Front Side - Form */}
               <div
-                className="absolute inset-0 flex items-center justify-center py-4 px-0 sm:px-8 lg:px-18"
+                className="absolute inset-0 flex items-center justify-center py-4"
                 style={{
                   backfaceVisibility: 'hidden',
                   WebkitBackfaceVisibility: 'hidden'
@@ -167,7 +167,7 @@ export default function ContactForm() {
         </div>
 
         {/* Socials Section (RIGHT) */}
-        <div className={`absolute ${isVerticalLayout ? 'top-0 left-0 w-full h-1/2' : 'right-0 top-0 w-1/2 h-full'} flex justify-center px-2 z-10`}>
+        <div className={`absolute ${isVerticalLayout ? 'top-0 left-0 w-full h-1/2' : 'right-0 top-0 w-1/2 h-full'} flex justify-center px-2 z-10 px-0 sm:px-12 lg:px-18`}>
           <SocialsContact />
         </div>
       </div>

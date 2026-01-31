@@ -1,7 +1,6 @@
 import { easeInOut, motion as Motion } from "framer-motion";
 import TextTransition from "../utils/TextTransition";
 export default function PageTransitions({ children }) {
-
   const Animate = (variants) => {
     return {
       initial: "initial",
@@ -41,13 +40,21 @@ export default function PageTransitions({ children }) {
     },
   };
 
+  // const endBlack = {
+  //   initial: { scaleY: 1 },
+  //   animate: {
+  //     scaleY: 0,
+  //     transition: { delay: 1.5, duration: 0.5, ease: "easeInOut" },
+  //   },
+  // };
+
   return (
     <div className="bg-black/85 overflow-hidden">
       <Motion.div
         {...Animate(slide)}
         className="fixed top-0 left-0 bg-black min-w-full z-1 min-h-screen"
       >
-       <TextTransition />
+        <TextTransition />
       </Motion.div>
       <Motion.div {...Animate(zoomOut)} className="relative min-h-screen">
         <Motion.div
@@ -57,6 +64,10 @@ export default function PageTransitions({ children }) {
           {children}
         </Motion.div>
       </Motion.div>
+      {/* <Motion.div
+        {...Animate(endBlack)}
+        className="fixed inset-0 bg-black z-[999999] origin-top pointer-events-none"
+      /> */}
     </div>
   );
 }

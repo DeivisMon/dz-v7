@@ -26,7 +26,7 @@ export function useResponsive() {
 
   // Breakpoint logic
   const isMobile = viewport.width < 768;
-  const isTablet = viewport.width >= 768 && viewport.width < 1024;
+  const isTablet = viewport.width >= 768 && viewport.width < 1369;
   const isDesktop = viewport.width >= 1024;
   const isLandscape = viewport.width > viewport.height;
   const isPortrait = viewport.height > viewport.width;

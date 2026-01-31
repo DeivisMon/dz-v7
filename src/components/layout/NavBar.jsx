@@ -111,11 +111,11 @@ export default function NavBar() {
           {/* Desktop Navigation */}
           <div
             className={`${
-              responsive.isMobile ? "hidden" : "flex"
+              responsive.isMobile || responsive.isTablet ? "hidden" : "flex"
             } nav-links relative z-[1000] nav-item items-center gap-0 lg:gap-4 font-bold text-[12px] lg:text-[14px] xl:text-[20px] backdrop-blur upercase transition-all duration-500 ease-in-out`}
           >
             {[
-              { path: "/", label: "Index" },
+              { path: "/", label: "Pradžia" },
               { path: "/portfolio", label: "Darbai" },
               { path: "/apie-mane", label: "Apie mane" },
               { path: "/kontaktai", label: "Kontaktai" },
@@ -145,7 +145,7 @@ export default function NavBar() {
       <button
         onClick={toggleMenu}
         className={`${
-          !responsive.isMobile ? "hidden" : "flex"
+          !responsive.isMobile && !responsive.isTablet ? "hidden" : "flex"
         } fixed right-2 z-[2000] w-10 h-10  flex-col justify-center items-center gap-1.5 mix-blend-difference`}
         aria-label="Toggle menu"
       >
@@ -170,13 +170,13 @@ export default function NavBar() {
       <div
         ref={overlayRef}
         className={`${
-          !responsive.isMobile ? "hidden" : "flex"
+          !responsive.isMobile && !responsive.isTablet ? "hidden" : "flex"
         } fixed top-0 left-0 w-full h-screen bg-black z-[1500] flex-col justify-center items-center`}
         style={{ clipPath: "circle(0% at 100% 0%)" }}
       >
         <nav className="flex flex-col gap-8 text-center">
           {[
-            { path: "/", label: "Index" },
+            { path: "/", label: "Pradžia" },
             { path: "/portfolio", label: "Darbai" },
             { path: "/apie-mane", label: "Apie mane" },
             { path: "/kontaktai", label: "Kontaktai" },

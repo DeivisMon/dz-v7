@@ -14,8 +14,8 @@ export default function AboutMe () {
     <>
       <NavBar />
 
-      <div className="text-[50px] w-full h-full flex justify-center items-center text-white">
-        AboutMe
+      <div className="text-[50px] w-full h-[100dvh] flex justify-center items-center text-white">
+        <h1>Coming Soon</h1>
       </div>
       <Footer />
       {!isTouchDevice ? <WiperDesktop /> : ""}

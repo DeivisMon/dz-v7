@@ -8,7 +8,7 @@ export default function TextTransition() {
   const text2Ref = useRef(null);
 
   const ROUTE_LABELS = {
-    "/": "Index",
+    "/": "Pradžia",
     "/portfolio": "Darbai",
     "/kontaktai": "Kontaktai",
     "/apie-mane": "Apie mane",

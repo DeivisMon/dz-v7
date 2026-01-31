@@ -10,10 +10,11 @@ export const useDeviceType = () => {
 
   useEffect(() => {
     const checkDevice = () => {
-      const isPortrait = window.innerHeight > window.innerWidth;
-      const isSmallScreen = window.innerWidth < 768;
-      const isVerticalMobile = isPortrait && isSmallScreen;
-      const isHorizontalMobile = window.innerHeight < 500 && !isVerticalMobile;
+      const isTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+      const isPortrait = window.innerHeight > window.innerWidth && isTouch;
+      const isSmallScreen = window.innerWidth < 768 && isTouch;
+      const isVerticalMobile = isPortrait && isSmallScreen  && isTouch;
+      const isHorizontalMobile = window.innerHeight < 500 && !isVerticalMobile && isTouch;
       
       setDeviceType({
         isVerticalMobile,
