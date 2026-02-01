@@ -91,7 +91,7 @@ export default function SocialsContact() {
       {/* Socials with underline hover */}
       <div className="flex flex-col items-center py-2 md:border-b border-white/40">
         <h2 className="text-2xl lg:text-4xl font-bold tracking-[clamp(0.35em,calc(0.05em+0.3vw),0.25em)]">
-          Let's Connect
+          Susisiekime
         </h2>
         <div className="flex flex-col items-center lg:items-start w-full min-w-0 ">
           {icons.map(({ id, label }) => (
@@ -166,12 +166,12 @@ export default function SocialsContact() {
             </span>
             {/* Tooltip */}
             {isHoveringEmail && !copied && (
-              <span className="absolute left-1/2 -translate-x-1/2 -top-6 mt-2 rounded bg-gray-600/25 px-2 py-1 text-xs text-[#e95c5ce7] whitespace-nowrap tracking-[1px]">
+              <span className="absolute -right-5 -translate-x-1/2 -top-2 rounded bg-gray-600/25 px-2 py-1 text-xs text-[#e95c5ce7] whitespace-nowrap tracking-[1px]">
                 Copy
               </span>
             )}
             {copied && (
-              <span className="absolute left-1/2 -translate-x-1/2 -top-6 mt-2 rounded bg-gray-600/25 px-2 py-1 text-xs text-[#e95c5ce7] whitespace-nowrap tracking-[1px]">
+              <span className="absolute -right-5 -translate-x-1/2 -top-2 rounded bg-gray-600/25 px-2 py-1 text-xs text-[#e95c5ce7] whitespace-nowrap tracking-[1px]">
                 Copied!
               </span>
             )}

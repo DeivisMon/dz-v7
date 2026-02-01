@@ -8,7 +8,7 @@ const images = items.map((item, i) => ({
   alt: `gallery image ${i + 1}`,
 }));
 
-const words = ["Sviesą.", "Spalvas.", "Istorijas.", "Emocijas.", "Momentus."];
+const words = ["Šviesą", "Spalvas", "Istorijas", "Emocijas", "Momentus"];
 
 /* ── animated cycling word ── */
 function AnimatedWord() {
@@ -31,18 +31,17 @@ function AnimatedWord() {
   }, [phase]);
 
   return (
-    <span style={{ display: "inline-block" }}>
+    <span className="inline-block">
       <span
+        className="inline-block font-bold italic uppercase transition-all text-[#e08c8ce7] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
         style={{
-          display: "inline-block",
-          fontStyle: "italic",
           opacity: phase === "in" ? 1 : 0,
-          transform: phase === "in" ? "translateY(0)" : "translateY(-5px) scale(0.975) rotateX(-60deg)",
+          transform:
+            phase === "in"
+              ? "translateY(0)"
+              : "translateY(-5px) scale(0.975) rotateX(-60deg)",
           filter: phase === "in" ? "blur(0)" : "blur(5px)",
-          transition: "all 0.75s cubic-bezier(0.22,1,0.36,1)",
-          textTransform: "uppercase",
         }}
-        className="font-bold"
       >
         {words[index]}
       </span>
@@ -52,31 +51,19 @@ function AnimatedWord() {
 
 /* ── single marquee image tile ── */
 function MarqueeImage({ src, alt }) {
-  const [h, setH] = useState(false);
   return (
-    <div
-      style={{
-        width: 260,
-        height: 172,
-        flexShrink: 0,
-      }}
-      onMouseEnter={() => setH(true)}
-      onMouseLeave={() => setH(false)}
-    >
+    <div className="w-[200px] h-[144px] md:w-[260px] md:h-[172px] shrink-0 overflow-hidden group">
       <img
         src={src}
         alt={alt}
-        style={{
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-          objectPosition: "top",
-          opacity: h ? 1 : 0.68,
-          transform: h ? "scale(1.07)" : "scale(1)",
-          transition:
-            "opacity .4s ease, transform .5s cubic-bezier(0.22,1,0.36,1)",
-          pointerEvents: "none",
-        }}
+        className="
+          w-full h-full object-cover object-top pointer-events-none
+          opacity-70 scale-100
+          transition-all duration-500
+          ease-[cubic-bezier(0.22,1,0.36,1)]
+          group-hover:opacity-100
+          group-hover:scale-[1.07]
+        "
       />
     </div>
   );
@@ -84,31 +71,35 @@ function MarqueeImage({ src, alt }) {
 
 /* ── infinite marquee row ── */
 function MarqueeRow({ dir = 1, dur = 42 }) {
-  // triple the array so seamless loop
   const items = [...images, ...images, ...images];
-  const itemW = 260,
-    gap = 14;
-  const segW = images.length * (itemW + gap); // one full segment width
-
+  const itemW = 260;
+  const gap = 14;
+  const segW = images.length * (itemW + gap);
   const name = dir > 0 ? "mL" : "mR";
 
   return (
     <>
       <style>{`
-        @keyframes mL { from { transform: translateX(0) } to { transform: translateX(-${segW}px) } }
-        @keyframes mR { from { transform: translateX(-${segW}px) } to { transform: translateX(0) } }
+        @keyframes mL {
+          from { transform: translateX(0) }
+          to { transform: translateX(-${segW}px) }
+        }
+        @keyframes mR {
+          from { transform: translateX(-${segW}px) }
+          to { transform: translateX(0) }
+        }
       `}</style>
-      <div style={{ overflow: "hidden", width: "100%" }}>
+
+      <div className="overflow-hidden w-full">
         <div
+          className="flex gap-[14px]"
           style={{
-            display: "flex",
-            gap: `${gap}px`,
-            width: `${items.length * (itemW + gap)}px`,
+            width: items.length * (itemW + gap),
             animation: `${name} ${dur}s linear infinite`,
           }}
         >
           {items.map((img, i) => (
-            <MarqueeImage key={i} src={img.src} alt={img.alt} />
+            <MarqueeImage key={i} {...img} />
           ))}
         </div>
       </div>
@@ -119,176 +110,128 @@ function MarqueeRow({ dir = 1, dur = 42 }) {
 /* ── main page ── */
 export default function About() {
   const [on, setOn] = useState(false);
+
   useEffect(() => {
     const t = setTimeout(() => setOn(true), 50);
     return () => clearTimeout(t);
   }, []);
 
-  const f = (d) => ({
+  const fadeUp = (d) => ({
     opacity: on ? 1 : 0,
     transform: on ? "translateY(0)" : "translateY(20px)",
-    transition: `opacity .85s cubic-bezier(0.22,1,0.36,1) ${d}s, transform .85s cubic-bezier(0.22,1,0.36,1) ${d}s`,
+    transition: `opacity .85s cubic-bezier(0.22,1,0.36,1) ${d}s,
+                 transform .85s cubic-bezier(0.22,1,0.36,1) ${d}s`,
+  });
+
+  const fadeMarquee = (d) => ({
+    opacity: on ? 1 : 0,
+    transform: on ? "translateX(0)" : "translateX(-80px)",
+    transition: `opacity .85s cubic-bezier(0.22,1,0.36,1) ${d}s,
+                 transform .85s cubic-bezier(0.22,1,0.36,1) ${d}s`,
   });
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        color: "#e8e0d4",
-      }}
-    >
+    <div className="h-[100dvh] flex flex-col text-[#e8e0d4]">
       {/* ambient glow */}
       <div
+        className="
+          fixed top-[5%] left-1/2 -translate-x-1/2
+          w-[880px] h-[880px] rounded-[20%]
+          pointer-events-none blur-[72px]
+        "
         style={{
-          position: "fixed",
-          top: "5%",
-          left: "50%",
-          transform: "translateX(-50%)",
-          width: 880,
-          height: 880,
-          borderRadius: "20%",
-          pointerEvents: "none",
           background:
             "radial-gradient(circle, rgba(201,169,110,0.05) 0%, transparent 68%)",
-          filter: "blur(72px)",
         }}
       />
 
       {/* center content */}
-      <div
-        style={{
-          flex: 1,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          padding: "0 20px 44px",
-          position: "relative",
-          zIndex: 10,
-        }}
-      >
+      <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-5 pb-2">
         {/* word line */}
         <div
-          style={{
-            ...f(0.68),
-            marginBottom: 34,
-            fontSize: "clamp(1.45rem,3.6vw,2.5rem)",
-            fontWeight: 300,
-            letterSpacing: "0.1em",
-            width: "100%",
-            textAlign: "center",
-          }}
-          className="font-bold"
+          style={fadeUp(0.68)}
+          className="
+            mb-3 md:mb-7 flex items-center font-medium tracking-[0.1em]
+            text-[clamp(1.25rem,2.5vw,2.5rem)]
+          "
         >
-          Raskime Jusu
-          <span
-            style={{
-              display: "block",
-              // width: "10ch", 
-            }}
-          >
+          Įamžinkime Jūsų&nbsp;
+          <span className="block w-[10ch]">
             <AnimatedWord />
           </span>
         </div>
 
         {/* bio */}
         <p
-          style={{
-            ...f(0.82),
-            textAlign: "center",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            maxWidth: 610,
-            margin: 0,
-            color: "#564e44",
-            fontSize: "1.3rem",
-            lineHeight: 1.95,
-            fontWeight: 300,
-          }}
+          style={fadeUp(0.82)}
+          className="
+            max-w-[610px] text-center text-white/80
+            leading-[1.95] font-extralight  md:text-xl text-md
+            flex flex-col items-center
+          "
         >
           Sveiki as Darius, fotografas is Klaipedos, susitelkęs į atmosferą,
           žmogaus buvimą ir ramias akimirkas. Tyrinėjantis šviesą, tekstūrą ir
           judėjimą per vaizdinį pasakojimą.
-          {/* gold rule */}
+
           <span
-            style={{
-              marginTop: 34,
-              height: 1,
-              background: "#564e44",
-              width: on ? "80%" : 0,
-              transition: "width 1.1s cubic-bezier(0.22,1,0.36,1) 1.25s",
-            }}
+            className="mt-2 md:mt-8 h-px bg-[#564e44] transition-all duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)]"
+            style={{ width: on ? "80%" : 0 }}
           />
         </p>
 
         {/* stats */}
-        <div style={{ ...f(1.4), display: "flex", gap: 44, marginTop: 26 }}>
+        <div
+          style={fadeUp(1.4)}
+          className="mt-2 md:mt-6 flex gap-8"
+        >
           {[
             ["5+", "Metai patirties"],
             ["100000+", "Nuotraukų"],
             ["200+", "Laimingų Klientų"],
           ].map(([v, l]) => (
-            <div key={l} style={{ textAlign: "center" }}>
-              <div
-                style={{
-                  fontSize: "2rem",
-                  color: "#a0a0a0",
-                  fontWeight: 300,
-                  letterSpacing: "0.04em",
-                }}
-              >
+            <div key={l} className="text-center">
+              <div className="text-2xl md:text-4xl font-light text-[#e08c8ce7] tracking-wide">
                 {v}
               </div>
-              <div
-                style={{
-                  fontSize: "1rem",
-                  color: "#564e44",
-                  textTransform: "uppercase",
-                  letterSpacing: "0.24em",
-                  marginTop: 5,
-                }}
-              >
+              <div className="mt-1 text-xs md:text-nd uppercase tracking-[0.24em] text-gray-500">
                 {l}
               </div>
             </div>
           ))}
         </div>
+
+        {/* categories */}
+        <div className="flex flex-col items-center">
+          <span
+            className="mt-4 md:mt-8 h-px bg-[#564e44] transition-all duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)]"
+            style={{ width: on ? "80%" : 0 }}
+          />
+
+          <div
+            style={fadeUp(1.4)}
+            className="mt-4 md:mt-14 flex flex-col items-center md:flex-row gap-2 md:gap-8"
+          >
+            {[
+              "Fotosesijos",
+              "Renginiai",
+              "Sporto varžybos",
+              "Komercinė fotografija",
+              "Kraštovaizdžiai",
+            ].map((l) => (
+              <div key={l} className="text-sm md:text-md uppercase tracking-[0.24em] text-gray-500">
+                {l}
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
 
       {/* marquee */}
-      <div
-        style={{
-          width: "100%",
-          position: "relative",
-          zIndex: 10,
-          paddingBottom: 28,
-          paddingTop: 6,
-        }}
-      >
+      <div style={fadeMarquee(.25)} className="relative z-10 w-full md:pb-6">
         {/* edge fades */}
-        <div
-          style={{
-            position: "absolute",
-            inset: "0 auto 0 0",
-            width: 88,
-            background: "linear-gradient(to right,#00000,transparent)",
-            zIndex: 2,
-            pointerEvents: "none",
-          }}
-        />
-        <div
-          style={{
-            position: "absolute",
-            inset: "0 0 0 auto",
-            width: 88,
-            background: "linear-gradient(to left,#0e0e0e,transparent)",
-            zIndex: 2,
-            pointerEvents: "none",
-          }}
-        />
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-[88px] bg-gradient-to-r from-black to-transparent z-20" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-[88px] bg-gradient-to-l from-[#0e0e0e] to-transparent z-20" />
 
         <MarqueeRow dir={1} dur={124} />
       </div>

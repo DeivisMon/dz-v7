@@ -109,7 +109,7 @@ export default function ContactForm() {
               >
                 <div className="flex flex-col gap-3 lg:gap-4 w-full">
                   <h2 className="text-2xl lg:text-5xl font-bold text-center tracking-[clamp(0.5em,calc(0.05em+0.3vw),0.35em)] lg:mb-2">
-                    Contact Me
+                    Parašyk man
                   </h2>
                   <input
                     className="p-1 md:p-3 border-b border-white/40 focus:outline-none focus:border-white/80 bg-transparent text-white text-base lg:text-lg placeholder-gray-400 transition-colors"
@@ -196,8 +196,8 @@ export default function ContactForm() {
           onClick={toggleView} 
           buttonRef={buttonRef} 
           buttonTransform={buttonTransform} 
-          currentText={showSocials ? "Write Me" : "Socials"}
-          nextText={showSocials ? "Socials" : "Write Me"}
+          currentText={showSocials ? "Parašyk" : "Susisiek"}
+          nextText={showSocials ? "Susisiek" : "Parašyk"}
         />
       </div>
     </div>
