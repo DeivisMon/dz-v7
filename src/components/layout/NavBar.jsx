@@ -123,14 +123,14 @@ export default function NavBar() {
               <Link
                 key={item.path}
                 className={`cursor-trigger flex justify-center items-center p-1 cursor-none ${
-                  !isActive(item.path) ? "opacity-80 font-normal" : "opacity-100 font-bold "
+                  !isActive(item.path) ? "opacity-80 font-normal text-white" : "opacity-100 text-[#e08c8ce7] font-bold "
                 }`}
                 data-cursor-type="link"
                 to={item.path}
               >
                 <AnimatedText
                   text={item.label}
-                  textColor="text-white"
+                  // textColor="text-white"
                   duration={0.3 + i * 0.1}
                   letterSpacing="px-[1px]"
                   key={location.pathname}

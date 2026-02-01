@@ -21,7 +21,7 @@ export default function WiperDesktop() {
       width: "100vw",
       height: `${height}px`,
       background: "#000",
-      zIndex: "99999",
+      zIndex: "999",
       transformOrigin: "top",
       pointerEvents: "none",
       willChange: "transform",

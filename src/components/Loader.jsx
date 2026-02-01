@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
+import SvgCamera from "./utils/SvgCamera";
 
 const base = import.meta.env.BASE_URL;
 
@@ -54,6 +55,7 @@ export default function Loader({ onComplete }) {
   const timelineRef = useRef(null);
   const numberRef = useRef(null);
   const circleRef = useRef(null);
+  const cameraRef = useRef(null);
   const counterContainerRef = useRef(null);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -83,6 +85,7 @@ export default function Loader({ onComplete }) {
     NUMBER_SEQUENCE.forEach((num, i) => {
       const progress = num / 100;
       // Animate number
+
       tl.to(numberRef.current, {
         opacity: 0.5,
         innerText: num,
@@ -113,10 +116,17 @@ export default function Loader({ onComplete }) {
 
     tl.to(counterContainerRef.current, {
       opacity: 0,
-      duration: 0.8,
+      duration: 1,
       scale: 0.8,
       ease: "expo.in",
     }, "-=0.1");
+
+    tl.to(cameraRef.current, {
+      opacity: 0,
+      duration: 1,
+      scale: 0.8,
+      ease: "expo.in",
+    }, "<");
 
     // =============
     // IMAGE GRID ANIMATION 
@@ -242,6 +252,9 @@ export default function Loader({ onComplete }) {
           </div>
         </div>
       </div>
+      <span ref={cameraRef} id="camera" className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-160 h-160">
+        <SvgCamera />
+      </span>
 
       {/* 🖼️ Image Grid (behind counter initially) */}
       <div className="grid-container fixed w-full h-full flex gap-[0.2em]">
