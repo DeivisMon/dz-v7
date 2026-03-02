@@ -4,8 +4,8 @@ import SocialsContact from "./SocialsContact";
 import ChangeContactButton from "./ChangeContactButton";
 
 export default function ContactForm() {
-  const [showSocials, setShowSocials] = useState(true); // true = show socials, false = show form
-  const [isFlipped, setIsFlipped] = useState(false); // for success message flip
+  const [showSocials, setShowSocials] = useState(true);
+  const [isFlipped, setIsFlipped] = useState(false); 
   const [buttonTransform, setButtonTransform] = useState({ x: 0, y: 0 });
   const buttonRef = useRef(null);
   const responsive = useResponsive();
@@ -46,23 +46,17 @@ export default function ContactForm() {
     setButtonTransform({ x: 0, y: 0 });
   };
 
-  // Determine layout direction based on screen
   const isVerticalLayout = responsive.isMobilePortrait || (responsive.isShortScreen && responsive.isMobile);
 
   const getImageTransform = () => {
-    // showSocials = true: image covering form (at bottom on mobile, left on desktop), socials visible
-    // showSocials = false: image slides to cover socials (to top on mobile, right on desktop), form visible
-    
     if (showSocials) {
-      return "translate(0, 0)"; // Image covering form
+      return "translate(0, 0)"; 
     }
-    
-    // Slide to cover socials instead
     if (isVerticalLayout) {
-      return "translateY(-100%)"; // Slide up to cover socials (top half)
+      return "translateY(-100%)"; 
     }
     
-    return "translateX(100%)"; // Slide right to cover socials (right half)
+    return "translateX(100%)"; 
   };
 
   const handleSend = () => {
@@ -101,38 +95,38 @@ export default function ContactForm() {
             >
               {/* Front Side - Form */}
               <div
-                className="absolute inset-0 flex items-center justify-center py-4"
+                className="absolute inset-0 flex items-center justify-center pt-4"
                 style={{
                   backfaceVisibility: 'hidden',
                   WebkitBackfaceVisibility: 'hidden'
                 }}
               >
                 <div className="flex flex-col gap-3 lg:gap-4 w-full">
-                  <h2 className="text-2xl lg:text-5xl font-bold text-center tracking-[clamp(0.5em,calc(0.05em+0.3vw),0.35em)] lg:mb-2">
+                  <h2 className="text-md lg:text-5xl font-bold text-center tracking-[clamp(0.5em,calc(0.05em+0.3vw),0.35em)] lg:mb-2">
                     Parašyk man
                   </h2>
                   <input
-                    className="p-1 md:p-3 border-b border-white/40 focus:outline-none focus:border-white/80 bg-transparent text-white text-base lg:text-lg placeholder-gray-400 transition-colors"
+                    className="p-1 md:p-3 border-b border-white/40 focus:outline-none focus:border-white/80 bg-transparent text-white text-sm lg:text-lg placeholder-gray-400 transition-colors"
                     placeholder="Name"
                     value={formData.name}
                     onChange={(e) => handleInputChange('name', e.target.value)}
                   />
                   <input
-                    className="p-1 md:p-3 border-b border-white/40 focus:outline-none focus:border-white/80 bg-transparent text-white text-base lg:text-lg placeholder-gray-400 transition-colors"
+                    className="p-1 md:p-3 border-b border-white/40 focus:outline-none focus:border-white/80 bg-transparent text-white text-sm lg:text-lg placeholder-gray-400 transition-colors"
                     type="email"
                     placeholder="Your email"
                     value={formData.email}
                     onChange={(e) => handleInputChange('email', e.target.value)}
                   />
                   <input
-                    className="p-1 md:p-3 border-b border-white/40 focus:outline-none focus:border-white/80 bg-transparent text-white text-base lg:text-lg placeholder-gray-400 transition-colors"
+                    className="p-1 md:p-3 border-b border-white/40 focus:outline-none focus:border-white/80 bg-transparent text-white text-sm lg:text-lg placeholder-gray-400 transition-colors"
                     type="tel"
                     placeholder="Your Phone"
                     value={formData.phone}
                     onChange={(e) => handleInputChange('phone', e.target.value)}
                   />
                   <textarea
-                    className="p-1 md:p-3 border-b border-white/40 focus:outline-none focus:border-white/80 bg-transparent text-white text-base lg:text-lg placeholder-gray-400 resize-none transition-colors"
+                    className="p-1 md:p-3 border-b border-white/40 focus:outline-none focus:border-white/80 bg-transparent text-white text-sm lg:text-lg placeholder-gray-400 resize-none transition-colors"
                     placeholder="Your message"
                     rows={responsive.isShortScreen ? "1" : "2"}
                     value={formData.message}
@@ -157,10 +151,10 @@ export default function ContactForm() {
                   transform: 'rotateY(180deg)'
                 }}
               >
-                <h2 className="font-bold mb-4 text-center text-2xl sm:text-3xl lg:text-4xl">
+                <h2 className="font-bold mb-4 text-center text-xl sm:text-3xl lg:text-4xl">
                   Message Sent
                 </h2>
-                <p className="text-lg sm:text-xl">Thank you! We'll be in touch soon.</p>
+                <p className="text-md sm:text-xl">Thank you! We'll be in touch soon.</p>
               </div>
             </div>
           </div>

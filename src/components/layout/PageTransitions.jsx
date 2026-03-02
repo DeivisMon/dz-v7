@@ -49,17 +49,17 @@ export default function PageTransitions({ children }) {
   // };
 
   return (
-    <div className="bg-black/85 overflow-hidden">
+    <div className="bg-bckg/85 overflow-hidden">
       <Motion.div
         {...Animate(slide)}
-        className="fixed top-0 left-0 bg-black min-w-full z-1 min-h-screen"
+        className="fixed top-0 left-0 bg-bckg min-w-full z-1 min-h-screen"
       >
         <TextTransition />
       </Motion.div>
       <Motion.div {...Animate(zoomOut)} className="relative min-h-screen">
         <Motion.div
           {...Animate(oppacity)}
-          className="relative flex items-center justify-center bg-black min-h-screen"
+          className="relative flex items-center justify-center bg-bckg min-h-screen"
         >
           {children}
         </Motion.div>

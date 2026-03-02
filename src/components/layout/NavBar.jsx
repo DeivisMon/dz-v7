@@ -89,7 +89,7 @@ export default function NavBar() {
       >
         <div className="w-full flex justify-between items-center">
           {/* Logo */}
-          <div className={`logo text-[24px] xl:text-[32px]`}>
+          <div className={`logo text-[24px] xl:text-[42px]`}>
             {" "}
             <Link
               className="font-bold transition-all duration-500 ease-in-out"

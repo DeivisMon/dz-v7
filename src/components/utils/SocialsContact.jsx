@@ -86,11 +86,11 @@ export default function SocialsContact() {
       initial="hidden"
       animate="show"
       exit="exit"
-      className="social-icons w-full flex flex-col justify-center space-y-4 xl:space-y-16"
+      className="social-icons w-full flex flex-col justify-center space-y-0 xl:space-y-16"
     >
       {/* Socials with underline hover */}
       <div className="flex flex-col items-center py-2 md:border-b border-white/40">
-        <h2 className="text-2xl lg:text-4xl font-bold tracking-[clamp(0.35em,calc(0.05em+0.3vw),0.25em)]">
+        <h2 className="text-md lg:text-5xl font-bold tracking-[clamp(0.35em,calc(0.05em+0.3vw),0.25em)]">
           Susisiekime
         </h2>
         <div className="flex flex-col items-center lg:items-start w-full min-w-0 ">
@@ -105,7 +105,7 @@ export default function SocialsContact() {
               <div className="flex items-center justify-between py-1 lg:py-4">
                 <Motion.div
                   variants={iconVariants}
-                  className="font-bold text-[clamp(1rem,calc(0.5rem+1vw),2.25rem)] tracking-[0.25em] relative"
+                  className="font-bold text-sm lg:text-2xl tracking-[0.25em] relative"
                   aria-label={label}
                 >
                   <AnimatedText
@@ -121,28 +121,31 @@ export default function SocialsContact() {
 
                 {!responsive.isMobile && (
                   <span className="opacity-0 -rotate-180 translate-y-2 group-hover:translate-y-0 group-hover:opacity-100 group-hover:rotate-0 bg-gray-600/10 rounded-full transition-all duration-300 ease-in-out ">
-                    <MdArrowOutward className="w-6 h-6 lg:w-12 lg:h-12" color="#e08c8ce7" />
+                    <MdArrowOutward
+                      className="w-6 h-6 lg:w-12 lg:h-12"
+                      color="#e08c8ce7"
+                    />
                   </span>
                 )}
               </div>
 
               {/* Underline for Social Icons */}
-              <Motion.div
-                className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-[#e08c8ce7] to-transparent origin-left"
-                variants={underlineVariants}
-                initial="initial"
-                animate={hoveredIcon === id ? "hover" : "initial"}
-                whileHover="hover"
-              />
+              {!responsive.isMobile && (
+                <Motion.div
+                  className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-[#e08c8ce7] to-transparent origin-left"
+                  variants={underlineVariants}
+                  initial="initial"
+                  animate={hoveredIcon === id ? "hover" : "initial"}
+                  whileHover="hover"
+                />
+              )}
             </div>
           ))}
         </div>
       </div>
 
       <div className="flex flex-col items-center justify-center">
-        <h2 className="text-2xl lg:text-4xl font-bold lg:mb-4">
-          Email
-        </h2>
+        <h2 className="text-md lg:text-5xl font-bold lg:mb-4">Email</h2>
 
         {/* Email with underline hover */}
         <div className="relative">
