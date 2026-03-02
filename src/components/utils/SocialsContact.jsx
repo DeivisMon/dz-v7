@@ -164,17 +164,17 @@ export default function SocialsContact() {
               enableHover={false}
               key={location.pathname}
             />
-            <span className="inline-block ml-2 align-middle">
+            <span className="inline-block ml-2 text-accent align-middle">
               <PiCopy />
             </span>
             {/* Tooltip */}
             {isHoveringEmail && !copied && (
-              <span className="absolute -right-5 -translate-x-1/2 -top-2 rounded bg-gray-600/25 px-2 py-1 text-xs text-[#e95c5ce7] whitespace-nowrap tracking-[1px]">
+              <span className="absolute -right-5 -translate-x-1/2 -top-2 rounded bg-gray-600/25 px-2 py-1 text-xs text-muted whitespace-nowrap tracking-[1px]">
                 Copy
               </span>
             )}
             {copied && (
-              <span className="absolute -right-5 -translate-x-1/2 -top-2 rounded bg-gray-600/25 px-2 py-1 text-xs text-[#e95c5ce7] whitespace-nowrap tracking-[1px]">
+              <span className="absolute -right-5 -translate-x-1/2 -top-2 rounded bg-gray-600/25 px-2 py-1 text-xs text-muted whitespace-nowrap tracking-[1px]">
                 Copied!
               </span>
             )}
@@ -182,7 +182,7 @@ export default function SocialsContact() {
 
           {/* Underline for email */}
           <Motion.div
-            className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-[#e08c8ce7] to-transparent origin-left"
+            className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-[#A67C52] to-transparent origin-left"
             variants={emailUnderlineVariants}
             initial="initial"
             animate={isHoveringEmail ? "hover" : "initial"}

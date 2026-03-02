@@ -1,5 +1,5 @@
 import { easeInOut, motion as Motion } from "framer-motion";
-import TextTransition from "../utils/TextTransition";
+import TextTransition from "./TextTransition";
 export default function PageTransitions({ children }) {
   const Animate = (variants) => {
     return {

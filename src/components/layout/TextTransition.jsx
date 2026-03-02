@@ -83,7 +83,7 @@ export default function TextTransition() {
         ref={text2Ref}
         className={`fixed z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 ${getFontSize(
           location.pathname
-        )} uppercase font-bold text-shadow-lg text-white mix-blend-difference blur-[0.5px]`}
+        )} uppercase font-bold text-shadow-lg text-accent mix-blend-difference blur-[0.5px]`}
       >
         {getLabel(location.pathname)}
       </p>
