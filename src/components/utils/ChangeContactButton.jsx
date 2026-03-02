@@ -12,7 +12,6 @@ export default function ChangeContactButton({
   const [isAnimating, setIsAnimating] = useState(false);
   const [displayText, setDisplayText] = useState(currentText);
 
-  // Update display text only after animation completes
   useEffect(() => {
     if (!isAnimating) {
       setDisplayText(currentText);
@@ -22,7 +21,6 @@ export default function ChangeContactButton({
   const handleClick = () => {
     setIsAnimating(true);
     onClick();
-    // Reset animation state after transition completes
     setTimeout(() => setIsAnimating(false), 500);
   };
 
@@ -32,7 +30,7 @@ export default function ChangeContactButton({
       onClick={handleClick}
       onMouseEnter={() => setIsActive(true)}
       onMouseLeave={() => setIsActive(false)}
-      className="cursor-trigger cursor-pointer group relative w-16 h-16 xl:w-24 xl:h-24 rounded-full text-white text-[8px] md:text-xs xl:text-sm font-bold flex items-center justify-center transition-all duration-500 ease-out overflow-hidden"
+      className="cursor-trigger cursor-pointer group relative w-16 h-16 xl:w-24 xl:h-24 rounded-full text-[8px] md:text-xs xl:text-sm font-bold flex items-center justify-center transition-all duration-500 ease-out overflow-hidden"
       type="button"
       style={{
         transform: `translate(${buttonTransform.x}px, ${
@@ -58,7 +56,7 @@ export default function ChangeContactButton({
       </div>
 
       {/* Text Container with Slide Animation */}
-      <div className="relative z-10 w-full h-full flex items-center justify-center overflow-hidden">
+      <div className="relative z-10 w-full h-full flex items-center  text-accent justify-center overflow-hidden">
         {/* Current Text - Slides Down */}
         <span
           className="absolute font-bold transition-all duration-500 ease-in-out"
@@ -68,7 +66,6 @@ export default function ChangeContactButton({
               : "linear-gradient(90deg, hsla(0 0% 100% / 1) 0%, hsla(0 0% 100% / 1) 120%)",
             backgroundClip: "text",
             WebkitBackfaceVisibility: "text",
-            color: "transparent",
             transform: isAnimating ? "translateY(100%)" : "translateY(0)",
             opacity: isAnimating ? 0 : 1,
           }}
@@ -85,7 +82,6 @@ export default function ChangeContactButton({
               : "linear-gradient(90deg, hsla(0 0% 100% / 1) 0%, hsla(0 0% 100% / 1) 120%)",
             backgroundClip: "text",
             WebkitBackfaceVisibility: "text",
-            color: "transparent",
             transform: isAnimating ? "translateY(0)" : "translateY(-100%)",
             opacity: isAnimating ? 1 : 0,
           }}

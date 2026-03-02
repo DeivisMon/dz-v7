@@ -8,7 +8,7 @@ const images = items.map((item, i) => ({
   alt: `gallery image ${i + 1}`,
 }));
 
-const words = ["Šviesą", "Spalvas", "Istorijas", "Emocijas", "Momentus"];
+const words = ["Šviesą", "Spalvas", "Istorijas", "Emocijas", "Momentą"];
 
 /* ── animated cycling word ── */
 function AnimatedWord() {
@@ -33,7 +33,7 @@ function AnimatedWord() {
   return (
     <span className="inline-block">
       <span
-        className="inline-block font-bold italic uppercase transition-all text-[#e08c8ce7] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
+        className="inline-block font-bold italic uppercase transition-all text-accent duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
         style={{
           opacity: phase === "in" ? 1 : 0,
           transform:
@@ -52,7 +52,7 @@ function AnimatedWord() {
 /* ── single marquee image tile ── */
 function MarqueeImage({ src, alt }) {
   return (
-    <div className="w-[200px] h-[144px] md:w-[260px] md:h-[172px] shrink-0 overflow-hidden group">
+    <div className="w-[170px] h-[112px] md:w-[260px] md:h-[172px] shrink-0 overflow-hidden group">
       <img
         src={src}
         alt={alt}
@@ -92,7 +92,7 @@ function MarqueeRow({ dir = 1, dur = 42 }) {
 
       <div className="overflow-hidden w-full">
         <div
-          className="flex gap-[14px]"
+          className="flex gap-[4px] xl:gap-[14px]"
           style={{
             width: items.length * (itemW + gap),
             animation: `${name} ${dur}s linear infinite`,
@@ -131,9 +131,9 @@ export default function About() {
   });
 
   return (
-    <div className="h-[100dvh] flex flex-col text-[#e8e0d4]">
+    <div className="h-[100dvh] flex flex-col bg-bckg text-text">
       {/* ambient glow */}
-      <div
+      {/* <div
         className="
           fixed top-[5%] left-1/2 -translate-x-1/2
           w-[880px] h-[880px] rounded-[20%]
@@ -141,9 +141,9 @@ export default function About() {
         "
         style={{
           background:
-            "radial-gradient(circle, rgba(201,169,110,0.05) 0%, transparent 68%)",
+            "radial-gradient(circle, rgba(166,124,82,0.06) 0%, transparent 68%)",
         }}
-      />
+      /> */}
 
       {/* center content */}
       <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-5 pb-2">
@@ -165,7 +165,7 @@ export default function About() {
         <p
           style={fadeUp(0.82)}
           className="
-            max-w-[610px] text-center text-white/80
+            max-w-[610px] text-center text-muted
             leading-[1.95] font-extralight  md:text-xl text-md
             flex flex-col items-center
           "
@@ -175,7 +175,7 @@ export default function About() {
           judėjimą per vaizdinį pasakojimą.
 
           <span
-            className="mt-2 md:mt-8 h-px bg-[#564e44] transition-all duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)]"
+            className="mt-2 md:mt-8 h-px bg-border transition-all duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)]"
             style={{ width: on ? "80%" : 0 }}
           />
         </p>
@@ -191,10 +191,10 @@ export default function About() {
             ["200+", "Laimingų Klientų"],
           ].map(([v, l]) => (
             <div key={l} className="text-center">
-              <div className="text-2xl md:text-4xl font-light text-[#e08c8ce7] tracking-wide">
+              <div className="text-xl md:text-4xl font-light text-accent tracking-wide">
                 {v}
               </div>
-              <div className="mt-1 text-xs md:text-nd uppercase tracking-[0.24em] text-gray-500">
+              <div className="mt-1 text-[0.5rem] md:text-nd uppercase tracking-[0.24em] text-muted">
                 {l}
               </div>
             </div>
@@ -204,7 +204,7 @@ export default function About() {
         {/* categories */}
         <div className="flex flex-col items-center">
           <span
-            className="mt-4 md:mt-8 h-px bg-[#564e44] transition-all duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)]"
+            className="mt-4 md:mt-8 h-px bg-border transition-all duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)]"
             style={{ width: on ? "80%" : 0 }}
           />
 
@@ -219,7 +219,7 @@ export default function About() {
               "Komercinė fotografija",
               "Kraštovaizdžiai",
             ].map((l) => (
-              <div key={l} className="text-sm md:text-md uppercase tracking-[0.24em] text-gray-500">
+              <div key={l} className="text-xs md:text-md uppercase tracking-[0.24em] text-text">
                 {l}
               </div>
             ))}

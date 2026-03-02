@@ -76,7 +76,7 @@ export default function ContactForm() {
   };
 
   return (
-    <div className="relative w-[100vw] h-[100dvh] overflow-hidden shadow-xl bg-black text-white">
+    <div className="relative w-[100vw] h-[100dvh] overflow-hidden shadow-xl bg-bckg">
       {/* Content Container - positioned absolutely for proper 50/50 split */}
       <div 
         className={`absolute inset-0 flex ${isVerticalLayout ? 'flex-col' : 'flex-row'}`}
@@ -102,7 +102,7 @@ export default function ContactForm() {
                 }}
               >
                 <div className="flex flex-col gap-3 lg:gap-4 w-full">
-                  <h2 className="text-md lg:text-5xl font-bold text-center tracking-[clamp(0.5em,calc(0.05em+0.3vw),0.35em)] lg:mb-2">
+                  <h2 className="text-md lg:text-5xl font-bold text-center tracking-[clamp(0.5em,calc(0.05em+0.3vw),0.35em)] lg:mb-2 text-header">
                     Parašyk man
                   </h2>
                   <input

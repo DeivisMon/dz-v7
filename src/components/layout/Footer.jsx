@@ -17,7 +17,7 @@ export default function Footer() {
 
   return (
     <div className="footer fixed bottom-0 w-full z-20 select-none">
-      <footer className="flex items-end justify-between text-white mix-blend-difference">
+      <footer className="flex items-end justify-between text-accent mix-blend-difference">
         {responsive.isDesktop ?  <div className="capitalize font-normal pl-4 whitespace-nowrap">
               Žvinklys. &copy; {new Date().getFullYear()}
             </div> : null}

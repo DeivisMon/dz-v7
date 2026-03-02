@@ -123,7 +123,7 @@ export default function NavBar() {
               <Link
                 key={item.path}
                 className={`cursor-trigger flex justify-center items-center p-1 cursor-none ${
-                  !isActive(item.path) ? "opacity-80 font-normal text-white" : "opacity-100 text-[#e08c8ce7] font-bold "
+                  !isActive(item.path) ? "opacity-80 font-normal text-muted" : "opacity-100 text-accent font-bold italic"
                 }`}
                 data-cursor-type="link"
                 to={item.path}
@@ -171,7 +171,7 @@ export default function NavBar() {
         ref={overlayRef}
         className={`${
           !responsive.isMobile && !responsive.isTablet ? "hidden" : "flex"
-        } fixed top-0 left-0 w-full h-screen bg-black z-[1500] flex-col justify-center items-center`}
+        } fixed top-0 left-0 w-full h-[100dvh] bg-black z-[1500] flex-col justify-center items-center`}
         style={{ clipPath: "circle(0% at 100% 0%)" }}
       >
         <nav className="flex flex-col gap-8 text-center">
