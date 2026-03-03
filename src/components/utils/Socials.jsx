@@ -42,7 +42,7 @@ export default function Socials() {
       initial="hidden"
       animate="show"
       exit="exit"
-      className="social-icons relative hidden lg:flex items-end gap-6 mix-blend-difference"
+      className="social-icons relative hidden text-accent lg:flex items-end gap-6 mix-blend-difference"
     >
       {icons.map(({ id, label }) => (
         <div

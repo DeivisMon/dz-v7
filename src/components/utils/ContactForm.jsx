@@ -106,34 +106,34 @@ export default function ContactForm() {
                     Parašyk man
                   </h2>
                   <input
-                    className="p-1 md:p-3 border-b border-white/40 focus:outline-none focus:border-white/80 bg-transparent text-white text-sm lg:text-lg placeholder-gray-400 transition-colors"
+                    className="p-1 md:p-3 border-b border-white/40 focus:outline-none focus:border-white/80 bg-transparent text-muted text-sm lg:text-lg placeholder-text transition-colors"
                     placeholder="Name"
                     value={formData.name}
                     onChange={(e) => handleInputChange('name', e.target.value)}
                   />
                   <input
-                    className="p-1 md:p-3 border-b border-white/40 focus:outline-none focus:border-white/80 bg-transparent text-white text-sm lg:text-lg placeholder-gray-400 transition-colors"
+                    className="p-1 md:p-3 border-b border-white/40 focus:outline-none focus:border-white/80 bg-transparent text-muted text-sm lg:text-lg placeholder-text transition-colors"
                     type="email"
                     placeholder="Your email"
                     value={formData.email}
                     onChange={(e) => handleInputChange('email', e.target.value)}
                   />
                   <input
-                    className="p-1 md:p-3 border-b border-white/40 focus:outline-none focus:border-white/80 bg-transparent text-white text-sm lg:text-lg placeholder-gray-400 transition-colors"
+                    className="p-1 md:p-3 border-b border-white/40 focus:outline-none focus:border-white/80 bg-transparent text-muted text-sm lg:text-lg placeholder-text transition-colors"
                     type="tel"
                     placeholder="Your Phone"
                     value={formData.phone}
                     onChange={(e) => handleInputChange('phone', e.target.value)}
                   />
                   <textarea
-                    className="p-1 md:p-3 border-b border-white/40 focus:outline-none focus:border-white/80 bg-transparent text-white text-sm lg:text-lg placeholder-gray-400 resize-none transition-colors"
+                    className="p-1 md:p-3 border-b border-white/40 focus:outline-none focus:border-white/80 bg-transparent text-muted text-sm lg:text-lg placeholder-text resize-none transition-colors"
                     placeholder="Your message"
                     rows={responsive.isShortScreen ? "1" : "2"}
                     value={formData.message}
                     onChange={(e) => handleInputChange('message', e.target.value)}
                   />
                   <button
-                    className="bg-gray-500 text-white font-bold py-1 md:py-3 hover:bg-gray-200 hover:text-gray-900 transition duration-300 ease-in-out mt-1"
+                    className="bg-gray-500 text-text font-bold py-1 md:py-3 hover:bg-gray-200 hover:text-gray-900 transition duration-300 ease-in-out mt-1"
                     type="button"
                     onClick={handleSend}
                   >
@@ -144,7 +144,7 @@ export default function ContactForm() {
 
               {/* Back Side - Success Message */}
               <div
-                className="absolute inset-0 flex flex-col items-center justify-center"
+                className="absolute inset-0 text-text flex flex-col items-center justify-center"
                 style={{
                   backfaceVisibility: 'hidden',
                   WebkitBackfaceVisibility: 'hidden',
