@@ -99,7 +99,7 @@ export default function NavBar() {
               {" "}
               <AnimatedText
                 text="Žvinklys"
-                textColor="text-white"
+                textColor="text-header"
                 duration={0.75}
                 delayChildren={1}
                 enableHover={false}

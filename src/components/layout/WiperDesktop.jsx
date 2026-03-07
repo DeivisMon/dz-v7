@@ -20,7 +20,7 @@ export default function WiperDesktop() {
       top: "0",
       width: "100vw",
       height: `${height}px`,
-      background: "#000",
+      // background: "#000",
       zIndex: "999",
       transformOrigin: "top",
       pointerEvents: "none",
@@ -40,5 +40,5 @@ export default function WiperDesktop() {
     });
   }, []);
 
-  return <div ref={wipeRef} />;
+  return <div ref={wipeRef} className="bg-bckg" />;
 }
