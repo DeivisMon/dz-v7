@@ -86,11 +86,11 @@ export default function SocialsContact() {
       initial="hidden"
       animate="show"
       exit="exit"
-      className="social-icons w-full flex flex-col justify-center space-y-0 xl:space-y-16"
+      className="social-icons w-4/5 flex flex-col justify-center space-y-0 xl:space-y-16"
     >
       {/* Socials with underline hover */}
       <div className="flex flex-col items-center py-2 md:border-b border-white/40">
-        <h2 className="text-md lg:text-5xl font-bold tracking-[clamp(0.35em,calc(0.05em+0.3vw),0.25em)] text-header">
+        <h2 className="text-md lg:text-4xl font-bold tracking-[clamp(0.35em,calc(0.05em+0.3vw),0.25em)] text-header">
           Susisiekime
         </h2>
         <div className="flex flex-col items-center lg:items-start w-full min-w-0 ">
@@ -145,7 +145,7 @@ export default function SocialsContact() {
       </div>
 
       <div className="flex flex-col items-center justify-center">
-        <h2 className="text-md lg:text-5xl font-bold lg:mb-4 text-header">Email</h2>
+        <h2 className="text-md lg:text-4xl font-bold lg:mb-4 text-header">Email</h2>
 
         {/* Email with underline hover */}
         <div className="relative">
@@ -153,7 +153,7 @@ export default function SocialsContact() {
             onClick={copy}
             onMouseEnter={() => setIsHoveringEmail(true)}
             onMouseLeave={() => setIsHoveringEmail(false)}
-            className="cursor-trigger cursor-pointer relative text-gray-500 text-[clamp(1rem,calc(0.5rem+1vw),2.25rem)] tracking-[clamp(0.15em,0.6vw,0.4em)] py-2 md:py-4"
+            className="cursor-trigger cursor-pointer relative text-gray-500 text-sm lg:text-2xl tracking-[clamp(0.15em,0.6vw,0.4em)] py-2 md:py-4"
           >
             <AnimatedText
               text="zvinklys@zvinklys.com"

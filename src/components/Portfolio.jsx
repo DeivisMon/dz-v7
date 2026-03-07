@@ -117,7 +117,7 @@ const FilterButton = ({ filter, isActive, onClick, index }) => {
       <span
         key={i}
         className={`relative inline-block uppercase font-black transition-colors duration-300 ${
-          isActive ? "text-gray-500 border-gray-600 border-b" : "text-white"
+          isActive ? "text-accent border-gray-600 border-b" : "text-text"
         }`}
       >
         {char}
@@ -133,13 +133,13 @@ const FilterButton = ({ filter, isActive, onClick, index }) => {
       onClick={onClick}
     >
       <h1 ref={h1Ref} className={`inline-block uppercase font-black ${
-    isActive ? "border-b border-gray-600" : ""
+    isActive ? "border-b border-border" : ""
   }`}>
         {renderTitle(filter.label)}
       </h1>
       <p
         ref={counterRef}
-        className="absolute -right-2 top-[108px] transform -translate-y-1/2 px-2 text-xl font-medium text-white tracking-[0.8em] pointer-events-none"
+        className="absolute -right-2 top-[108px] transform -translate-y-1/2 px-2 text-xl font-medium text-muted tracking-[0.8em] pointer-events-none"
       >
         ({filter.count})
       </p>

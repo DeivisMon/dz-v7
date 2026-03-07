@@ -101,8 +101,8 @@ export default function ContactForm() {
                   WebkitBackfaceVisibility: 'hidden'
                 }}
               >
-                <div className="flex flex-col gap-3 lg:gap-4 w-full">
-                  <h2 className="text-md lg:text-5xl font-bold text-center tracking-[clamp(0.5em,calc(0.05em+0.3vw),0.35em)] lg:mb-2 text-header">
+                <div className="flex flex-col gap-3 lg:gap-4 w-3/4">
+                  <h2 className="text-md lg:text-3xl font-bold text-center tracking-[clamp(0.5em,calc(0.05em+0.3vw),0.35em)] lg:mb-2 text-header">
                     Parašyk man
                   </h2>
                   <input
