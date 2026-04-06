@@ -84,10 +84,10 @@ export default function ContactForm() {
         onMouseLeave={handleMouseLeave}
       >
         {/* Form Section (LEFT) with Flip Card for Success Message */}
-        <div className={`absolute ${isVerticalLayout ? 'top-1/2 left-0 w-full h-1/2' : 'left-0 top-0 w-1/2 h-full'} flex justify-center px-2 z-10 px-0 sm:px-8 lg:px-18`}>
+        <div className={`absolute ${isVerticalLayout ? 'top-1/2 left-0 w-full h-1/2' : 'left-0 top-0 w-1/2 h-full'} flex py-32 justify-center px-2 z-10 sm:px-8 lg:px-18`}>
           <div className="relative w-full h-full" style={{ perspective: '1000px' }}>
             <div
-              className="relative w-full h-full transition-transform duration-700"
+              className="w-full h-full transition-transform duration-700"
               style={{
                 transformStyle: 'preserve-3d',
                 transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)'
@@ -95,7 +95,7 @@ export default function ContactForm() {
             >
               {/* Front Side - Form */}
               <div
-                className="absolute inset-0 flex items-center justify-center pt-4"
+                className="absolute inset-0 flex items-center justify-center bg-black "
                 style={{
                   backfaceVisibility: 'hidden',
                   WebkitBackfaceVisibility: 'hidden'
@@ -144,7 +144,7 @@ export default function ContactForm() {
 
               {/* Back Side - Success Message */}
               <div
-                className="absolute inset-0 text-text flex flex-col items-center justify-center"
+                className="absolute inset-0 text-text flex flex-col items-center justify-center bg-black"
                 style={{
                   backfaceVisibility: 'hidden',
                   WebkitBackfaceVisibility: 'hidden',

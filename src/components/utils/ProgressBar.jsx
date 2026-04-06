@@ -39,21 +39,21 @@ const ScrollProgressBar = ({
   const positionClass = position === "top" ? "top-0" : "bottom-0";
 
   return (
-    <div className={`fixed ${positionClass} left-0 w-full flex flex-col items-center`}>
+    <div className={`fixed ${positionClass} left-0 w-full flex flex-col items-center mix-blend-difference`}>
       {/* Percentage */}
       {showPercentage && (
         <div
           className="pointer-events-none -mb-3 relative z-50"
-          style={{ opacity: active ? 1 : 0, transform: `translateY(${active ? 0 : 10}px)`, transition: 'opacity 0.2s, transform 0.25s' }}
+          style={{ transform: `translateY(${active ? 0 : 20}px)`, transition: 'transform 0.75s cubic-bezier(0.22, -0.5, 0.36, 1)' }}
         >
-          <span className="text-white text-xl font-medium" style={{ mixBlendMode: "difference" }}>
+          <span className="text-white text-xl font-medium ">
             {Math.round(progress * 100)}%
           </span>
         </div>
       )}
 
       {/* Track */}
-      <div className={`relative w-full ${backgroundColor}`} style={{ height }}>
+      <div className={`relative w-full ${backgroundColor}`} style={{ height, transform: `translateY(${active ? 0 : 10}px)`, transition: 'opacity 0.8s ease, transform 0.5s cubic-bezier(0.22, 1, -0.36, 1)' }}>
         {/* Progress bar */}
         <div
           className={`${progressColor} absolute bottom-0 left-1/2`}

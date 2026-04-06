@@ -755,7 +755,7 @@ export default function PortfolioGallery() {
       {lightboxImage && (
         <div
           ref={lightboxRef}
-          className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center pointer-events-auto"
+          className="fixed inset-0 z-10 bg-bckg/98 flex items-center justify-center pointer-events-auto overflow-hidden"
           style={{ touchAction: "none", overscrollBehavior: "none" }}
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
@@ -786,14 +786,14 @@ export default function PortfolioGallery() {
             ref={currentImageRef}
             src={lightboxImage}
             alt="Lightbox"
-            className="max-w-[95vw] max-h-[95vh] w-auto h-auto object-contain pointer-events-none relative z-1"
+            className="max-w-[95vw] max-h-[95vh] w-auto h-auto object-contain pointer-events-none relative z-100"
           />
-          <div className="absolute bottom-8 text-white text-lg mix-blend-difference pointer-events-none z-20">
+          <div className="absolute -bottom-1 text-white text-lg mix-blend-difference pointer-events-none z-20">
             {lightboxIndex + 1} / {getFilteredItems().length}
           </div>
           
           {/* Visual swipe indicators for mobile */}
-          {/* {responsive.isMobile && (
+          {responsive.isMobile && (
             <>
               <div className="absolute left-4 top-1/2 -translate-y-1/2 text-white/50 text-sm pointer-events-none z-20">
                 ‹
@@ -805,7 +805,7 @@ export default function PortfolioGallery() {
                 Swipe up to close
               </div>
             </>
-          )} */}
+          )}
         </div>
       )}
 

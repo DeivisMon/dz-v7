@@ -16,7 +16,7 @@ export default function PageTransitions({ children }) {
     exit: {
       opacity: 0.8,
       y: -40,
-      transition: { duration: 1.5, ease: [0.83, 0.2, 0.17, 1] },
+      transition: { duration: 1.5, ease: [0.53, 0.2, 0.17, 1] },
     },
   };
 
@@ -25,7 +25,7 @@ export default function PageTransitions({ children }) {
     animate: { y: "100vh" },
     exit: {
       y: "71px",
-      transition: { duration: 1.5, delay: 0.5, ease: [0.83, 0.2, 0.17, 1] },
+      transition: { duration: 1.5, delay: 0.5, ease: [0.53, 0.2, 0.17, 1] },
     },
   };
 
@@ -33,10 +33,10 @@ export default function PageTransitions({ children }) {
     initial: { y: 0, scale: 1, opacity: 1 },
     animate: { y: 0, scale: 1, opacity: 1 },
     exit: {
-      y: 750,
+      y: 500,
       scale: 0.9,
       opacity: 0.8,
-      transition: { duration: 1.5, ease: [0.83, 0.2, 0.17, 1] },
+      transition: { duration: 2.5, ease: [0.53, 0.2, 0.17, 1] },
     },
   };
 

@@ -16,12 +16,12 @@ export default function Footer() {
     );
 
   return (
-    <div className="footer fixed bottom-0 w-full z-20 select-none">
-      <footer className="flex items-end justify-between mix-blend-difference">
-        {responsive.isDesktop ?  <div className="capitalize text-accent font-normal pl-4 whitespace-nowrap">
+    <div className="footer fixed bottom-0 w-full z-[100] select-none bg-black mix-blend-difference">
+      <footer className="flex items-end justify-between">
+        {responsive.isDesktop ?  <div className="capitalize text-accent font-normal pl-4 whitespace-nowrap ">
               Žvinklys. &copy; {new Date().getFullYear()}
             </div> : null}
-            <span className={`${getPath()} fixed text-muted -bottom-1 left-1/2 transform -translate-y-1/2 -translate-x-1/2 items-center gap-2 text-lg xl:text-2xl animate-pulse`}>
+            <span className={`${getPath()} fixed text-muted -bottom-0 left-1/2 transform -translate-y-1/2 -translate-x-1/2 flex  items-center gap-2 text-lg xl:text-md animate-pulse`}>
               <LuArrowBigLeftDash />
               {responsive.isDesktop ? <span>Scroll</span> : <span>Swipe</span> }
               <LuArrowBigRightDash />
