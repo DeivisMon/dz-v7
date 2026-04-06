@@ -116,7 +116,7 @@ const FilterButton = ({ filter, isActive, onClick, index }) => {
     return text.split("").map((char, i) => (
       <span
         key={i}
-        className={`relative inline-block uppercase font-black transition-colors duration-300 ${
+        className={`relative inline-block uppercase font-black tracking-[0.35em] transition-colors duration-300 ${
           isActive ? "text-accent border-gray-600 border-b" : "text-text"
         }`}
       >
@@ -133,7 +133,7 @@ const FilterButton = ({ filter, isActive, onClick, index }) => {
       style={{ height: "100px" }}
       onClick={onClick}
     >
-      <h1 ref={h1Ref} className={`inline-block uppercase font-black ${
+      <h1 ref={h1Ref} className={`inline-block uppercase  ${
     isActive ? "border-b border-border" : ""
   }`}>
         {renderTitle(filter.label)}

@@ -40,5 +40,5 @@ export default function WiperDesktop() {
     });
   }, []);
 
-  return <div ref={wipeRef} className="bg-bckg" />;
+  return <div ref={wipeRef} className="bg-black" />;
 }

@@ -38,13 +38,13 @@ export default function TextTransition() {
         opacity: 0,
       },
       {
-        duration: 2.05,
+        duration: 2.25,
         delay: 0.6,
         ease: "expo.inOut",
         keyframes: {
           scale: [6, 5, 4, 3, 5],
           y: [-10, -5, 0, 0, 0, 0, 0, 0, 0, 0],
-          opacity: [0, 1, 1, 0.5, 0],
+          opacity: [0, 1, 1, 0.5, 0.25, 0.125, 0.0625, 0.03125, 0],
         },
       }
     );
@@ -57,13 +57,13 @@ export default function TextTransition() {
         opacity: 0,
       },
       {
-        duration: 2.05,
+        duration: 2.25,
         delay: 0.675,
         ease: "expo.inOut",
         keyframes: {
           scale: [6, 5, 4, 3, 5],
           y: [10, 5, 0, 0, 0, 0, 0, 0, 0, 0],
-          opacity: [0, 1, 1, 0.5, 0],
+          opacity: [0, 1, 1, 0.5, 0.25, 0.0625, 0.03125, 0],
         },
       }
     );

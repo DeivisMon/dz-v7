@@ -67,7 +67,9 @@ body {
   /* font-family: "Kudryashev Display Sans", sans-serif; */
   /* font-family: 'Poiret One', cursive; */
   font-family: 'SF Old Republic', sans-serif;
-  background-color: #2b2621;
+  /* background-color: #2b2621; */
+  background-color: #000000;
+
 }
 
 .border {

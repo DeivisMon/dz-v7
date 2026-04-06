@@ -16,16 +16,16 @@ export default function PageTransitions({ children }) {
     exit: {
       opacity: 0.8,
       y: -40,
-      transition: { duration: 1.5, ease: easeInOut },
+      transition: { duration: 1.5, ease: [0.83, 0.2, 0.17, 1] },
     },
   };
 
   const slide = {
-    initial: { y: "100vh" },
-    animate: { y: "-100vh" },
+    initial: { y: "-100vh" },
+    animate: { y: "100vh" },
     exit: {
       y: "71px",
-      transition: { duration: 1.5, delay: 0.5, ease: easeInOut },
+      transition: { duration: 1.5, delay: 0.5, ease: [0.83, 0.2, 0.17, 1] },
     },
   };
 
@@ -33,10 +33,10 @@ export default function PageTransitions({ children }) {
     initial: { y: 0, scale: 1, opacity: 1 },
     animate: { y: 0, scale: 1, opacity: 1 },
     exit: {
-      y: [0, -50, 150, -25],
+      y: 750,
       scale: 0.9,
       opacity: 0.8,
-      transition: { duration: 1.7, ease: easeInOut },
+      transition: { duration: 1.5, ease: [0.83, 0.2, 0.17, 1] },
     },
   };
 
@@ -49,10 +49,10 @@ export default function PageTransitions({ children }) {
   // };
 
   return (
-    <div className="bg-bckg/85 overflow-hidden">
+    <div className="overflow-hidden">
       <Motion.div
         {...Animate(slide)}
-        className="fixed top-0 left-0 bg-bckg min-w-full z-1"
+        className="fixed top-0 left-0 bg-black min-w-full z-1"
         style={{ minHeight: "calc(100vh - 71px)" }}
       >
         <TextTransition />

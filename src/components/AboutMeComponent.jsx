@@ -131,7 +131,7 @@ export default function About() {
   });
 
   return (
-    <div className="h-[100dvh] flex flex-col bg-bckg text-text">
+    <div className="h-[100dvh] flex flex-col text-text">
       {/* ambient glow */}
       {/* <div
         className="
