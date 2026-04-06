@@ -9,6 +9,8 @@ import Portfolio from "./pages/Portfolio";
 import AboutMe from "./pages/AboutMe";
 import Contact from "./pages/Contact";
 import CustomCursor from "./components/utils/CustomCursor";
+import NavBar from "./components/layout/NavBar";
+
 
 export default function App() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -37,6 +39,8 @@ export default function App() {
           {isTouchDevice && <MobileWiper trigger={wipeTrigger} />}
 
           {!isTouchDevice ? (
+            <>
+            <NavBar />
             <AnimatePresence mode="wait">
               <PageTransitions key={location.pathname}>
                 <Routes location={location}>
@@ -47,13 +51,17 @@ export default function App() {
                 </Routes>
               </PageTransitions>
             </AnimatePresence>
+            </>
           ) : (
+            <>
+            <NavBar />
             <Routes location={location} key={location.pathname}>
               <Route path="/" element={<Index />} />
               <Route path="/portfolio" element={<Portfolio />} />
               <Route path="/kontaktai" element={<Contact />} />
               <Route path="/apie-mane" element={<AboutMe />} />
             </Routes>
+            </>
           )}
 
           {!isTouchDevice && <CustomCursor />}

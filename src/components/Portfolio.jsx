@@ -128,7 +128,8 @@ const FilterButton = ({ filter, isActive, onClick, index }) => {
   return (
     <div
       ref={buttonRef}
-      className={`relative h-full cursor-pointer pr-4 pointer-events-auto`}
+      className={`cursor-trigger relative h-full cursor-pointer pr-4 pointer-events-auto`}
+      data-cursor-type="link"
       style={{ height: "100px" }}
       onClick={onClick}
     >
@@ -579,7 +580,7 @@ export default function PortfolioGallery() {
   const columns = renderItems();
 
   return (
-    <div className="w-screen h-screen overflow-hidden relative bg-black">
+    <div className="w-screen h-screen overflow-hidden relative">
       {/* Desktop Filters */}
       <div
         className={`${

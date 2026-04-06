@@ -19,7 +19,7 @@ export default function Portfolio() {
 
   return (
     <div>
-      <NavBar />
+      {/* <NavBar /> */}
       <PortolioGallery />
       <Footer />
       {!isTouchDevice ? (<WiperDesktop />): ""}

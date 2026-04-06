@@ -22,10 +22,10 @@ export default function PageTransitions({ children }) {
 
   const slide = {
     initial: { y: "100vh" },
-    animate: { y: "100vh" },
+    animate: { y: "-100vh" },
     exit: {
-      y: 0,
-      transition: { duration: 1.5, delay: 0.1, ease: easeInOut },
+      y: "71px",
+      transition: { duration: 1.5, delay: 0.5, ease: easeInOut },
     },
   };
 
@@ -52,14 +52,16 @@ export default function PageTransitions({ children }) {
     <div className="bg-bckg/85 overflow-hidden">
       <Motion.div
         {...Animate(slide)}
-        className="fixed top-0 left-0 bg-bckg min-w-full z-1 min-h-screen"
+        className="fixed top-0 left-0 bg-bckg min-w-full z-1"
+        style={{ minHeight: "calc(100vh - 71px)" }}
       >
         <TextTransition />
       </Motion.div>
-      <Motion.div {...Animate(zoomOut)} className="relative min-h-screen">
+      <Motion.div {...Animate(zoomOut)} className="relative" style={{ minHeight: "calc(100vh - 71px)" }} >
+        
         <Motion.div
           {...Animate(oppacity)}
-          className="relative flex items-center justify-center bg-bckg min-h-screen"
+          className="relative flex items-center justify-center bg-bckg" style={{ minHeight: "calc(100vh - 71px)" }}
         >
           {children}
         </Motion.div>

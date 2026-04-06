@@ -13,7 +13,7 @@ export default function AboutMe () {
   }, []);
   return (
     <>
-      <NavBar />
+      {/* <NavBar /> */}
       <About />
       <Footer />
       {!isTouchDevice ? <WiperDesktop /> : ""}

@@ -15,14 +15,14 @@ const getContainer = (delayChildren, staggerChildren) => ({
       staggerChildren,
     },
   },
-  exit: {
-    y: -50,
-    opacity: 0,
-    transition: {
-      duration: 0.5,
-      ease: easeInOut,
-    },
-  },
+  // exit: {
+  //   y: -50,
+  //   opacity: 0,
+  //   transition: {
+  //     duration: 0.5,
+  //     ease: easeInOut,
+  //   },
+  // },
 })
 
 const getLetter = (duration) => ({
@@ -64,7 +64,7 @@ const AnimatedText = ({
         variants={container}
         initial="hidden"
         animate="show"
-        exit="exit"
+        // exit="exit"
         whileHover={enableHover ? "hover" : undefined}
       >
         {/* Main text with entry animation */}

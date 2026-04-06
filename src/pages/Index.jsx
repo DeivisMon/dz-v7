@@ -15,7 +15,7 @@ export default function Index() {
 
   return (
     <div>
-      <NavBar />
+      {/* <NavBar /> */}
       <Slider />
       <Footer />
       {!isTouchDevice ? <WiperDesktop /> : ""}

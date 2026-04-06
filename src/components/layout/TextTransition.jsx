@@ -38,8 +38,8 @@ export default function TextTransition() {
         opacity: 0,
       },
       {
-        duration: 2.25,
-        delay: 0.2,
+        duration: 2.05,
+        delay: 0.6,
         ease: "expo.inOut",
         keyframes: {
           scale: [6, 5, 4, 3, 5],
@@ -57,8 +57,8 @@ export default function TextTransition() {
         opacity: 0,
       },
       {
-        duration: 2.25,
-        delay: 0.275,
+        duration: 2.05,
+        delay: 0.675,
         ease: "expo.inOut",
         keyframes: {
           scale: [6, 5, 4, 3, 5],

@@ -14,6 +14,33 @@ export default function NavBar() {
   const menuLinksRef = useRef([]);
   const responsive = useResponsive();
   // const { isMobile } = useDeviceType();
+  const underlineRef = useRef(null);
+  const navItemRefs = useRef({});
+
+
+  const navItems = [
+    { path: "/", label: "Pradžia" },
+    { path: "/portfolio", label: "Darbai" },
+    { path: "/apie-mane", label: "Apie mane" },
+    { path: "/kontaktai", label: "Kontaktai" },
+  ];
+
+  const moveUnderlineTo = (path) => {
+    const targetEl = navItemRefs.current[path];
+    if (targetEl && underlineRef.current) {
+      const { offsetLeft, offsetWidth } = targetEl;
+      gsap.to(underlineRef.current, {
+        left: offsetLeft + 5,
+        width: offsetWidth - 10,
+        duration: 0.25,
+        ease: "expo.out",
+      });
+    }
+  };
+
+  useEffect(() => {
+    moveUnderlineTo(location.pathname);
+  }, [location.pathname]);
 
   const isActive = (path) => location.pathname === path;
 
@@ -75,7 +102,7 @@ export default function NavBar() {
 
   const getNabarBackground = (path) => {
     if (path === "/portfolio") return "bg-[#000000]";
-    return "mix-blend-difference";
+    return "bg-[#000000]";
   };
 
   return (
@@ -83,9 +110,9 @@ export default function NavBar() {
       <div
         className={`${getNabarBackground(
           location.pathname
-        )} navbar fixed z-[150] ${
+        )} navbar fixed z-[9999] ${
           responsive.isMobile ? "" : "-top-2"
-        } left-0 w-full flex items-start px-2 py-1 md:py-2 xl:py-2 xl:px-4 m-0 transition-all duration-700 ease-in-out select-none `}
+        } left-0 w-full flex items-start px-2 py-1 md:py-2 xl:py-2 xl:px-4 m-0 transition-all border-b border-border duration-700 ease-in-out select-none `}
       >
         <div className="w-full flex justify-between items-center">
           {/* Logo */}
@@ -104,40 +131,49 @@ export default function NavBar() {
                 delayChildren={1}
                 enableHover={false}
                 letterSpacing={`${responsive.isTablet || responsive.isMobile ? "px-[8px]" : "px-[10px]"}`}
-                key={location.pathname}
+                // key={location.pathname}
+                
               />{" "}
             </Link>{" "}
           </div>
           {/* Desktop Navigation */}
-          <div
+                   <ul
             className={`${
               responsive.isMobile || responsive.isTablet ? "hidden" : "flex"
-            } nav-links relative z-[1000] nav-item items-center gap-0 lg:gap-4 font-bold text-[12px] lg:text-[14px] xl:text-[20px] backdrop-blur upercase transition-all duration-500 ease-in-out`}
+            } nav-links relative z-[1000] items-center gap-0 lg:gap-4 ...`}
+            onMouseLeave={() => moveUnderlineTo(location.pathname)} 
           >
-            {[
-              { path: "/", label: "Pradžia" },
-              { path: "/portfolio", label: "Darbai" },
-              { path: "/apie-mane", label: "Apie mane" },
-              { path: "/kontaktai", label: "Kontaktai" },
-            ].map((item, i) => (
-              <Link
+            {/* Animated underline */}
+            <div
+              ref={underlineRef}
+              className="absolute bottom-0 h-[1px] bg-muted"
+              style={{ left: 0, width: 0 }}
+            />
+
+            {navItems.map((item, i) => (
+              <li
                 key={item.path}
-                className={`cursor-trigger flex justify-center items-center p-1 cursor-none ${
-                  !isActive(item.path) ? "opacity-80 font-normal text-muted" : "opacity-100 text-accent font-bold italic"
+                ref={(el) => (navItemRefs.current[item.path] = el)} 
+                className={`cursor-trigger inline-flex items-center justify-center p-1 cursor-none ${
+                  !isActive(item.path)
+                    ? "opacity-80 font-normal text-muted"
+                    : "opacity-100 text-accent font-bold italic"
                 }`}
                 data-cursor-type="link"
-                to={item.path}
+                onMouseEnter={() => moveUnderlineTo(item.path)}  
               >
-                <AnimatedText
-                  text={item.label}
-                  // textColor="text-white"
-                  duration={0.3 + i * 0.1}
-                  letterSpacing="px-[1px]"
-                  key={location.pathname}
-                />
-              </Link>
+                <Link to={item.path}>
+                  <AnimatedText
+                    text={item.label}
+                    duration={0.3 + i * 0.1}
+                    letterSpacing="px-[1px]"
+                    key={item.path}
+                    // key={location.pathname}
+                  />
+                </Link>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
       </div>
 
@@ -146,7 +182,7 @@ export default function NavBar() {
         onClick={toggleMenu}
         className={`${
           !responsive.isMobile && !responsive.isTablet ? "hidden" : "flex"
-        } fixed right-2 z-[2000] w-10 h-10  flex-col justify-center items-center gap-1.5 mix-blend-difference`}
+        } fixed right-2 z-[9999] w-10 h-10  flex-col justify-center items-center gap-1.5 mix-blend-difference`}
         aria-label="Toggle menu"
       >
         <span

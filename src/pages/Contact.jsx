@@ -18,7 +18,7 @@ export default function Contact() {
 
   return (
     <div>
-      <NavBar />
+      {/* <NavBar /> */}
       <ContactFrom />
       <Footer />
       {!isTouchDevice ? (<WiperDesktop />): ""}
