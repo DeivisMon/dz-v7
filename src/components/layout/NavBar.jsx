@@ -110,69 +110,69 @@ export default function NavBar() {
           location.pathname,
         )} navbar fixed z-[9999] ${
           responsive.isMobile ? "" : "top-0"
-        } left-0 w-full px-2 py-1 md:py-2 xl:py-8 xl:px-4 m-0 transition-all border-b border-border duration-700 ease-in-out select-none `}
+        } left-0 w-full py-1 md:py-2 xl:py-8 m-0 transition-all duration-700 ease-in-out select-none `}
       >
-        <div className="relative w-full flex justify-between items-center">
-        <div className="absolute left-0 -top-3 w-full flex justify-between items-center">
-          {/* Logo */}
-          <div className={`logo text-[24px] xl:text-[42px]`}>
-            {" "}
-            <Link
-              className="font-bold transition-all duration-500 ease-in-out"
-              to="/"
-              onClick={() => handleNavClick("/")}
-            >
+        <div className="navbar-container relative w-full flex justify-between items-center">
+          <div className="absolute left-0 -top-3 w-full flex justify-between items-center">
+            {/* Logo */}
+            <div className={`logo text-[24px] xl:text-[42px] pl-8`}>
               {" "}
-              <AnimatedText
-                text="Žvinklys"
-                textColor="text-header"
-                duration={0.75}
-                delayChildren={1}
-                enableHover={false}
-                letterSpacing={`${responsive.isTablet || responsive.isMobile ? "px-[8px]" : "px-[10px]"}`}
-                // key={location.pathname}
-              />{" "}
-            </Link>{" "}
-          </div>
-          {/* Desktop Navigation */}
-          <ul
-            className={`${
-              responsive.isMobile || responsive.isTablet ? "hidden" : "flex"
-            } nav-links relative z-[1000] items-center gap-0 lg:gap-4 ...`}
-            onMouseLeave={() => moveUnderlineTo(location.pathname)}
-          >
-            {/* Animated underline */}
-            <div
-              ref={underlineRef}
-              className="absolute bottom-2 h-[1px] bg-muted"
-              style={{ left: 0, width: 0 }}
-            />
-
-            {navItems.map((item, i) => (
-              <li
-                key={item.path}
-                ref={(el) => (navItemRefs.current[item.path] = el)}
-                className={`cursor-trigger inline-flex items-center justify-center cursor-none ${
-                  !isActive(item.path)
-                    ? "opacity-80 font-normal text-muted"
-                    : "opacity-100 text-accent font-bold italic"
-                }`}
-                data-cursor-type="link"
-                onMouseEnter={() => moveUnderlineTo(item.path)}
+              <Link
+                className="font-bold transition-all duration-500 ease-in-out"
+                to="/"
+                onClick={() => handleNavClick("/")}
               >
-                <Link to={item.path} className="py-2 px-1">
-                  <AnimatedText
-                    text={item.label}
-                    duration={0.3 + i * 0.1}
-                    letterSpacing="px-[1px]"
-                    key={item.path}
-                    // key={location.pathname}
-                  />
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
+                {" "}
+                <AnimatedText
+                  text="Žvinklys"
+                  textColor="text-header"
+                  duration={0.75}
+                  delayChildren={1}
+                  enableHover={false}
+                  letterSpacing={`${responsive.isTablet || responsive.isMobile ? "px-[8px]" : "px-[10px]"}`}
+                  // key={location.pathname}
+                />{" "}
+              </Link>{" "}
+            </div>
+            {/* Desktop Navigation */}
+            <ul
+              className={`${
+                responsive.isMobile || responsive.isTablet ? "hidden" : "flex"
+              } nav-links relative z-[1000] items-center gap-0 lg:gap-4 pr-8`}
+              onMouseLeave={() => moveUnderlineTo(location.pathname)}
+            >
+              {/* Animated underline */}
+              <div
+                ref={underlineRef}
+                className="animated-underline absolute bottom-2 h-[1px] bg-muted"
+                style={{ left: 0, width: 0 }}
+              />
+
+              {navItems.map((item, i) => (
+                <li
+                  key={item.path}
+                  ref={(el) => (navItemRefs.current[item.path] = el)}
+                  className={`cursor-trigger inline-flex items-center justify-center cursor-none ${
+                    !isActive(item.path)
+                      ? "opacity-80 font-normal text-muted"
+                      : "opacity-100 text-accent font-bold italic"
+                  }`}
+                  data-cursor-type="link"
+                  onMouseEnter={() => moveUnderlineTo(item.path)}
+                >
+                  <Link to={item.path} className="py-2 px-1">
+                    <AnimatedText
+                      text={item.label}
+                      duration={0.3 + i * 0.1}
+                      letterSpacing="px-[1px]"
+                      key={item.path}
+                      // key={location.pathname}
+                    />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
 

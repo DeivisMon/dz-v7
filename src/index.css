@@ -12,6 +12,7 @@
 @import url('https://db.onlinewebfonts.com/c/384a6031928e262848e4e7ef80037466?family=Kudryashev+Display+Sans');
 @import url("https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap");
 @import url('https://fonts.cdnfonts.com/css/sf-old-republic');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
 @import "tailwindcss";
 
@@ -67,6 +68,8 @@ body {
   /* font-family: "Kudryashev Display Sans", sans-serif; */
   /* font-family: 'Poiret One', cursive; */
   font-family: 'SF Old Republic', sans-serif;
+  /* font-family: "Montserrat", sans-serif; */
+  /* font-weight: 200; */
   /* background-color: #2b2621; */
   background-color: #000000;
 
@@ -94,4 +97,62 @@ textarea {
 .scrollable-container {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+.navbar-container {
+  position: relative;
+}
+
+.navbar-container::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -32px;
+  width: 100%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.253);
+  transform-origin: left;
+  animation: drawLine 1s ease forwards;
+}
+
+@keyframes drawLine {
+  0% {
+    transform: scaleX(0);
+  }
+  25% {
+    transform: scaleX(0);
+  }
+  50% {
+    transform: scaleX(0);
+  }
+  75% {
+    transform: scaleX(0.5);
+  }
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+.animated-underline {
+  opacity: 0;
+  animation: underine .5s ease forwards;
+  animation-delay: .75s;
+}
+
+@keyframes underine {
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0;
+  }
+  75% {
+    opacity: 50;
+  }
+  100% {
+    opacity: 100;
+}
 }
