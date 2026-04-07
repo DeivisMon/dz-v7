@@ -95,49 +95,49 @@ export default function ContactForm() {
             >
               {/* Front Side - Form */}
               <div
-                className="absolute inset-0 flex items-center justify-center bg-black "
+                className="absolute inset-0 flex items-center justify-center "
                 style={{
                   backfaceVisibility: 'hidden',
                   WebkitBackfaceVisibility: 'hidden'
                 }}
               >
-                <div className="flex flex-col gap-3 lg:gap-4 w-3/4">
+                <div className="flex flex-col gap-3 lg:gap-4 w-full">
                   <h2 className="text-md lg:text-3xl font-bold text-center tracking-[clamp(0.5em,calc(0.05em+0.3vw),0.35em)] lg:mb-2 text-header">
                     Parašyk man
                   </h2>
                   <input
-                    className="p-1 md:p-3 border-b border-white/40 focus:outline-none focus:border-white/80 bg-transparent text-muted text-sm lg:text-lg placeholder-text transition-colors"
-                    placeholder="Name"
+                    className="p-1 md:pt-6 border-b border-white/40 focus:outline-none focus:border-white/80 bg-transparent text-muted text-sm lg:text-lg"
+                    placeholder="Vardas"
                     value={formData.name}
                     onChange={(e) => handleInputChange('name', e.target.value)}
                   />
                   <input
-                    className="p-1 md:p-3 border-b border-white/40 focus:outline-none focus:border-white/80 bg-transparent text-muted text-sm lg:text-lg placeholder-text transition-colors"
+                    className="p-1 md:pt-6 border-b border-white/40 focus:outline-none focus:border-white/80 bg-transparent text-muted text-sm lg:text-lg"
                     type="email"
-                    placeholder="Your email"
+                    placeholder="El.paštas"
                     value={formData.email}
                     onChange={(e) => handleInputChange('email', e.target.value)}
                   />
                   <input
-                    className="p-1 md:p-3 border-b border-white/40 focus:outline-none focus:border-white/80 bg-transparent text-muted text-sm lg:text-lg placeholder-text transition-colors"
+                    className="p-1 md:pt-6 border-b border-white/40 focus:outline-none focus:border-white/80 bg-transparent text-muted text-sm lg:text-lg"
                     type="tel"
-                    placeholder="Your Phone"
+                    placeholder="Telefonas"
                     value={formData.phone}
                     onChange={(e) => handleInputChange('phone', e.target.value)}
                   />
                   <textarea
-                    className="p-1 md:p-3 border-b border-white/40 focus:outline-none focus:border-white/80 bg-transparent text-muted text-sm lg:text-lg placeholder-text resize-none transition-colors"
-                    placeholder="Your message"
-                    rows={responsive.isShortScreen ? "1" : "2"}
+                    className="p-1 md:pt-3 border-b border-white/40 focus:outline-none focus:border-white/80 bg-transparent text-muted text-sm lg:text-lg resize-none"
+                    placeholder="Jūsų Zinute"
+                    rows={responsive.isShortScreen ? "1" : "3"}
                     value={formData.message}
                     onChange={(e) => handleInputChange('message', e.target.value)}
                   />
                   <button
-                    className="bg-gray-500 text-text font-bold py-1 md:py-3 hover:bg-gray-200 hover:text-gray-900 transition duration-300 ease-in-out mt-1"
+                    className="bg-gray-500 text-text font-bold py-1 md:py-6 hover:bg-gray-200 hover:text-gray-900 transition duration-300 ease-in-out mt-1 "
                     type="button"
                     onClick={handleSend}
                   >
-                    Send
+                    Siųsti
                   </button>
                 </div>
               </div>

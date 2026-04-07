@@ -134,13 +134,13 @@ const FilterButton = ({ filter, isActive, onClick, index }) => {
       onClick={onClick}
     >
       <h1 ref={h1Ref} className={`inline-block uppercase  ${
-    isActive ? "border-b border-border" : ""
+    isActive ? "border-b border-muted" : ""
   }`}>
         {renderTitle(filter.label)}
       </h1>
       <p
         ref={counterRef}
-        className="absolute -right-2 top-[108px] transform -translate-y-1/2 px-2 text-xl font-medium text-muted tracking-[0.8em] pointer-events-none"
+        className="absolute -right-2 top-[110px] transform -translate-y-1/2 px-2 text-xl font-medium text-muted tracking-[0.8em] pointer-events-none"
       >
         ({filter.count})
       </p>
