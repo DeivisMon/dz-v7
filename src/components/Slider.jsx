@@ -37,7 +37,7 @@ const Slider = () => {
     const state = {
       currentX: 0,
       targetX: 0,
-      slideWidth: 510,
+      slideWidth: 0,
       slides: [],
       isDragging: false,
       startX: 0,
@@ -58,7 +58,7 @@ const Slider = () => {
 
       if (isVerticalMobile) {
         slide.style.width = "97vw";
-        slide.style.height = "90dvh";
+        slide.style.height = "89dvh";
       } else if (isHorizontalMobile) {
         slide.style.width = "175px";
         slide.style.height = "80dvh";
@@ -82,20 +82,22 @@ const Slider = () => {
       return slide;
     }
 
+    function getSlideFullWidth(slide) {
+      const rect = slide.getBoundingClientRect();
+      const styles = window.getComputedStyle(slide);
+
+      const marginLeft = parseFloat(styles.marginLeft);
+      const marginRight = parseFloat(styles.marginRight);
+
+      return rect.width + marginLeft + marginRight;
+    }
+
     function initializeSlides() {
       const track = sliderRef.current?.querySelector(".slide-track");
       if (!track) return;
 
       track.innerHTML = "";
       state.slides = [];
-
-      if (isVerticalMobile) {
-        state.slideWidth = window.innerWidth;
-      } else if (isHorizontalMobile) {
-        state.slideWidth = 185;
-      } else {
-        state.slideWidth = 510;
-      }
 
       const copies = 8;
       const totalSlides = totalSlideCount * copies;
@@ -105,6 +107,21 @@ const Slider = () => {
         track.appendChild(slide);
         state.slides.push(slide);
       }
+
+      const firstSlide = track.querySelector(".slide");
+
+      if (!state.slideWidth && firstSlide) {
+        state.slideWidth = getSlideFullWidth(firstSlide);
+      }
+
+      if (isVerticalMobile) {
+        state.slideWidth = window.innerWidth;
+      } else if (isHorizontalMobile) {
+        state.slideWidth = 185;
+      } else {
+        state.slideWidth = getSlideFullWidth(firstSlide);
+      }
+
 
       const startOffset = -(totalSlideCount * state.slideWidth * 2);
       state.currentX = startOffset;
@@ -153,9 +170,7 @@ const Slider = () => {
     }
 
     function snapToNearestSlide() {
-      if (!isVerticalMobile) {
-        return;
-      }
+      if (!isVerticalMobile || !state.slideWidth) return;
 
       const viewportCenter = window.innerWidth / 2;
 
