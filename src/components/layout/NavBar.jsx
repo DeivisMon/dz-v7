@@ -18,7 +18,7 @@ export default function NavBar() {
 
   const navItems = [
     { path: "/", label: "Pradžia" },
-    { path: "/portfolio", label: "Darbai" },
+    { path: "/portfolio", label: "Galerija" },
     { path: "/apie-mane", label: "Apie mane" },
     { path: "/kontaktai", label: "Kontaktai" },
   ];
@@ -212,7 +212,7 @@ export default function NavBar() {
         <nav className="flex flex-col gap-8 text-center">
           {[
             { path: "/", label: "Pradžia" },
-            { path: "/portfolio", label: "Darbai" },
+            { path: "/portfolio", label: "Galerija" },
             { path: "/apie-mane", label: "Apie mane" },
             { path: "/kontaktai", label: "Kontaktai" },
           ].map((item, i) => (

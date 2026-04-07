@@ -84,7 +84,7 @@ export default function ContactForm() {
         onMouseLeave={handleMouseLeave}
       >
         {/* Form Section (LEFT) with Flip Card for Success Message */}
-        <div className={`absolute ${isVerticalLayout ? 'top-1/2 left-0 w-full h-1/2' : 'left-0 top-0 w-1/2 h-full'} flex py-32 justify-center px-2 z-10 sm:px-8 lg:px-18`}>
+        <div className={`absolute ${isVerticalLayout ? 'top-1/2 left-0 w-full h-1/2' : 'left-0 top-0 w-1/2 h-full'} flex justify-center px-2 z-10 sm:px-8 lg:px-24`}>
           <div className="relative w-full h-full" style={{ perspective: '1000px' }}>
             <div
               className="w-full h-full transition-transform duration-700"
@@ -127,13 +127,13 @@ export default function ContactForm() {
                   />
                   <textarea
                     className="p-1 md:pt-3 border-b border-white/40 focus:outline-none focus:border-white/80 bg-transparent text-muted text-sm lg:text-lg resize-none"
-                    placeholder="Jūsų Zinute"
+                    placeholder="Tavo Žinutė"
                     rows={responsive.isShortScreen ? "1" : "3"}
                     value={formData.message}
                     onChange={(e) => handleInputChange('message', e.target.value)}
                   />
                   <button
-                    className="bg-gray-500 text-text font-bold py-1 md:py-6 hover:bg-gray-200 hover:text-gray-900 transition duration-300 ease-in-out mt-1 "
+                    className="bg-gray-500 text-text font-bold py-1 md:py-6 hover:bg-gray-200 hover:text-gray-900 transition duration-300 ease-in-out mt-1 uppercase"
                     type="button"
                     onClick={handleSend}
                   >
@@ -144,7 +144,7 @@ export default function ContactForm() {
 
               {/* Back Side - Success Message */}
               <div
-                className="absolute inset-0 text-text flex flex-col items-center justify-center bg-black"
+                className="absolute inset-0 text-text flex flex-col items-center justify-center"
                 style={{
                   backfaceVisibility: 'hidden',
                   WebkitBackfaceVisibility: 'hidden',
@@ -152,9 +152,10 @@ export default function ContactForm() {
                 }}
               >
                 <h2 className="font-bold mb-4 text-center text-xl sm:text-3xl lg:text-4xl">
-                  Message Sent
+                  
+Pranešimas išsiųstas
                 </h2>
-                <p className="text-md sm:text-xl">Thank you! We'll be in touch soon.</p>
+                <p className="text-md sm:text-xl">Ačiū! Netrukus susisieksime.</p>
               </div>
             </div>
           </div>
