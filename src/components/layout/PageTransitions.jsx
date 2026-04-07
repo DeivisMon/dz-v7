@@ -1,4 +1,4 @@
-import { easeInOut, motion as Motion } from "framer-motion";
+import { motion as Motion } from "framer-motion";
 import TextTransition from "./TextTransition";
 export default function PageTransitions({ children }) {
   const Animate = (variants) => {
@@ -24,7 +24,7 @@ export default function PageTransitions({ children }) {
     initial: { y: "-100vh" },
     animate: { y: "100vh" },
     exit: {
-      y: "71px",
+      y: "64px",
       transition: { duration: 1.5, delay: 0.5, ease: [0.53, 0.2, 0.17, 1] },
     },
   };
@@ -53,15 +53,15 @@ export default function PageTransitions({ children }) {
       <Motion.div
         {...Animate(slide)}
         className="fixed top-0 left-0 bg-black min-w-full z-1"
-        style={{ minHeight: "calc(100vh - 71px)" }}
+        style={{ minHeight: "calc(100vh - 64px)" }}
       >
         <TextTransition />
       </Motion.div>
-      <Motion.div {...Animate(zoomOut)} className="relative" style={{ minHeight: "calc(100vh - 71px)" }} >
+      <Motion.div {...Animate(zoomOut)} className="relative" style={{ minHeight: "calc(100vh - 64px)" }} >
         
         <Motion.div
           {...Animate(oppacity)}
-          className="relative flex items-center justify-center bg-bckg" style={{ minHeight: "calc(100vh - 71px)" }}
+          className="relative flex items-center justify-center bg-bckg" style={{ minHeight: "calc(100vh - 64px)" }}
         >
           {children}
         </Motion.div>

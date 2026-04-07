@@ -366,7 +366,8 @@ const Slider = () => {
   }, [isVerticalMobile, isHorizontalMobile, randomImages]);
 
   return (
-    <div className="slider" ref={sliderRef}>
+    <div className="slider relative" ref={sliderRef}>
+      <div className="absolute -top-[64px] left-0 w-full h-16 bg-black z-[1000]"></div>
       <div className="slide-track"></div>
     </div>
   );

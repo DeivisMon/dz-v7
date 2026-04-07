@@ -553,7 +553,7 @@ export default function PortfolioGallery() {
       const itemElement = (
         <div
           key={i}
-          className="pb-1 cursor-pointer"
+          className="cursor-pointer"
           onClick={() => openLightbox(item.img, i)}
         >
           <div className="w-full group overflow-hidden">
@@ -580,7 +580,7 @@ export default function PortfolioGallery() {
   const columns = renderItems();
 
   return (
-    <div className="w-screen h-screen overflow-hidden relative">
+    <div className="w-[100vw] h-[calc(100vh-64px)] mt-16 overflow-hidden relative">
       {/* Desktop Filters */}
       <div
         className={`${
@@ -727,7 +727,7 @@ export default function PortfolioGallery() {
         <div
           className={`${
             responsive.isDesktop ? "w-3/4" : "w-full"
-          } mt-6 mb-12 h-max flex gap-1 max-md:w-full ${
+          }  mb-16 h-max flex gap-1 max-md:w-full ${
             columnLayout === 1 ? "max-md:flex-col" : ""
           }`}
         >
@@ -755,7 +755,7 @@ export default function PortfolioGallery() {
       {lightboxImage && (
         <div
           ref={lightboxRef}
-          className="fixed inset-0 z-10 bg-bckg/98 flex items-center justify-center pointer-events-auto overflow-hidden"
+          className="fixed inset-0 mt-16 z-10 bg-bckg/98 flex items-center justify-center pointer-events-auto overflow-hidden"
           style={{ touchAction: "none", overscrollBehavior: "none" }}
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
@@ -786,7 +786,7 @@ export default function PortfolioGallery() {
             ref={currentImageRef}
             src={lightboxImage}
             alt="Lightbox"
-            className="max-w-[95vw] max-h-[95vh] w-auto h-auto object-contain pointer-events-none relative z-100"
+            className="max-w-[95vw] max-h-[89vh] w-auto h-auto object-contain pointer-events-none relative z-100"
           />
           <div className="absolute -bottom-1 text-white text-lg mix-blend-difference pointer-events-none z-20">
             {lightboxIndex + 1} / {getFilteredItems().length}
