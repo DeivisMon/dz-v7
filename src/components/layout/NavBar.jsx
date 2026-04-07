@@ -30,8 +30,8 @@ export default function NavBar() {
       gsap.to(underlineRef.current, {
         left: offsetLeft + 5,
         width: offsetWidth - 10,
-        duration: 0.25,
-        ease: "expo.out",
+        duration: 0.33,
+        ease: "expo.inOut",
       });
     }
   };
