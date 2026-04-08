@@ -57,10 +57,23 @@ const emailUnderlineVariants = {
   },
 };
 
-export default function SocialsContact() {
+const phoneUnderlineVariants = {
+  initial: { scaleX: 0, opacity: 0 },
+  hover: {
+    scaleX: 1,
+    opacity: 1,
+    transition: {
+      duration: 0.4,
+      ease: "easeOut",
+    },
+  },
+};
+
+export default function ContactSocials() {
   const [copied, setCopied] = useState(false);
-  const [isHoveringEmail, setIsHoveringEmail] = useState(false);
   const [hoveredIcon, setHoveredIcon] = useState(null);
+  const [isHoveringEmail, setIsHoveringEmail] = useState(false);
+  const [isHoveringPhone, setIsHoveringPhone] = useState(false);
   const responsive = useResponsive();
 
   const icons = [
@@ -102,7 +115,7 @@ export default function SocialsContact() {
               onMouseEnter={() => setHoveredIcon(id)}
               onMouseLeave={() => setHoveredIcon(null)}
             >
-              <div className="flex items-center justify-between py-1 lg:py-4">
+              <div className="flex items-center justify-between py-1 lg:py-2">
                 <Motion.div
                   variants={iconVariants}
                   className="font-bold text-sm lg:text-2xl tracking-[0.25em] relative"
@@ -144,10 +157,10 @@ export default function SocialsContact() {
         </div>
       </div>
 
-      <div className="flex flex-col items-center justify-center">
-        <h2 className="text-md lg:text-4xl font-bold lg:mb-4 text-header">Email</h2>
-
         {/* Email with underline hover */}
+      <div className="flex flex-col items-center justify-center md:border-b border-white/40 py-2">
+        <h2 className="text-md lg:text-4xl font-bold lg:mb-4 text-header">El.paštas</h2>
+
         <div className="relative">
           <div
             onClick={copy}
@@ -169,7 +182,7 @@ export default function SocialsContact() {
             </span>
             {/* Tooltip */}
             {isHoveringEmail && !copied && (
-              <span className="absolute -right-5 -translate-x-1/2 -top-2 rounded bg-gray-600/25 px-2 py-1 text-xs text-muted whitespace-nowrap tracking-[1px]">
+              <span className="absolute -translate-x-1/2 -top-2 rounded bg-gray-600/25 px-2 py-1 text-xs text-muted whitespace-nowrap tracking-[1px]">
                 Copy
               </span>
             )}
@@ -186,6 +199,38 @@ export default function SocialsContact() {
             variants={emailUnderlineVariants}
             initial="initial"
             animate={isHoveringEmail ? "hover" : "initial"}
+            whileHover="hover"
+          />
+        </div>
+      </div>
+
+        {/* Phone with underline hover */}
+       <div className="flex flex-col items-center justify-center">
+        <h2 className="text-md lg:text-4xl font-bold lg:mb-4 text-header">Telefonas</h2>
+
+        <div className="relative">
+          <div
+            onMouseEnter={() => setIsHoveringPhone(true)}
+            onMouseLeave={() => setIsHoveringPhone(false)}
+            className="cursor-trigger cursor-pointer relative text-gray-500 text-sm lg:text-2xl tracking-[clamp(0.15em,0.6vw,0.4em)] py-2 md:py-4"
+          >
+            <AnimatedText
+              text="+370 600 00000"
+              textColor="text-muted"
+              duration={0.75}
+              delayChildren={1.65}
+              staggerChildren={0.035}
+              enableHover={false}
+              key={location.pathname}
+            />
+          </div>
+
+          {/* Underline for Phone */}
+          <Motion.div
+            className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-[#A67C52] to-transparent origin-left"
+            variants={phoneUnderlineVariants}
+            initial="initial"
+            animate={isHoveringPhone ? "hover" : "initial"}
             whileHover="hover"
           />
         </div>

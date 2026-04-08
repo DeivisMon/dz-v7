@@ -11,7 +11,7 @@ export default function Footer() {
   const getPath = () => (location.pathname === "/" ? "flex" : "hidden");
 
   return (
-    <div className="footer fixed bottom-0 w-full z-[100] select-none bg-black mix-blend-difference">
+    <div className="footer fixed bottom-0 w-full z-[100] select-none bg-black">
       <footer className="flex items-end justify-between">
         {responsive.isDesktop ? (
           <div className="capitalize text-accent font-normal pl-4 whitespace-nowrap ">
@@ -22,7 +22,7 @@ export default function Footer() {
           className={`${getPath()} fixed text-muted -bottom-4 left-1/2 transform -translate-y-1/2 -translate-x-1/2 flex items-center text-lg xl:text-md animate-pulse`}
         >
           <LuArrowBigLeftDash size={24} className="pb-1" />
-          {responsive.isDesktop ? <span>Scroll</span> : <span>Swipe</span>}
+          {responsive.isDesktop ? <span>Drag/Scroll</span> : <span>Swipe</span>}
           <LuArrowBigRightDash size={24} className="pb-1" />
         </div>
         <Socials />

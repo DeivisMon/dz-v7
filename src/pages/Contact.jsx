@@ -1,6 +1,6 @@
 import React , { useState, useEffect } from 'react'
 import NavBar from '../components/layout/NavBar'
-import ContactFrom from '../components/utils/ContactForm'
+import ContactSocialsAndForm from '../components/utils/ContactSocialsAndForm'
 import Footer from '../components/layout/Footer'
 import WiperContactDesktop from '../components/Wiper Contact Desktop'
 import WiperDesktop from '../components/layout/WiperDesktop'
@@ -19,7 +19,7 @@ export default function Contact() {
   return (
     <div>
       {/* <NavBar /> */}
-      <ContactFrom />
+      <ContactSocialsAndForm />
       <Footer />
       {!isTouchDevice ? (<WiperDesktop />): ""}
     </div>
