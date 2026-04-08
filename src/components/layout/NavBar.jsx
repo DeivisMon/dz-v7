@@ -3,7 +3,6 @@ import { useState, useRef, useEffect } from "react";
 import gsap from "gsap";
 import AnimatedText from "../utils/AnimatedText";
 import { useResponsive } from "../hooks/useResopnsive";
-// import { useDeviceType } from "./hooks/useDeviceType";
 
 export default function NavBar() {
   const location = useLocation();
@@ -12,7 +11,6 @@ export default function NavBar() {
   const overlayRef = useRef(null);
   const menuLinksRef = useRef([]);
   const responsive = useResponsive();
-  // const { isMobile } = useDeviceType();
   const underlineRef = useRef(null);
   const navItemRefs = useRef({});
 
@@ -119,20 +117,20 @@ export default function NavBar() {
             <div className={`logo text-[24px] xl:text-[42px] pl-8`}>
               {" "}
               <Link
-                className="font-bold transition-all duration-500 ease-in-out"
+                className="flex font-bold transition-all duration-500 ease-in-out"
                 to="/"
                 onClick={() => handleNavClick("/")}
               >
                 {" "}
                 <AnimatedText
-                  text="Žvinklys &copy;"
+                  text="Žvinklys"
                   textColor="text-header"
                   duration={0.75}
                   delayChildren={1}
                   enableHover={false}
                   letterSpacing={`${responsive.isTablet || responsive.isMobile ? "px-[8px]" : "px-[10px]"}`}
                   // key={location.pathname}
-                />{" "}
+                />
               </Link>{" "}
             </div>
             {/* Desktop Navigation */}
@@ -211,12 +209,7 @@ export default function NavBar() {
         style={{ clipPath: "circle(0% at 100% 0%)" }}
       >
         <nav className="flex flex-col gap-8 text-center">
-          {[
-            { path: "/", label: "Pradžia" },
-            { path: "/portfolio", label: "Galerija" },
-            { path: "/apie-mane", label: "Apie mane" },
-            { path: "/kontaktai", label: "Kontaktai" },
-          ].map((item, i) => (
+          {navItems.map((item, i) => (
             <Link
               key={item.path}
               ref={(el) => (menuLinksRef.current[i] = el)}

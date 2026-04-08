@@ -98,7 +98,7 @@ export default function ContactSocials() {
       variants={containerVariants}
       initial="hidden"
       animate="show"
-      className="social-icons w-4/5 flex flex-col justify-center space-y-0 xl:space-y-8"
+      className="social-icons flex flex-col justify-center space-y-0 xl:space-y-8"
     >
       {/* Socials with underline hover */}
       <div className="flex flex-col items-center py-2 md:border-b border-white/40">
@@ -156,9 +156,11 @@ export default function ContactSocials() {
         </div>
       </div>
 
-        {/* Email with underline hover */}
+      {/* Email with underline hover */}
       <div className="flex flex-col items-center justify-center md:border-b border-white/40 py-2">
-        <h2 className="text-md lg:text-6xl tracking-[clamp(0.5em,calc(0.05em+0.3vw),0.25em)] font-thin lg:mb-4 text-header">El.paštas</h2>
+        <h2 className="text-md lg:text-6xl tracking-[clamp(0.5em,calc(0.05em+0.3vw),0.25em)] font-thin lg:mb-4 text-header">
+          El.paštas
+        </h2>
 
         <div className="relative">
           <div
@@ -179,17 +181,19 @@ export default function ContactSocials() {
             <span className="inline-block ml-2 text-accent align-middle">
               <PiCopy />
             </span>
-            {/* Tooltip */}
-            {isHoveringEmail && !copied && (
+
+            {responsive.isMobile || responsive.isTablet ? null : isHoveringEmail && !copied ? (
               <span className="absolute -translate-x-1/2 left-1/2 -top-3 rounded bg-gray-600/25 px-2 py-1 text-xs text-muted whitespace-nowrap tracking-[1px]">
                 Kopijuok
               </span>
+            ) : (
+              copied && (
+                <span className="absolute -translate-x-1/2 left-1/2 -top-3 rounded bg-gray-600/25 px-2 py-1 text-xs text-muted whitespace-nowrap tracking-[1px]">
+                  Nukopijuota
+                </span>
+              )
             )}
-            {copied && (
-              <span className="absolute absolute -translate-x-1/2 left-1/2 -top-3 rounded bg-gray-600/25 px-2 py-1 text-xs text-muted whitespace-nowrap tracking-[1px]">
-                Nukopijuota
-              </span>
-            )}
+            {/* Tooltip */}
           </div>
 
           {/* Underline for email */}
@@ -203,9 +207,11 @@ export default function ContactSocials() {
         </div>
       </div>
 
-        {/* Phone with underline hover */}
-       <div className="flex flex-col items-center justify-center">
-        <h2 className="text-md lg:text-6xl tracking-[clamp(0.5em,calc(0.05em+0.3vw),0.25em)] font-thin lg:mb-4 text-header">Telefonas</h2>
+      {/* Phone with underline hover */}
+      <div className="flex flex-col items-center justify-center">
+        <h2 className="text-md lg:text-6xl tracking-[clamp(0.5em,calc(0.05em+0.3vw),0.25em)] font-thin lg:mb-4 text-header">
+          Telefonas
+        </h2>
 
         <div className="relative">
           <div
@@ -214,7 +220,7 @@ export default function ContactSocials() {
             className="cursor-trigger cursor-pointer relative text-gray-500 text-sm lg:text-2xl tracking-[clamp(0.15em,0.6vw,0.4em)] py-2 md:py-4"
           >
             <AnimatedText
-              text="+370 600 00000"
+              text="+370 624 84565"
               textColor="text-muted"
               duration={0.75}
               delayChildren={1.65}
