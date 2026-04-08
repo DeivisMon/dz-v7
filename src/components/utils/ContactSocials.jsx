@@ -98,12 +98,11 @@ export default function ContactSocials() {
       variants={containerVariants}
       initial="hidden"
       animate="show"
-      exit="exit"
-      className="social-icons w-4/5 flex flex-col justify-center space-y-0 xl:space-y-16"
+      className="social-icons w-4/5 flex flex-col justify-center space-y-0 xl:space-y-8"
     >
       {/* Socials with underline hover */}
       <div className="flex flex-col items-center py-2 md:border-b border-white/40">
-        <h2 className="text-md lg:text-4xl font-bold tracking-[clamp(0.35em,calc(0.05em+0.3vw),0.25em)] text-header">
+        <h2 className="text-md lg:text-6xl font-thin tracking-[clamp(0.5em,calc(0.05em+0.3vw),0.25em)] text-header">
           Susisiekime
         </h2>
         <div className="flex flex-col items-center lg:items-start w-full min-w-0 ">
@@ -159,7 +158,7 @@ export default function ContactSocials() {
 
         {/* Email with underline hover */}
       <div className="flex flex-col items-center justify-center md:border-b border-white/40 py-2">
-        <h2 className="text-md lg:text-4xl font-bold lg:mb-4 text-header">El.paštas</h2>
+        <h2 className="text-md lg:text-6xl tracking-[clamp(0.5em,calc(0.05em+0.3vw),0.25em)] font-thin lg:mb-4 text-header">El.paštas</h2>
 
         <div className="relative">
           <div
@@ -182,13 +181,13 @@ export default function ContactSocials() {
             </span>
             {/* Tooltip */}
             {isHoveringEmail && !copied && (
-              <span className="absolute -translate-x-1/2 -top-2 rounded bg-gray-600/25 px-2 py-1 text-xs text-muted whitespace-nowrap tracking-[1px]">
-                Copy
+              <span className="absolute -translate-x-1/2 left-1/2 -top-3 rounded bg-gray-600/25 px-2 py-1 text-xs text-muted whitespace-nowrap tracking-[1px]">
+                Kopijuok
               </span>
             )}
             {copied && (
-              <span className="absolute -right-5 -translate-x-1/2 -top-2 rounded bg-gray-600/25 px-2 py-1 text-xs text-muted whitespace-nowrap tracking-[1px]">
-                Copied!
+              <span className="absolute absolute -translate-x-1/2 left-1/2 -top-3 rounded bg-gray-600/25 px-2 py-1 text-xs text-muted whitespace-nowrap tracking-[1px]">
+                Nukopijuota
               </span>
             )}
           </div>
@@ -206,7 +205,7 @@ export default function ContactSocials() {
 
         {/* Phone with underline hover */}
        <div className="flex flex-col items-center justify-center">
-        <h2 className="text-md lg:text-4xl font-bold lg:mb-4 text-header">Telefonas</h2>
+        <h2 className="text-md lg:text-6xl tracking-[clamp(0.5em,calc(0.05em+0.3vw),0.25em)] font-thin lg:mb-4 text-header">Telefonas</h2>
 
         <div className="relative">
           <div

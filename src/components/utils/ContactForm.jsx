@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useResponsive } from "../hooks/useResopnsive";
+import { GrSend } from "react-icons/gr";
 
 export default function ContactForm() {
   const [isFlipped, setIsFlipped] = useState(false);
@@ -41,7 +42,7 @@ export default function ContactForm() {
           }}
         >
           <div className="flex flex-col gap-3 lg:gap-4 w-full">
-            <h2 className="text-md lg:text-3xl font-bold text-center tracking-[clamp(0.5em,calc(0.05em+0.3vw),0.35em)] lg:mb-2 text-header">
+            <h2 className="text-md lg:text-6xl font-thin tracking-[clamp(0.5em,calc(0.05em+0.3vw),0.25em)] text-center lg:mb-2 text-header">
               Parašyk man
             </h2>
             <input
@@ -72,11 +73,11 @@ export default function ContactForm() {
               onChange={(e) => handleInputChange("message", e.target.value)}
             />
             <button
-              className="bg-gray-500 text-text font-bold py-1 md:py-6 hover:bg-gray-200 hover:text-gray-900 transition duration-300 ease-in-out mt-1 uppercase"
+              className="bg-gray-500 text-text font-bold flex items-center justify-center py-1 md:py-4  hover:bg-gray-200 hover:text-gray-900 transition duration-300 ease-in-out mt-1 uppercase"
               type="button"
               onClick={handleSend}
             >
-              Siųsti
+              <GrSend size={28} />
             </button>
           </div>
         </div>
@@ -90,10 +91,10 @@ export default function ContactForm() {
             transform: "rotateY(180deg)",
           }}
         >
-          <h2 className="font-bold mb-4 text-center text-xl sm:text-3xl lg:text-4xl">
+          <h2 className="font-bold mb-4 text-center text-xl sm:text-3xl lg:text-6xl font-thin tracking-[clamp(0.5em,calc(0.05em+0.3vw),0.25em)]">
             Pranešimas išsiųstas
           </h2>
-          <p className="text-md sm:text-xl">Ačiū! Netrukus susisieksime.</p>
+          <p className="text-md sm:text-4xl">Ačiū! Netrukus susisieksime.</p>
         </div>
       </div>
     </div>
