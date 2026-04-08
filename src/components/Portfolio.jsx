@@ -52,8 +52,8 @@ const FilterButton = ({ filter, isActive, onClick, index }) => {
         opacity: 1,
         x: 0,
         duration: 0.8,
-        delay: 0.5 + index * 0.1,
-        ease: "power3.out",
+        delay: 1.175 + index * 0.1,
+        ease: "power3.inOut",
       }
     );
   }, [index]);
