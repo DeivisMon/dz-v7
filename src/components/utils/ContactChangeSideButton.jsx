@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import "./contactButton.css";
 
-export default function ChangeContactButton({
+export default function ContactChangeSideButton({
   onClick,
   buttonRef,
   buttonTransform,

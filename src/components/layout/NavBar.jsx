@@ -77,7 +77,8 @@ export default function NavBar() {
         overlayRef.current,
         {
           clipPath: "circle(0% at 100% 0%)",
-          duration: 0.6,
+          delay: 0.25,
+          duration: 1,
           ease: "expo.inOut",
         },
         "-=0.1",

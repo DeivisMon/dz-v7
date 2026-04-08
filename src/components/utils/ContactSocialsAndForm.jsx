@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import { useResponsive } from "../hooks/useResopnsive";
 import ContactForm from "./ContactForm";
 import ContactSocials from "./ContactSocials";
-import ChangeContactButton from "./ChangeContactButton";
+import ContactChangeSideButton from "./ContactChangeSideButton";
 
 export default function ContactSocialsAndForm() {
   const [showSocials, setShowSocials] = useState(true);
@@ -83,13 +83,12 @@ export default function ContactSocialsAndForm() {
         </div>
       </div>
 
-      {/* Sliding Image Overlay - Controlled by ChangeContactButton - slides to reveal form */}
+      {/* Sliding Image Overlay - Controlled by ContactChangeSideButton */}
       <div
         className={`absolute transition-transform duration-500 ease-out z-20 ${isVerticalLayout ? "h-1/2 w-full" : "w-1/2 h-full"} bg-cover bg-center bg-no-repeat`}
         style={{
           backgroundImage: `url('${import.meta.env.BASE_URL}images/contact.jpg')`,
           transform: getImageTransform(),
-          // Position image to cover form initially
           top: isVerticalLayout ? "50%" : 0,
           left: 0,
         }}
@@ -103,7 +102,7 @@ export default function ContactSocialsAndForm() {
             : "top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
         }`}
       >
-        <ChangeContactButton
+        <ContactChangeSideButton
           onClick={toggleView}
           buttonRef={buttonRef}
           buttonTransform={buttonTransform}
