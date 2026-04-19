@@ -755,14 +755,14 @@ export default function PortfolioGallery() {
       {lightboxImage && (
         <div
           ref={lightboxRef}
-          className="fixed inset-0 mt-16 z-10 bg-bckg/98 flex items-center justify-center pointer-events-auto overflow-hidden"
+          className="fixed inset-0 mt-16 z-101 bg-bckg/98 flex items-center justify-center pointer-events-auto overflow-hidden"
           style={{ touchAction: "none", overscrollBehavior: "none" }}
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
         >
           <div
-            className="cursor-trigger absolute left-0 top-0 w-1/3 h-full z-10"
+            className="cursor-trigger absolute left-0 top-0 w-1/3 h-full"
             onClick={(e) => {
               e.stopPropagation();
               navigateLightbox(-1);
@@ -770,12 +770,12 @@ export default function PortfolioGallery() {
             data-cursor-type="prev"
           />
           <div
-            className="cursor-trigger absolute top-0 w-1/3 h-full z-10"
+            className="cursor-trigger absolute top-0 w-1/3 h-full"
             onClick={closeLightbox}
             data-cursor-type="close"
           />
           <div
-            className="cursor-trigger absolute right-0 top-0 w-1/3 h-full z-10"
+            className="cursor-trigger absolute right-0 top-0 w-1/3 h-full"
             onClick={(e) => {
               e.stopPropagation();
               navigateLightbox(1);
@@ -786,9 +786,9 @@ export default function PortfolioGallery() {
             ref={currentImageRef}
             src={lightboxImage}
             alt="Lightbox"
-            className="max-w-[95vw] max-h-[89vh] w-auto h-auto object-contain pointer-events-none relative z-100"
+            className="max-w-[95vw] max-h-[89vh] w-auto h-auto object-contain pointer-events-none relative"
           />
-          <div className="absolute -bottom-1 text-white text-lg mix-blend-difference pointer-events-none z-20">
+          <div className="absolute -bottom-1 text-white text-lg mix-blend-difference pointer-events-none">
             {lightboxIndex + 1} / {getFilteredItems().length}
           </div>
           

@@ -39,12 +39,12 @@ const ScrollProgressBar = ({
   const positionClass = position === "top" ? "top-0" : "bottom-0";
 
   return (
-    <div className={`fixed ${positionClass} left-0 w-full flex flex-col items-center mix-blend-difference`}>
+    <div className={`fixed ${positionClass} left-0 w-full flex flex-col items-center mix-blend-difference z-[101]`}>
       {/* Percentage */}
       {showPercentage && (
         <div
-          className="pointer-events-none -mb-3 relative z-50"
-          style={{ transform: `translateY(${active ? 0 : 20}px)`, transition: 'transform 0.75s cubic-bezier(0.22, -0.5, 0.36, 1)' }}
+          className="pointer-events-none -mb-2 relative "
+          style={{ transform: `translateY(${active ? 0 : 25}px)`, transition: 'transform 0.75s cubic-bezier(0.22, -0.5, 0.36, 1)' }}
         >
           <span className="text-white text-xl font-medium ">
             {Math.round(progress * 100)}%

@@ -272,7 +272,7 @@ const CursorElement = ({
   return (
     <div
       ref={elementRef}
-      className={`fixed top-0 left-0 pointer-events-none z-[10000] transition-opacity duration-300 ease-in-out
+      className={`fixed top-0 left-0 blur-[0.5px] pointer-events-none z-[10000] transition-opacity duration-300 ease-in-out
       ${
         isVisible && !isOutside ? "opacity-100" : "opacity-0"
       } mix-blend-difference`}

@@ -102,7 +102,7 @@ export default function ContactSocials() {
     >
       {/* Socials with underline hover */}
       <div className="flex flex-col items-center py-2 md:border-b border-white/40">
-        <h2 className="text-md lg:text-6xl font-thin tracking-[clamp(0.5em,calc(0.05em+0.3vw),0.25em)] text-header">
+        <h2 className="text-md lg:text-7xl font-thin tracking-[clamp(0.5em,calc(0.05em+0.3vw),0.25em)] text-header">
           Susisiekime
         </h2>
         <div className="flex flex-col items-center lg:items-start w-full min-w-0 ">
@@ -157,8 +157,8 @@ export default function ContactSocials() {
       </div>
 
       {/* Email with underline hover */}
-      <div className="flex flex-col items-center justify-center md:border-b border-white/40 py-2">
-        <h2 className="text-md lg:text-6xl tracking-[clamp(0.5em,calc(0.05em+0.3vw),0.25em)] font-thin lg:mb-4 text-header">
+      <div className="flex flex-col items-start justify-center pl-8 py-2 md:border-b border-white/40">
+        <h2 className="text-md lg:text-4xl tracking-[clamp(0.5em,calc(0.05em+0.3vw),0.25em)] font-thin lg:mb-4 text-header">
           El.paštas
         </h2>
 
@@ -208,8 +208,8 @@ export default function ContactSocials() {
       </div>
 
       {/* Phone with underline hover */}
-      <div className="flex flex-col items-center justify-center">
-        <h2 className="text-md lg:text-6xl tracking-[clamp(0.5em,calc(0.05em+0.3vw),0.25em)] font-thin lg:mb-4 text-header">
+      <div className="flex flex-col items-start justify-center pl-8">
+        <h2 className="text-md lg:text-4xl tracking-[clamp(0.5em,calc(0.05em+0.3vw),0.25em)] font-thin lg:mb-4 text-header">
           Telefonas
         </h2>
 
