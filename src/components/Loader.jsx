@@ -252,7 +252,7 @@ export default function Loader({ onComplete }) {
           </div>
         </div>
       </div>
-      <span ref={cameraRef} id="camera" className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-160 h-160">
+      <span ref={cameraRef} id="camera" className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 sm:w-160 sm:h-160">
         <SvgCamera />
       </span>
 

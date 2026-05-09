@@ -15,7 +15,7 @@ import NavBar from "./components/layout/NavBar";
 export default function App() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
-  const [wipeTrigger, setWipeTrigger] = useState(0);
+  // const [wipeTrigger, setWipeTrigger] = useState(0);
   const location = useLocation();
 
   useEffect(() => {
@@ -26,9 +26,9 @@ export default function App() {
     setIsTouchDevice(hasTouch);
   }, []);
 
-  useEffect(() => {
-    setWipeTrigger((v) => v + 1);
-  }, [location.pathname]);
+  // useEffect(() => {
+  //   setWipeTrigger((v) => v + 1);
+  // }, [location.pathname]);
 
   return (
     <>
@@ -36,7 +36,7 @@ export default function App() {
 
       {isLoaded && (
         <>
-          {isTouchDevice && <MobileWiper trigger={wipeTrigger} />}
+          {/* {isTouchDevice && <MobileWiper trigger={wipeTrigger} />} */}
 
           {!isTouchDevice ? (
             <>
@@ -55,12 +55,14 @@ export default function App() {
           ) : (
             <>
             <NavBar />
+            <AnimatePresence mode="wait">
             <Routes location={location} key={location.pathname}>
               <Route path="/" element={<Index />} />
               <Route path="/portfolio" element={<Portfolio />} />
               <Route path="/kontaktai" element={<Contact />} />
               <Route path="/apie-mane" element={<AboutMe />} />
             </Routes>
+            </AnimatePresence>
             </>
           )}
 

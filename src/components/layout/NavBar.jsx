@@ -1,15 +1,14 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
-import gsap from "gsap";
+import { motion as Motion, AnimatePresence } from "framer-motion";
 import AnimatedText from "../utils/AnimatedText";
 import { useResponsive } from "../hooks/useResopnsive";
+import gsap from "gsap";
 
 export default function NavBar() {
   const location = useLocation();
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const overlayRef = useRef(null);
-  const menuLinksRef = useRef([]);
   const responsive = useResponsive();
   const underlineRef = useRef(null);
   const navItemRefs = useRef({});
@@ -21,6 +20,7 @@ export default function NavBar() {
     { path: "/kontaktai", label: "Kontaktai" },
   ];
 
+  // Desktop Navbar underline
   const moveUnderlineTo = (path) => {
     const targetEl = navItemRefs.current[path];
     if (targetEl && underlineRef.current) {
@@ -40,51 +40,7 @@ export default function NavBar() {
 
   const isActive = (path) => location.pathname === path;
 
-  useEffect(() => {
-    menuLinksRef.current = [];
-  }, []);
-
-  useEffect(() => {
-    if (isMenuOpen) {
-      const tl = gsap.timeline();
-
-      tl.to(overlayRef.current, {
-        clipPath: "circle(150% at 100% 0%)",
-        duration: 0.8,
-        ease: "expo.inOut",
-      });
-
-      tl.fromTo(
-        menuLinksRef.current,
-        { y: 100, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.6, stagger: 0.1, ease: "power3.out" },
-        "-=0.4",
-      );
-    } else if (overlayRef.current && menuLinksRef.current.length > 0) {
-      const tl = gsap.timeline();
-
-      tl.to(menuLinksRef.current, {
-        y: -50,
-        opacity: 0,
-        duration: 0.3,
-        stagger: 0.05,
-        ease: "expo.out",
-      });
-
-      tl.to(
-        overlayRef.current,
-        {
-          clipPath: "circle(0% at 100% 0%)",
-          delay: 0.25,
-          duration: 1,
-          ease: "expo.inOut",
-        },
-        "-=0.1",
-      );
-    }
-  }, [isMenuOpen]);
-
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const toggleMenu = () => setIsMenuOpen((prev) => !prev);
 
   const handleNavClick = (path) => {
     if (path === location.pathname) {
@@ -92,47 +48,78 @@ export default function NavBar() {
       return;
     }
     setIsMenuOpen(false);
-    setTimeout(() => {
-      navigate(path);
-    }, 250);
+    setTimeout(() => navigate(path), 50);
   };
 
-  const getNabarBackground = (path) => {
-    if (path === "/portfolio") return "bg-[#000000]";
-    return "bg-[#000000]";
+  // ── Framer Motion variants ──────────────────────────────────────────────
+
+  const Animate = (variants) => ({
+    initial: "initial",
+    animate: "animate",
+    exit: "exit",
+    variants,
+  });
+
+  // Full-screen overlay: clips in from top-right corner (mirrors original GSAP clip-path)
+  const overlay = {
+    initial: { clipPath: "circle(0% at 100% 0%)" },
+    animate: {
+      clipPath: "circle(150% at 100% 0%)",
+      transition: { duration: 0.8, delay: 0.15, ease: [0.87, 0, 0.13, 1] },
+    },
+    exit: {
+      clipPath: "circle(0% at 100% 0%)",
+      transition: { duration: 0.8, delay: 1.75, ease: [0.87, 0, 0.13, 1] },
+    },
+  };
+
+  // Each nav link: slides up in, slides up out
+  const linkItem = {
+    initial: { y: 100, opacity: 0 },
+    animate: (i) => ({
+      y: 0,
+      opacity: 1,
+      transition: { duration: 0.6, delay: 0.4 + i * 0.1, ease: [0.22, 1, 0.36, 1] },
+    }),
+    exit: (i) => ({
+      y: -50,
+      opacity: 0,
+      transition: { duration: 0.6, delay: 0.4 + i * 0.1, ease: [0.22, 1, 0.36, 1] },
+    }),
   };
 
   return (
     <>
+      {/* ── Navbar bar ───────────────────────────────────────────────────── */}
       <div
-        className={`${getNabarBackground(
-          location.pathname,
-        )} navbar fixed z-[9999] ${
-          responsive.isMobile ? "" : "top-0"
-        } left-0 w-full py-1 md:py-2 xl:py-8 m-0 transition-all duration-700 ease-in-out select-none `}
+        className={`bg-[#000000] navbar fixed z-[1000] ${
+          responsive.isMobile ? "top-2" : "top-0"
+        } left-0 w-full py-1 md:py-2 xl:py-8 m-0 transition-all duration-700 ease-in-out select-none`}
       >
         <div className="navbar-container relative w-full flex justify-between items-center">
-          <div className="absolute left-0 -top-3 w-full flex justify-between items-center">
+          <div className="absolute left-0 top-0 xl:-top-3 w-full flex justify-between items-center">
             {/* Logo */}
-            <div className={`logo text-[24px] xl:text-[42px] pl-8`}>
-              {" "}
+            <div className="logo text-[24px] xl:text-[42px] pl-1 xl:pl-8">
               <Link
                 className="flex font-bold transition-all duration-500 ease-in-out"
                 to="/"
                 onClick={() => handleNavClick("/")}
               >
-                {" "}
                 <AnimatedText
                   text="Žvinklys"
                   textColor="text-header"
                   duration={0.75}
                   delayChildren={1}
                   enableHover={false}
-                  letterSpacing={`${responsive.isTablet || responsive.isMobile ? "px-[8px]" : "px-[10px]"}`}
-                  // key={location.pathname}
+                  letterSpacing={
+                    responsive.isTablet || responsive.isMobile
+                      ? "px-[6px]"
+                      : "px-[10px]"
+                  }
                 />
-              </Link>{" "}
+              </Link>
             </div>
+
             {/* Desktop Navigation */}
             <ul
               className={`${
@@ -140,13 +127,11 @@ export default function NavBar() {
               } nav-links relative z-[1000] items-center gap-0 lg:gap-4 pr-8`}
               onMouseLeave={() => moveUnderlineTo(location.pathname)}
             >
-              {/* Animated underline */}
               <div
                 ref={underlineRef}
                 className="animated-underline absolute bottom-2 h-[1px] bg-muted"
                 style={{ left: 0, width: 0 }}
               />
-
               {navItems.map((item, i) => (
                 <li
                   key={item.path}
@@ -165,7 +150,6 @@ export default function NavBar() {
                       duration={0.3 + i * 0.1}
                       letterSpacing="px-[1px]"
                       key={item.path}
-                      // key={location.pathname}
                     />
                   </Link>
                 </li>
@@ -175,58 +159,63 @@ export default function NavBar() {
         </div>
       </div>
 
-      {/* Mobile Menu Button */}
+      {/* Mobile Hamburger Button */}
       <button
         onClick={toggleMenu}
         className={`${
           !responsive.isMobile && !responsive.isTablet ? "hidden" : "flex"
-        } fixed right-2 z-[9999] w-10 h-10  flex-col justify-center items-center gap-1.5 mix-blend-difference`}
+        } fixed right-2 top-2 z-[1000] w-10 h-10 flex-col justify-center items-center gap-1.5 mix-blend-difference`}
         aria-label="Toggle menu"
       >
-        <span
-          className={`w-6 h-0.5 bg-white transition-all duration-300 ${
-            isMenuOpen ? "rotate-45 translate-y-2" : ""
-          }`}
+        <Motion.span
+          className="w-6 h-0.5 bg-white origin-center block"
+          animate={isMenuOpen ? { rotate: 45, y: 8 } : { rotate: 0, y: 0 }}
+          transition={{ duration: 0.3, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
         />
-        <span
-          className={`w-6 h-0.5 bg-white transition-all duration-300 ${
-            isMenuOpen ? "opacity-0" : ""
-          }`}
+        <Motion.span
+          className="w-6 h-0.5 bg-white block"
+          animate={isMenuOpen ? { opacity: 0, scaleX: 0 } : { opacity: 1, scaleX: 1 }}
+          transition={{ duration: 0.2 }}
         />
-        <span
-          className={`w-6 h-0.5 bg-white transition-all duration-300 ${
-            isMenuOpen ? "-rotate-45 -translate-y-2" : ""
-          }`}
+        <Motion.span
+          className="w-6 h-0.5 bg-white origin-center block"
+          animate={isMenuOpen ? { rotate: -45, y: -8 } : { rotate: 0, y: 0 }}
+          transition={{ duration: 0.3, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
         />
       </button>
 
       {/* Mobile Menu Overlay */}
-      <div
-        ref={overlayRef}
-        className={`${
-          !responsive.isMobile && !responsive.isTablet ? "hidden" : "flex"
-        } fixed top-0 left-0 w-full h-[100dvh] bg-black z-[1500] flex-col justify-center items-center`}
-        style={{ clipPath: "circle(0% at 100% 0%)" }}
-      >
-        <nav className="flex flex-col gap-8 text-center">
-          {navItems.map((item, i) => (
-            <Link
-              key={item.path}
-              ref={(el) => (menuLinksRef.current[i] = el)}
-              className={`text-3xl md:text-5xl font-bold tracking-widest text-white ${
-                isActive(item.path) ? "italic" : "opacity-85"
-              }`}
-              to={item.path}
-              onClick={(e) => {
-                e.preventDefault();
-                handleNavClick(item.path);
-              }}
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
-      </div>
+      <AnimatePresence>
+        {isMenuOpen && (responsive.isMobile || responsive.isTablet) && (
+          <Motion.div
+            {...Animate(overlay)}
+            className="fixed top-0 left-0 w-full h-[100dvh] bg-black z-[999] flex flex-col justify-center items-center"
+          >
+            <nav className="flex flex-col gap-8 text-center">
+              {navItems.map((item, i) => (
+                <Motion.div
+                  key={item.path}
+                  custom={i}
+                  {...Animate(linkItem)}
+                >
+                  <Link
+                    className={`text-3xl md:text-5xl font-bold tracking-widest text-white ${
+                      isActive(item.path) ? "italic" : "opacity-85"
+                    }`}
+                    to={item.path}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleNavClick(item.path);
+                    }}
+                  >
+                    {item.label}
+                  </Link>
+                </Motion.div>
+              ))}
+            </nav>
+          </Motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }

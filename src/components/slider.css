@@ -29,7 +29,6 @@
   display: flex;
   flex-direction: column;
   justify-items: start;
-  cursor: pointer;
 }
 
 .slide-image {

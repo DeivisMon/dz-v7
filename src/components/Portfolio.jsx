@@ -580,7 +580,7 @@ export default function PortfolioGallery() {
   const columns = renderItems();
 
   return (
-    <div className="w-[100vw] h-[calc(100vh-64px)] mt-16 overflow-hidden relative">
+   <div className="w-full h-[calc(100vh-64px)] mt-12 overflow-hidden relative">
       {/* Desktop Filters */}
       <div
         className={`${
@@ -601,10 +601,8 @@ export default function PortfolioGallery() {
       {/* Mobile Controls */}
       <div
         className={`${
-          isMobile ? "flex" : "hidden"
-        } ${
-          responsive.isPortrait? "top-10" : "top-8"
-        } fixed  left-0 w-full z-[1000] bg-black items-center justify-between px-4`}
+          responsive.isMobile ? "flex" : "hidden"
+        } relative w-full z-[888] bg-black items-top justify-between px-4`}
       >
         {/* Layout Controls - Left Side */}
         <div
@@ -688,7 +686,7 @@ export default function PortfolioGallery() {
       {mobileMenuOpen && (
         <div
           ref={mobileMenuRef}
-          className="fixed top-20 right-0 flex flex-col items-end w-[120px] bg-black z-30"
+          className="fixed top-20 right-0 flex flex-col items-end w-[135px] bg-black z-30"
         >
           {filters.map((filter) => (
             <button
@@ -720,9 +718,7 @@ export default function PortfolioGallery() {
 
       <div
         ref={itemsRef}
-        className={`absolute left-0 w-full h-full p-1 flex gap-1 overflow-y-auto scrollable-container ${
-          responsive.isMobile ? "top-2" : "top-0"
-        }`}
+        className={`w-full h-full p-1 flex gap-1 overflow-y-auto scrollable-container `}
       >
         <div
           className={`${
@@ -795,13 +791,13 @@ export default function PortfolioGallery() {
           {/* Visual swipe indicators for mobile */}
           {responsive.isMobile && (
             <>
-              <div className="absolute left-4 top-1/2 -translate-y-1/2 text-white/50 text-sm pointer-events-none z-20">
+              <div className="absolute left-2 top-1/2 -translate-y-1/2 text-white/50 text-[50px] mix-blend-difference pointer-events-none z-20">
                 ‹
               </div>
-              <div className="absolute right-4 top-1/2 -translate-y-1/2 text-white/50 text-sm pointer-events-none z-20">
+              <div className="absolute right-2 top-1/2 -translate-y-1/2 text-white/50 text-[50px] mix-blend-difference pointer-events-none z-20">
                 ›
               </div>
-              <div className="absolute top-4 left-1/2 -translate-x-1/2 text-white/50 text-lg pointer-events-none z-20">
+              <div className="absolute top-16 left-1/2 -translate-x-1/2 text-white/50 text-lg pointer-events-none z-20">
                 Swipe up to close
               </div>
             </>
