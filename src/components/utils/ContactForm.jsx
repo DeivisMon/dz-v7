@@ -68,7 +68,7 @@ export default function ContactForm() {
             <textarea
               className="p-1 md:pt-3 border-b border-white/40 focus:outline-none focus:border-white/80 bg-black/20 text-muted text-sm lg:text-lg resize-none"
               placeholder="Tavo Žinutė"
-              rows={responsive.isShortScreen ? "1" : "3"}
+              rows={responsive.isShortScreen ? "1" : "2"}
               value={formData.message}
               onChange={(e) => handleInputChange("message", e.target.value)}
             />

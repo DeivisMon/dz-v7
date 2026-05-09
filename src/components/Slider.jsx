@@ -382,7 +382,7 @@ const Slider = () => {
 
   return (
     <div className="slider relative" ref={sliderRef}>
-      <div className="absolute -top-[64px] left-0 w-full h-16 bg-black z-[1000]"></div>
+      {/* <div className="absolute -top-[64px] left-0 w-full h-16 sm:h-16 bg-white z-[1001]"></div> */}
       <div className="slide-track"></div>
     </div>
   );

@@ -601,7 +601,7 @@ export default function PortfolioGallery() {
       {/* Mobile Controls */}
       <div
         className={`${
-          responsive.isMobile ? "flex" : "hidden"
+          responsive.isMobile || responsive.isTablet ? "flex" : "hidden"
         } relative w-full z-[888] bg-black items-top justify-between px-4`}
       >
         {/* Layout Controls - Left Side */}

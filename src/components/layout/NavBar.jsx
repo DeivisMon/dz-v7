@@ -69,7 +69,7 @@ export default function NavBar() {
     },
     exit: {
       clipPath: "circle(0% at 100% 0%)",
-      transition: { duration: 0.8, delay: 1.75, ease: [0.87, 0, 0.13, 1] },
+      transition: { duration: 0.5, delay: 1.75, ease: [0.87, 0, 0.13, 1] },
     },
   };
 
@@ -93,7 +93,7 @@ export default function NavBar() {
       {/* ── Navbar bar ───────────────────────────────────────────────────── */}
       <div
         className={`bg-[#000000] navbar fixed z-[1000] ${
-          responsive.isMobile ? "top-2" : "top-0"
+          responsive.isMobile || responsive.isTablet ? "top-0" : "top-0"
         } left-0 w-full py-1 md:py-2 xl:py-8 m-0 transition-all duration-700 ease-in-out select-none`}
       >
         <div className="navbar-container relative w-full flex justify-between items-center">
@@ -164,7 +164,7 @@ export default function NavBar() {
         onClick={toggleMenu}
         className={`${
           !responsive.isMobile && !responsive.isTablet ? "hidden" : "flex"
-        } fixed right-2 top-2 z-[1000] w-10 h-10 flex-col justify-center items-center gap-1.5 mix-blend-difference`}
+        } fixed right-2 top-0 z-[1000] w-10 h-10 flex-col justify-center items-center gap-1.5 mix-blend-difference`}
         aria-label="Toggle menu"
       >
         <Motion.span
@@ -174,7 +174,7 @@ export default function NavBar() {
         />
         <Motion.span
           className="w-6 h-0.5 bg-white block"
-          animate={isMenuOpen ? { opacity: 0, scaleX: 0 } : { opacity: 1, scaleX: 1 }}
+          animate={isMenuOpen ? { y: 10, opacity: 0, scaleX: 0 } : { y: 0, opacity: 1, scaleX: 1 }}
           transition={{ duration: 0.2 }}
         />
         <Motion.span
@@ -199,7 +199,7 @@ export default function NavBar() {
                   {...Animate(linkItem)}
                 >
                   <Link
-                    className={`text-3xl md:text-5xl font-bold tracking-widest text-white ${
+                    className={`text-3xl md:text-4xl font-bold tracking-widest text-white ${
                       isActive(item.path) ? "italic" : "opacity-85"
                     }`}
                     to={item.path}
