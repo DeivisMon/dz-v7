@@ -9,7 +9,6 @@ import {
 } from "react-icons/tfi";
 import { galleryData } from "./galleryData";
 import { useResponsive } from "./hooks/useResopnsive";
-import { useDeviceType } from "./hooks/useDeviceType";
 import ScrollProgressBar from "./utils/ProgressBar";
 import ScrollTop from "./utils/ScrollTop";
 
@@ -157,9 +156,8 @@ export default function PortfolioGallery() {
   const [layoutMenuOpen, setLayoutMenuOpen] = useState(false);
   const [columnLayout, setColumnLayout] = useState(2);
   const responsive = useResponsive();
-  const { isMobile } = useDeviceType();
 
-
+  //Refs
   const itemsRef = useRef(null);
   const lenisRef = useRef(null);
   const lightboxRef = useRef(null);

@@ -48,7 +48,7 @@ export default function NavBar() {
       return;
     }
     setIsMenuOpen(false);
-    setTimeout(() => navigate(path), 50);
+    setTimeout(() => navigate(path), 0);
   };
 
   // ── Framer Motion variants ──────────────────────────────────────────────
@@ -65,11 +65,11 @@ export default function NavBar() {
     initial: { clipPath: "circle(0% at 100% 0%)" },
     animate: {
       clipPath: "circle(150% at 100% 0%)",
-      transition: { duration: 0.8, delay: 0.15, ease: [0.87, 0, 0.13, 1] },
+      transition: { duration: 0.75, delay: 0.15, ease: [0.87, 0, 0.13, 1] },
     },
     exit: {
       clipPath: "circle(0% at 100% 0%)",
-      transition: { duration: .8, delay: 1.25, ease: [0.87, 0, 0.13, 1] },
+      transition: { duration: 0.75, delay: 1.25, ease: [0.53, 0.2, 0.17, 1] },
     },
   };
 
@@ -118,11 +118,11 @@ export default function NavBar() {
                   textColor="text-header"
                   duration={0.25}
                   delay={0.25}
-                  delayChildren={0.5}
+                  delayChildren={0.7}
                   enableHover={false}
                   letterSpacing={
                     responsive.isTablet || responsive.isMobile
-                      ? "px-[6px]"
+                      ? "px-[4px]"
                       : "px-[10px]"
                   }
                 />
@@ -191,8 +191,8 @@ export default function NavBar() {
           initial={{ opacity: 0, y: 0 }}
           animate={
             isMenuOpen
-              ? { x: 10, opacity: 0, scaleX: 0 }
-              : { x: 0, opacity: 1, scaleX: 1 }
+              ? { y: 10, opacity: 0, scaleX: 0 }
+              : { y: 0, opacity: 1, scaleX: 1 }
           }
           transition={{ duration: 0.2, delay: 0.05 }}
         />
@@ -215,11 +215,11 @@ export default function NavBar() {
             {...Animate(overlay)}
             className="fixed top-0 left-0 w-full h-[100dvh] bg-black z-[999] flex flex-col justify-center items-center"
           >
-            <nav className="flex flex-col gap-8 text-center">
+            <nav className={`flex flex-col ${responsive.isLandscape ? "gap-4" : "gap-8"} text-center`}>
               {navItems.map((item, i) => (
                 <Motion.div key={item.path} custom={i} {...Animate(linkItem)}>
                   <Link
-                    className={`text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold tracking-widest text-text ${
+                    className={`text-3xl md:text-3xl lg:text-5xl xl:text-6xl font-bold tracking-widest text-text ${
                       isActive(item.path) ? "italic" : "text-muted opacity-80"
                     }`}
                     to={item.path}

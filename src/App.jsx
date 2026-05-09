@@ -10,6 +10,7 @@ import AboutMe from "./pages/AboutMe";
 import Contact from "./pages/Contact";
 import CustomCursor from "./components/utils/CustomCursor";
 import NavBar from "./components/layout/NavBar";
+import { useResponsive } from "./components/hooks/useResopnsive";
 
 
 export default function App() {
@@ -17,6 +18,7 @@ export default function App() {
   const [isTouchDevice, setIsTouchDevice] = useState(false);
   // const [wipeTrigger, setWipeTrigger] = useState(0);
   const location = useLocation();
+  const responsive = useResponsive();
 
   useEffect(() => {
     const hasTouch =
@@ -38,7 +40,7 @@ export default function App() {
         <>
           {/* {isTouchDevice && <MobileWiper trigger={wipeTrigger} />} */}
 
-          {!isTouchDevice ? (
+          {responsive.isDesktop && !responsive.isTablet && !responsive.isMobile ? (
             <>
             <NavBar />
             <AnimatePresence mode="wait">
