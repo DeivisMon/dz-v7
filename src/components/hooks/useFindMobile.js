@@ -9,7 +9,7 @@ export function useFindMobile() {
       isTouch,
       isPortrait: isTouch && window.matchMedia("(orientation: portrait)").matches,
       isLandscape: isTouch && window.matchMedia("(orientation: landscape)").matches,
-      isMobileLayout: isTouch && window.matchMedia("(orientation: portrait)").matches && window.matchMedia("(orientation: landscape)").matches && window.innerWidth <= 1368,
+      isMobileLayout: isTouch && window.matchMedia("(orientation: portrait)").matches || window.matchMedia("(orientation: landscape)").matches && window.innerWidth <= 1368,
     };
   });
 
@@ -22,7 +22,7 @@ export function useFindMobile() {
         isTouch,
         isPortrait: isTouch && window.matchMedia("(orientation: portrait)").matches,
         isLandscape: isTouch && window.matchMedia("(orientation: landscape)").matches,
-        isMobileLayout: isTouch && window.matchMedia("(orientation: portrait)").matches && window.matchMedia("(orientation: landscape)").matches && window.innerWidth <= 1368,
+        isMobileLayout: isTouch && window.matchMedia("(orientation: portrait)").matches || window.matchMedia("(orientation: landscape)").matches && window.innerWidth <= 1368,
       });
     };
 

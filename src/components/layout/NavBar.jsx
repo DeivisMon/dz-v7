@@ -69,7 +69,7 @@ export default function NavBar() {
     },
     exit: {
       clipPath: "circle(0% at 100% 0%)",
-      transition: { duration: 0.5, delay: 1.5, ease: [0.87, 0, 0.13, 1] },
+      transition: { duration: .8, delay: 1.25, ease: [0.87, 0, 0.13, 1] },
     },
   };
 
@@ -100,8 +100,8 @@ export default function NavBar() {
     <>
       {/* ── Navbar bar ───────────────────────────────────────────────────── */}
       <div
-        className={`bg-[#000000] navbar fixed z-[1000] h-[38px] sm:h-[64px] ${
-          responsive.isMobile || responsive.isTablet ? "top-0" : "top-0"
+        className={`bg-[#000000] navbar fixed z-[1000] ${
+          responsive.isMobile || responsive.isTablet ? "top-0 h-[38px]" : "top-0 h-[64px]"
         } left-0 w-full py-1 md:py-2 xl:py-8 m-0 transition-all duration-700 ease-in-out select-none`}
       >
         <div className="navbar-container relative w-full flex justify-between items-center">
@@ -219,7 +219,7 @@ export default function NavBar() {
               {navItems.map((item, i) => (
                 <Motion.div key={item.path} custom={i} {...Animate(linkItem)}>
                   <Link
-                    className={`text-3xl md:text-4xl font-bold tracking-widest text-text ${
+                    className={`text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold tracking-widest text-text ${
                       isActive(item.path) ? "italic" : "text-muted opacity-80"
                     }`}
                     to={item.path}

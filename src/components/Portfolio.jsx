@@ -580,11 +580,11 @@ export default function PortfolioGallery() {
   const columns = renderItems();
 
   return (
-   <div className="w-full mt-[38px] sm:mt-16 h-[calc(100dvh-38px)] sm:h-[calc(100dvh-64px)] overflow-hidden relative">
+   <div className={`w-full ${responsive.isMobile || responsive.isTablet ? "h-[calc(100dvh-38px)] mt-[38px]" : "h-[calc(100dvh-64px)] mt-16"} overflow-hidden relative`}>
       {/* Desktop Filters */}
       <div
         className={`${
-          isMobile ? "hidden" : "flex"
+          responsive.isMobile || responsive.isTablet ? "hidden" : "flex"
         } fixed top-0 right-0 w-1/2 h-screen flex-col justify-center items-end gap-8 z-10 mix-blend-difference pointer-events-none`}
       >
         {filters.map((filter, index) => (
@@ -722,7 +722,7 @@ export default function PortfolioGallery() {
       >
         <div
           className={`${
-            responsive.isDesktop ? "w-3/4" : "w-full"
+            responsive.isMobile || responsive.isTablet ? "w-full" : "w-3/4" 
           }  mb-16 h-max flex gap-1 max-md:w-full ${
             columnLayout === 1 ? "max-md:flex-col" : ""
           }`}
