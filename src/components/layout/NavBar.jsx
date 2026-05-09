@@ -69,7 +69,7 @@ export default function NavBar() {
     },
     exit: {
       clipPath: "circle(0% at 100% 0%)",
-      transition: { duration: 0.5, delay: 1.75, ease: [0.87, 0, 0.13, 1] },
+      transition: { duration: 0.5, delay: 1.5, ease: [0.87, 0, 0.13, 1] },
     },
   };
 
@@ -79,12 +79,20 @@ export default function NavBar() {
     animate: (i) => ({
       y: 0,
       opacity: 1,
-      transition: { duration: 0.6, delay: 0.4 + i * 0.1, ease: [0.22, 1, 0.36, 1] },
+      transition: {
+        duration: 0.6,
+        delay: 0.4 + i * 0.1,
+        ease: [0.22, 1, 0.36, 1],
+      },
     }),
     exit: (i) => ({
       y: -50,
       opacity: 0,
-      transition: { duration: 0.6, delay: 0.4 + i * 0.1, ease: [0.22, 1, 0.36, 1] },
+      transition: {
+        duration: 0.6,
+        delay: 0.4 + i * 0.1,
+        ease: [0.22, 1, 0.36, 1],
+      },
     }),
   };
 
@@ -92,7 +100,7 @@ export default function NavBar() {
     <>
       {/* ── Navbar bar ───────────────────────────────────────────────────── */}
       <div
-        className={`bg-[#000000] navbar fixed z-[1000] ${
+        className={`bg-[#000000] navbar fixed z-[1000] h-[38px] sm:h-[64px] ${
           responsive.isMobile || responsive.isTablet ? "top-0" : "top-0"
         } left-0 w-full py-1 md:py-2 xl:py-8 m-0 transition-all duration-700 ease-in-out select-none`}
       >
@@ -108,8 +116,9 @@ export default function NavBar() {
                 <AnimatedText
                   text="Žvinklys"
                   textColor="text-header"
-                  duration={0.75}
-                  delayChildren={1}
+                  duration={0.25}
+                  delay={0.25}
+                  delayChildren={0.5}
                   enableHover={false}
                   letterSpacing={
                     responsive.isTablet || responsive.isMobile
@@ -169,18 +178,33 @@ export default function NavBar() {
       >
         <Motion.span
           className="w-6 h-0.5 bg-white origin-center block"
-          animate={isMenuOpen ? { rotate: 45, y: 8 } : { rotate: 0, y: 0 }}
-          transition={{ duration: 0.3, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
+          initial={{ opacity: 0, y: 10 }}
+          animate={
+            isMenuOpen
+              ? { opacity: 1, x: 0, rotate: 45, y: 8 }
+              : { opacity: 1, x: 0, rotate: 0, y: 0 }
+          }
+          transition={{ duration: 0.3, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
         />
         <Motion.span
           className="w-6 h-0.5 bg-white block"
-          animate={isMenuOpen ? { y: 10, opacity: 0, scaleX: 0 } : { y: 0, opacity: 1, scaleX: 1 }}
-          transition={{ duration: 0.2 }}
+          initial={{ opacity: 0, y: 0 }}
+          animate={
+            isMenuOpen
+              ? { x: 10, opacity: 0, scaleX: 0 }
+              : { x: 0, opacity: 1, scaleX: 1 }
+          }
+          transition={{ duration: 0.2, delay: 0.05 }}
         />
         <Motion.span
           className="w-6 h-0.5 bg-white origin-center block"
-          animate={isMenuOpen ? { rotate: -45, y: -8 } : { rotate: 0, y: 0 }}
-          transition={{ duration: 0.3, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
+          initial={{ opacity: 0, y: -10 }}
+          animate={
+            isMenuOpen
+              ? { opacity: 1, x: 0, rotate: -45, y: -8 }
+              : { opacity: 1, x: 0, rotate: 0, y: 0 }
+          }
+          transition={{ duration: 0.3, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
         />
       </button>
 
@@ -193,14 +217,10 @@ export default function NavBar() {
           >
             <nav className="flex flex-col gap-8 text-center">
               {navItems.map((item, i) => (
-                <Motion.div
-                  key={item.path}
-                  custom={i}
-                  {...Animate(linkItem)}
-                >
+                <Motion.div key={item.path} custom={i} {...Animate(linkItem)}>
                   <Link
-                    className={`text-3xl md:text-4xl font-bold tracking-widest text-white ${
-                      isActive(item.path) ? "italic" : "opacity-85"
+                    className={`text-3xl md:text-4xl font-bold tracking-widest text-text ${
+                      isActive(item.path) ? "italic" : "text-muted opacity-80"
                     }`}
                     to={item.path}
                     onClick={(e) => {

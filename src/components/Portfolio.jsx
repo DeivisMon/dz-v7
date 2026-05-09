@@ -406,8 +406,8 @@ export default function PortfolioGallery() {
         }, 50);
 
         setTimeout(() => lenisRef.current?.resize(), 150);
-        setTimeout(() => lenisRef.current?.resize(), 350);
-        setTimeout(() => lenisRef.current?.resize(), 650);
+        setTimeout(() => lenisRef.current?.resize(), 300);
+        setTimeout(() => lenisRef.current?.resize(), 600);
 
         gsap.to(itemsRef.current, {
           opacity: 1,
@@ -580,7 +580,7 @@ export default function PortfolioGallery() {
   const columns = renderItems();
 
   return (
-   <div className="w-full h-[calc(100vh-64px)] mt-12 overflow-hidden relative">
+   <div className="w-full mt-[38px] sm:mt-16 h-[calc(100dvh-38px)] sm:h-[calc(100dvh-64px)] overflow-hidden relative">
       {/* Desktop Filters */}
       <div
         className={`${

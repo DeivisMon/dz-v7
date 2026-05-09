@@ -1,6 +1,6 @@
 import { easeInOut, motion as Motion } from "framer-motion"
 
-const getContainer = (delayChildren, staggerChildren) => ({
+const getContainer = (delay, delayChildren, staggerChildren) => ({
   hidden: {
     y: -100,
     opacity: 0,
@@ -9,8 +9,8 @@ const getContainer = (delayChildren, staggerChildren) => ({
     y: 0,
     opacity: 1,
     transition: {
-      delay: 1,
       duration: 0.25,
+      delay,
       delayChildren,
       staggerChildren,
     },
@@ -46,7 +46,8 @@ const getLetter = (duration) => ({
 const AnimatedText = ({ 
   text,
   textColor = "text-current", 
-  duration = 0.35, 
+  duration = 0.35,
+  delay = "", 
   delayChildren = 1.8, 
   staggerChildren = 0.025,
   hoverStagger = 0.025,
@@ -54,7 +55,7 @@ const AnimatedText = ({
   enableHover = true,
   letterSpacing = "" 
 }) => {
-  const container = getContainer(delayChildren, staggerChildren)
+  const container = getContainer( delay, delayChildren, staggerChildren)
   const letter = getLetter(duration)
 
   return (
