@@ -10,12 +10,12 @@ export default function PageSlideInTransition({ children }) {
       y: 0,
       opacity: 1,
       transition: {
-        delay: responsive.isMobile || responsive.isTablet ? 0.5 : 0.75,
+        delay: responsive.isMobile || responsive.isTablet ? 0.65 : 0.75,
         duration: 0.5,
         ease: [0.53, 0.2, 0.17, 1],
       },
     },
-    exit: { y: -15, transition: { duration: responsive.isMobile || responsive.isTablet ? 0.75 : 1.25 } },
+    exit: { y: 15, opacity: 0, transition: { duration: responsive.isMobile || responsive.isTablet ? 0.5 : 1.25 } },
   };
 
   return (

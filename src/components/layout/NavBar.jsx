@@ -48,7 +48,7 @@ export default function NavBar() {
       return;
     }
     setIsMenuOpen(false);
-    setTimeout(() => navigate(path), 0);
+    setTimeout(() => navigate(path), 1050);
   };
 
   // ── Framer Motion variants ──────────────────────────────────────────────
@@ -65,11 +65,11 @@ export default function NavBar() {
     initial: { clipPath: "circle(0% at 100% 0%)" },
     animate: {
       clipPath: "circle(150% at 100% 0%)",
-      transition: { duration: 0.75, delay: 0.15, ease: [0.87, 0, 0.13, 1] },
+      transition: { duration: 0.75, delay: 0.25, ease: [0.87, 0, 0.13, 1] },
     },
     exit: {
       clipPath: "circle(0% at 100% 0%)",
-      transition: { duration: 0.75, delay: 1.25, ease: [0.53, 0.2, 0.17, 1] },
+      transition: { duration: 0.5, delay: 0.5, ease: [0.53, 0.2, 0.17, 1] },
     },
   };
 
@@ -89,8 +89,8 @@ export default function NavBar() {
       y: -50,
       opacity: 0,
       transition: {
-        duration: 0.6,
-        delay: 0.4 + i * 0.1,
+        duration: 0.25,
+        delay: i * 0.1,
         ease: [0.22, 1, 0.36, 1],
       },
     }),

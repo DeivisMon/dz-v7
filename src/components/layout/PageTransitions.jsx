@@ -36,17 +36,10 @@ export default function PageTransitions({ children }) {
       y: 500,
       scale: 0.9,
       opacity: 0.8,
-      transition: { duration: 2.5, ease: [0.53, 0.2, 0.17, 1] },
+      transition: { duration: 2, ease: [0.53, 0.2, 0.17, 1] },
     },
   };
 
-  // const endBlack = {
-  //   initial: { scaleY: 1 },
-  //   animate: {
-  //     scaleY: 0,
-  //     transition: { delay: 1.5, duration: 0.5, ease: "easeInOut" },
-  //   },
-  // };
 
   return (
     <div className="overflow-hidden">
@@ -66,10 +59,6 @@ export default function PageTransitions({ children }) {
           {children}
         </Motion.div>
       </Motion.div>
-      {/* <Motion.div
-        {...Animate(endBlack)}
-        className="fixed inset-0 bg-black z-[999999] origin-top pointer-events-none"
-      /> */}
     </div>
   );
 }
