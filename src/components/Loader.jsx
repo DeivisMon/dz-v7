@@ -218,7 +218,7 @@ export default function Loader({ onComplete }) {
   const circumference = 2 * Math.PI * radius;
 
   return (
-    <div className="fixed inset-0 z-50 w-screen h-[100dvh] overflow-hidden bg-black">
+    <div className="fixed inset-0 z-50 w-screen h-[100dvh] overflow-hidden bg-bckg">
       {/* Counter with Circle (on top) */}
       <div
         ref={counterContainerRef}
