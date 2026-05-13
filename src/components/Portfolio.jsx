@@ -578,7 +578,7 @@ export default function PortfolioGallery() {
   const columns = renderItems();
 
   return (
-   <div className={`w-full ${responsive.isMobile || responsive.isTablet ? "h-[calc(100dvh-38px)] mt-[38px]" : "h-[calc(100dvh-64px)] mt-16"} overflow-hidden relative`}>
+   <div className={`w-full ${responsive.isMobile || responsive.isTablet ? "h-[calc(100dvh-38px)] mt-[38px]" : "h-[calc(100dvh-64px)] mt-16"} overflow-hidden relative bg-bckg`}>
       {/* Desktop Filters */}
       <div
         className={`${

@@ -81,7 +81,7 @@ export default function NavBar() {
       opacity: 1,
       transition: {
         duration: 0.5,
-        delay: 0.75 + i * 0.1,
+        delay: 0.6 + i * 0.1,
         ease: [0.22, 1, 0.36, 1],
       },
     }),
@@ -100,7 +100,7 @@ export default function NavBar() {
     <>
       {/* ── Navbar bar ───────────────────────────────────────────────────── */}
       <div
-        className={`bg-bckg navbar fixed z-[1000] ${
+        className={`bg-black navbar fixed z-[1000] ${
           responsive.isMobile || responsive.isTablet ? "top-0 h-[38px]" : "top-0 h-[64px]"
         } left-0 w-full py-1 md:py-2 xl:py-8 m-0 transition-all duration-700 ease-in-out select-none`}
       >

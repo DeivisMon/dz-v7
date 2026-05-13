@@ -61,7 +61,7 @@ export default function ContactSocialsAndForm() {
 
 
   return (
-    <div className={`relative w-[100vw] ${responsive.isMobile || responsive.isTablet || responsive.isLandscape ? "h-[calc(100dvh-38px)] mt-[38px]" : "h-[calc(100dvh-64px)] mt-16"} overflow-hidden shadow-xl bg-surface`}>
+    <div className={`relative w-[100vw] ${responsive.isMobile || responsive.isTablet || responsive.isLandscape ? "h-[calc(100dvh-38px)] mt-[38px]" : "h-[calc(100dvh-64px)] mt-16"} overflow-hidden shadow-xl bg-bckg`}>
       {/* Content Container - positioned absolutely for proper 50/50 split */}
       <div
         className={`absolute inset-0 flex ${isVerticalLayout ? "flex-col" : "flex-row"}`}

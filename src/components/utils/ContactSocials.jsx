@@ -79,8 +79,6 @@ export default function ContactSocials() {
   const icons = [
     { id: "facebook", label: "Facebook" },
     { id: "instagram", label: "Instagram" },
-    { id: "x", label: "X.com" },
-    { id: "linkedin", label: "LinkedIn" },
   ];
 
   const copy = async () => {
