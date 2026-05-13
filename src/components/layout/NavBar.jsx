@@ -62,13 +62,13 @@ export default function NavBar() {
 
   // Full-screen overlay: clips in from top-right corner (mirrors original GSAP clip-path)
   const overlay = {
-    initial: { clipPath: "circle(0% at 100% 0%)" },
+    initial: { clipPath: "inset(0% 0% 100% 100%)" },
     animate: {
-      clipPath: "circle(150% at 100% 0%)",
+      clipPath: "inset(0% 0% 0% 0%)",
       transition: { duration: 0.75, delay: 0.25, ease: [0.87, 0, 0.13, 1] },
     },
     exit: {
-      clipPath: "circle(0% at 100% 0%)",
+      clipPath: "inset(0% 0% 100% 100%)",
       transition: { duration: 0.5, delay: 0.5, ease: [0.53, 0.2, 0.17, 1] },
     },
   };
@@ -81,7 +81,7 @@ export default function NavBar() {
       opacity: 1,
       transition: {
         duration: 0.5,
-        delay: 0.4 + i * 0.1,
+        delay: 0.75 + i * 0.1,
         ease: [0.22, 1, 0.36, 1],
       },
     }),
@@ -184,7 +184,7 @@ export default function NavBar() {
               ? { opacity: 1, x: 0, rotate: 45, y: 8 }
               : { opacity: 1, x: 0, rotate: 0, y: 0 }
           }
-          transition={{ duration: 0.3, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.3, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
         />
         <Motion.span
           className="w-6 h-0.5 bg-white block"
@@ -194,7 +194,7 @@ export default function NavBar() {
               ? { y: 10, opacity: 0, scaleX: 0 }
               : { y: 0, opacity: 1, scaleX: 1 }
           }
-          transition={{ duration: 0.2, delay: 0.05 }}
+          transition={{ duration: 0.2, delay: 0.15 }}
         />
         <Motion.span
           className="w-6 h-0.5 bg-white origin-center block"
@@ -204,7 +204,7 @@ export default function NavBar() {
               ? { opacity: 1, x: 0, rotate: -45, y: -8 }
               : { opacity: 1, x: 0, rotate: 0, y: 0 }
           }
-          transition={{ duration: 0.3, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.3, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
         />
       </button>
 

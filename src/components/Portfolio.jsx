@@ -554,7 +554,7 @@ export default function PortfolioGallery() {
           className="cursor-pointer"
           onClick={() => openLightbox(item.img, i)}
         >
-          <div className="w-full group overflow-hidden">
+          <div className="w-full group overflow-hidden m-1">
             <img
               src={item.img}
               alt={item.title}
