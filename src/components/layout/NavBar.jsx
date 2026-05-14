@@ -75,9 +75,10 @@ export default function NavBar() {
 
   // Each nav link: slides up in, slides up out
   const linkItem = {
-    initial: { y: 100, opacity: 0 },
+    initial: { y: -100, x: 100, opacity: 0 },
     animate: (i) => ({
       y: 0,
+      x: 0,
       opacity: 1,
       transition: {
         duration: 0.5,
@@ -87,6 +88,7 @@ export default function NavBar() {
     }),
     exit: (i) => ({
       y: -50,
+      x: 50,
       opacity: 0,
       transition: {
         duration: 0.25,
@@ -219,8 +221,8 @@ export default function NavBar() {
               {navItems.map((item, i) => (
                 <Motion.div key={item.path} custom={i} {...Animate(linkItem)}>
                   <Link
-                    className={`text-3xl md:text-3xl lg:text-5xl xl:text-6xl font-bold tracking-widest text-text ${
-                      isActive(item.path) ? "italic" : "text-muted opacity-80"
+                    className={`text-3xl md:text-3xl lg:text-5xl xl:text-6xl font-bold tracking-widest ${
+                      isActive(item.path) ? "italic text-accent" : "text-muted opacity-80"
                     }`}
                     to={item.path}
                     onClick={(e) => {

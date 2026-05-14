@@ -64,12 +64,12 @@ body {
   /* font-family: 'Neroit Mission', sans-serif; */
   /* font-family: 'Mories', sans-serif; */
   /* font-family: 'LT Binary Neue', sans-serif; */
-  /* font-family: 'Syne', sans-serif; */
+  font-family: 'Syne', sans-serif;
   /* font-family: 'Playfair Display',Georgia,serif; */
   /* font-family: 'Anton', sans-serif; */
   /* font-family: "Kudryashev Display Sans", sans-serif; */
   /* font-family: 'Poiret One', cursive; */
-  font-family: 'SF Old Republic', sans-serif;
+  /* font-family: 'SF Old Republic', sans-serif; */
   /* font-family: "Montserrat", sans-serif; */
   /* font-family: "Inter", sans-serif; */
   /* font-family: "Sofia Sans Condensed", sans-serif; */
@@ -92,6 +92,10 @@ body {
     display: none !important;
   }
 } */
+
+.navbar {
+  font-family: 'SF Old Republic', sans-serif;
+}
 
 textarea {
   min-height: 50px;

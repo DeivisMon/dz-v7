@@ -246,7 +246,7 @@ export default function Loader({ onComplete }) {
           </svg>
           <div
             ref={numberRef}
-            className="text-white text-5xl md:text-6xl font-bold tabular-nums opacity-0"
+            className="text-white text-4xl md:text-6xl font-bold tabular-nums opacity-0"
           >
             0
           </div>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router";
 import { AnimatePresence } from "framer-motion";
-import PageTransitions from "./components/layout/PageTransitions";
+import DesktopPageTransitions from "./components/layout/DesktopPageTransitions";
 import MobilePageTransition from "./components/layout/MobilePageTransition";
 import MobileWiper from "./components/layout/WiperMobile";
 import Loader from "./components/Loader";
@@ -44,14 +44,14 @@ export default function App() {
             <>
               <NavBar />
               <AnimatePresence mode="wait">
-                <PageTransitions key={location.pathname}>
+                <DesktopPageTransitions key={location.pathname}>
                   <Routes location={location}>
                     <Route path="/" element={<Index />} />
                     <Route path="/portfolio" element={<Portfolio />} />
                     <Route path="/kontaktai" element={<Contact />} />
                     <Route path="/apie-mane" element={<AboutMe />} />
                   </Routes>
-                </PageTransitions>
+                </DesktopPageTransitions>
               </AnimatePresence>
             </>
           ) : (

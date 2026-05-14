@@ -1,6 +1,6 @@
 import { motion as Motion } from "framer-motion";
 import TextTransition from "./TextTransition";
-export default function PageTransitions({ children }) {
+export default function DesktopPageTransitions({ children }) {
   const Animate = (variants) => {
     return {
       initial: "initial",

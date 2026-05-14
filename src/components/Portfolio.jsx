@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useMemo,
+  useCallback,
+} from "react";
 import gsap from "gsap";
 import { motion as Motion } from "framer-motion";
 import Lenis from "lenis";
@@ -13,7 +19,7 @@ import ScrollProgressBar from "./utils/ProgressBar";
 import ScrollTop from "./utils/ScrollTop";
 
 function shuffleArray(array) {
-  const arr = [...array]; 
+  const arr = [...array];
   for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [arr[i], arr[j]] = [arr[j], arr[i]];
@@ -26,19 +32,18 @@ const items = shuffleArray(galleryData);
 const FilterButton = ({ filter, isActive, onClick, index }) => {
   const h1Ref = useRef(null);
   const buttonRef = useRef(null);
-  const counterRef = useRef(null); 
-  
+  const counterRef = useRef(null);
+
   useEffect(() => {
-  const btn = buttonRef.current;
-  if (!btn) return;
+    const btn = buttonRef.current;
+    if (!btn) return;
 
-  btn.style.pointerEvents = "none";
+    btn.style.pointerEvents = "none";
 
-  gsap.delayedCall(1, () => {
-    btn.style.pointerEvents = "auto";
-  });
-}, []);
-
+    gsap.delayedCall(1, () => {
+      btn.style.pointerEvents = "auto";
+    });
+  }, []);
 
   useEffect(() => {
     gsap.fromTo(
@@ -53,19 +58,18 @@ const FilterButton = ({ filter, isActive, onClick, index }) => {
         duration: 0.8,
         delay: 1.175 + index * 0.1,
         ease: "power3.inOut",
-      }
+      },
     );
   }, [index]);
 
   useEffect(() => {
-  if (!counterRef.current) return;
+    if (!counterRef.current) return;
 
-  gsap.set(counterRef.current, {
-    opacity: 0,
-    y: 50,
-  });
-}, []);
-
+    gsap.set(counterRef.current, {
+      opacity: 0,
+      y: 50,
+    });
+  }, []);
 
   useEffect(() => {
     const spans = h1Ref.current?.querySelectorAll("span");
@@ -115,7 +119,7 @@ const FilterButton = ({ filter, isActive, onClick, index }) => {
     return text.split("").map((char, i) => (
       <span
         key={i}
-        className={`relative inline-block uppercase font-black tracking-[0.35em] transition-colors duration-300 ${
+        className={`relative inline-block uppercase font-bold tracking-[0.2em] transition-colors duration-300 ${
           isActive ? "text-accent border-gray-600 border-b" : "text-text"
         }`}
       >
@@ -132,14 +136,17 @@ const FilterButton = ({ filter, isActive, onClick, index }) => {
       style={{ height: "100px" }}
       onClick={onClick}
     >
-      <h1 ref={h1Ref} className={`inline-block uppercase  ${
-    isActive ? "border-b border-muted" : ""
-  }`}>
+      <h1
+        ref={h1Ref}
+        className={`inline-block uppercase  ${
+          isActive ? "border-b border-muted" : ""
+        }`}
+      >
         {renderTitle(filter.label)}
       </h1>
       <p
         ref={counterRef}
-        className="absolute -right-2 top-[110px] transform -translate-y-1/2 px-2 text-xl font-medium text-muted tracking-[0.8em] pointer-events-none"
+        className="absolute -right-2 top-[105px] transform -translate-y-1/2 px-2 text-xl font-medium text-muted tracking-[0.8em] pointer-events-none"
       >
         ({filter.count})
       </p>
@@ -157,18 +164,16 @@ export default function PortfolioGallery() {
   const [columnLayout, setColumnLayout] = useState(2);
   const responsive = useResponsive();
 
-  //Refs
+  // Refs
   const itemsRef = useRef(null);
   const lenisRef = useRef(null);
   const lightboxRef = useRef(null);
+  const currentImageRef = useRef(null);
   const isAnimating = useRef(false);
   const mobileMenuRef = useRef(null);
-  const filterButtonRef = useRef(null);
-  const layoutButtonRef = useRef(null);
-  const currentImageRef = useRef(null);
   const layoutIconsRef = useRef([]);
   const hasAnimatedIn = useRef(false);
-  
+
   // Touch swipe state for lightbox
   const touchStartX = useRef(0);
   const touchStartY = useRef(0);
@@ -193,20 +198,38 @@ export default function PortfolioGallery() {
 
     lenisRef.current = lenis;
 
+    let rafId;
+
     function raf(time) {
       lenis.raf(time);
-      requestAnimationFrame(raf);
+      rafId = requestAnimationFrame(raf);
     }
-    requestAnimationFrame(raf);
 
-    return () => lenis.destroy();
+    rafId = requestAnimationFrame(raf);
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      lenis.destroy();
+    };
   }, []);
 
   const filters = [
     { id: "all", label: "Visi", count: items.length },
-    { id: "fotosesijos", label: "Fotosesijos", count: items.filter(i => i.tag.includes("fotosesijos")).length },
-    { id: "menas", label: "Juoda/Balta", count: items.filter(i => i.tag.includes("menas")).length },
-    { id: "renginiai", label: "Renginiai", count: items.filter(i => i.tag.includes("renginiai")).length },
+    {
+      id: "fotosesijos",
+      label: "Fotosesijos",
+      count: items.filter((i) => i.tag.includes("fotosesijos")).length,
+    },
+    {
+      id: "menas",
+      label: "Juoda/Balta",
+      count: items.filter((i) => i.tag.includes("menas")).length,
+    },
+    {
+      id: "renginiai",
+      label: "Renginiai",
+      count: items.filter((i) => i.tag.includes("renginiai")).length,
+    },
   ];
 
   // Load image heights
@@ -239,16 +262,80 @@ export default function PortfolioGallery() {
 
     // Wait for DOM to update, then resize multiple times to ensure accuracy
     const timeouts = [0, 100, 300, 600].map((delay) =>
-      setTimeout(() => lenisRef.current?.resize(), delay)
+      setTimeout(() => lenisRef.current?.resize(), delay),
     );
 
     return () => timeouts.forEach(clearTimeout);
   }, [imageHeights]);
 
-  const getFilteredItems = () => {
+  const filteredItems = useMemo(() => {
     if (activeFilter === "all") return items;
     return items.filter((item) => item.tag.includes(activeFilter));
-  };
+  }, [activeFilter]);
+
+  const columns = useMemo(() => {
+    const cols = Array.from({ length: columnLayout }, () => []);
+    const columnHeights = Array(columnLayout).fill(0);
+
+    filteredItems.forEach((item, i) => {
+      const originalIndex = items.indexOf(item);
+      const aspectRatio = imageHeights[originalIndex] || 1.25;
+      const height = 400 * aspectRatio;
+
+      const itemElement = (
+        <div
+          key={`${item.img}-${i}`}
+          className="cursor-pointer"
+          onClick={() => openLightbox(item.img, i)}
+        >
+          <div className="w-full group overflow-hidden m-1">
+            <img
+              src={item.img}
+              alt={item.title}
+              loading="lazy"
+              decoding="async"
+              fetchPriority="low"
+              className="cursor-trigger w-full h-auto object-cover transition-all duration-300 ease-in group-hover:blur-[1px] md:group-hover:scale-105"
+              style={{ display: "block" }}
+              data-cursor-type="expand"
+            />
+          </div>
+        </div>
+      );
+
+      // Find shortest column
+      const minIndex = columnHeights.indexOf(Math.min(...columnHeights));
+      cols[minIndex].push(itemElement);
+      columnHeights[minIndex] += height;
+    });
+
+    return cols;
+  }, [filteredItems, columnLayout, imageHeights]);
+
+  const galleryContent = (
+    <div
+      className={`${
+        responsive.isMobile || responsive.isTablet ? "w-full" : "w-3/4"
+      } mb-16 h-max flex gap-1 transition-all duration-300 ${
+        columnLayout === 1 ? "flex-col " : ""
+      }`}
+    >
+      {columns.map((column, index) => (
+        <div
+          key={index}
+          className={`${
+            columnLayout === 1
+              ? "w-full"
+              : columnLayout === 2
+                ? "flex-1 min-w-0"
+                : "flex-1 min-w-0"
+          }`}
+        >
+          {column}
+        </div>
+      ))}
+    </div>
+  );
 
   const openLightbox = (img, index) => {
     setLightboxImage(img);
@@ -270,11 +357,12 @@ export default function PortfolioGallery() {
 
   const navigateLightbox = (direction) => {
     if (isAnimating.current) return;
-    const filtered = getFilteredItems();
+
     let newIndex = lightboxIndex + direction;
-    if (newIndex < 0) newIndex = filtered.length - 1;
-    if (newIndex >= filtered.length) newIndex = 0;
-    const newImage = filtered[newIndex].img;
+    if (newIndex < 0) newIndex = filteredItems.length - 1;
+    if (newIndex >= filteredItems.length) newIndex = 0;
+
+    const newImage = filteredItems[newIndex].img;
     isAnimating.current = true;
     const imgElement = currentImageRef.current;
     if (!imgElement) return;
@@ -289,6 +377,7 @@ export default function PortfolioGallery() {
         setLightboxImage(newImage);
         setLightboxIndex(newIndex);
         gsap.set(imgElement, { x: direction === 1 ? 100 : -100, opacity: 0 });
+
         imgElement.onload = () => {
           gsap.to(imgElement, {
             x: 0,
@@ -319,13 +408,16 @@ export default function PortfolioGallery() {
 
   const handleTouchEnd = () => {
     if (!touchStartX.current || !touchEndX.current) return;
-    
+
     const deltaX = touchStartX.current - touchEndX.current;
     const deltaY = touchStartY.current - touchEndY.current;
     const minSwipeDistance = 50;
-    
+
     // Check if horizontal swipe is more significant than vertical
-    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > minSwipeDistance) {
+    if (
+      Math.abs(deltaX) > Math.abs(deltaY) &&
+      Math.abs(deltaX) > minSwipeDistance
+    ) {
       if (deltaX > 0) {
         // Swipe left - next image
         navigateLightbox(1);
@@ -337,7 +429,7 @@ export default function PortfolioGallery() {
       // Swipe up - close lightbox
       closeLightbox();
     }
-    
+
     // Reset values
     touchStartX.current = 0;
     touchStartY.current = 0;
@@ -362,135 +454,112 @@ export default function PortfolioGallery() {
       gsap.fromTo(
         lightboxRef.current,
         { opacity: 0 },
-        { opacity: 1, duration: 0.3 }
+        { opacity: 1, duration: 0.3 },
       );
       hasAnimatedIn.current = true;
     }
     if (!lightboxImage) hasAnimatedIn.current = false;
   }, [lightboxImage]);
 
-  const handleFilterClick = (filterId) => {
-    if (filterId === activeFilter) return;
+  const handleFilterClick = useCallback(
+    (filterId) => {
+      if (filterId === activeFilter) return;
+      setActiveFilter(filterId);
 
-    // Close mobile menu first if open
-    if (mobileMenuOpen) {
-      const menuItems = mobileMenuRef.current?.querySelectorAll("button");
-      if (menuItems) {
-        gsap.to(menuItems, {
-          x: 50,
-          opacity: 0,
-          duration: 0.3,
-          stagger: 0.05,
-          ease: "power2.in",
-          onComplete: () => {
-            setMobileMenuOpen(false);
-          },
-        });
+      if (mobileMenuOpen) {
+        const menuItems = mobileMenuRef.current?.querySelectorAll("button");
+        if (menuItems?.length) {
+          gsap.to(menuItems, {
+            x: 50,
+            opacity: 0,
+            duration: 0.25,
+            stagger: 0.04,
+            onComplete: () => setMobileMenuOpen(false),
+          });
+        } else {
+          setMobileMenuOpen(false);
+        }
       }
-    }
 
-    // Animate the content
-    gsap.to(itemsRef.current, {
-      opacity: 0,
-      duration: 0.5,
-      y: 50,
-      ease: "power2.in",
-      onComplete: () => {
-        setActiveFilter(filterId);
-        // Content is already filtered because state changed above
-        setTimeout(() => {
+      gsap.to(itemsRef.current, {
+        opacity: 0,
+        y: 40,
+        duration: 0.4,
+        ease: "power2.in",
+        onComplete: () => {
+          setActiveFilter(filterId);
+
           lenisRef.current?.scrollTo(0, { immediate: true });
-          lenisRef.current?.resize();
-        }, 50);
 
-        setTimeout(() => lenisRef.current?.resize(), 150);
-        setTimeout(() => lenisRef.current?.resize(), 300);
-        setTimeout(() => lenisRef.current?.resize(), 600);
+          requestAnimationFrame(() => {
+            lenisRef.current?.resize();
+          });
 
-        gsap.to(itemsRef.current, {
-          opacity: 1,
-          duration: 0.75,
-          delay: 0.5,
-          ease: "power3.out",
-          y: 0,
-        });
-      },
-    });
-  };
+          gsap.to(itemsRef.current, {
+            opacity: 1,
+            y: 0,
+            duration: 0.6,
+            ease: "power3.out",
+          });
+        },
+      });
+    },
+    [activeFilter, mobileMenuOpen],
+  );
 
-  const handleLayoutChange = (columns) => {
-    if (columns === columnLayout) return;
+  const handleLayoutChange = useCallback(
+    (newColumns) => {
+      if (newColumns === columnLayout) return;
 
-    // Fade out content
-    gsap.to(itemsRef.current, {
-      opacity: 0,
-      duration: 0.5,
-      y: 50,
-      onComplete: () => {
-        const icons = layoutIconsRef.current.filter(Boolean);
-        gsap.to(icons, {
-          x: -50,
-          opacity: 0,
-          duration: 0.3,
-          stagger: 0.05,
-          ease: "power2.in",
-          onComplete: () => {
-            setColumnLayout(columns);
-            setLayoutMenuOpen(false);
+      gsap.to(itemsRef.current, {
+        opacity: 0,
+        y: 40,
+        duration: 0.4,
+        ease: "power2.in",
+        onComplete: () => {
+          setColumnLayout(newColumns);
+          setLayoutMenuOpen(false);
 
-            // Multiple resize calls with delays
-            setTimeout(() => {
-              lenisRef.current?.scrollTo(0, { immediate: true });
-              lenisRef.current?.resize();
-            }, 50);
+          lenisRef.current?.scrollTo(0, { immediate: true });
 
-            setTimeout(() => lenisRef.current?.resize(), 150);
-            setTimeout(() => lenisRef.current?.resize(), 350);
-            setTimeout(() => lenisRef.current?.resize(), 650);
+          requestAnimationFrame(() => {
+            lenisRef.current?.resize();
+          });
 
-            setTimeout(() => {
-              const selectedIcon = layoutIconsRef.current[columns - 1];
-              if (selectedIcon) {
-                gsap.fromTo(
-                  selectedIcon,
-                  { x: 50, opacity: 0 },
-                  { x: 0, opacity: 1, duration: 0.3, ease: "power2.out" }
-                );
-              }
-            }, 50);
+          gsap.to(itemsRef.current, {
+            opacity: 1,
+            y: 0,
+            duration: 0.6,
+            ease: "power3.out",
+          });
+        },
+      });
+    },
+    [columnLayout],
+  );
 
-            // Fade in content
-            gsap.to(itemsRef.current, {
-              opacity: 1,
-              duration: 0.75,
-              delay: 0.5,
-              y: 0,
-            });
-          },
-        });
-      },
-    });
-  };
-
+  // Mobile Menu Controls
   const openFilterMenu = () => {
     if (mobileMenuOpen) {
       const menuItems = mobileMenuRef.current?.querySelectorAll("button");
-      if (menuItems) {
+      if (menuItems?.length) {
         gsap.to(menuItems, {
           x: 50,
           opacity: 0,
-          duration: 0.3,
-          stagger: 0.05,
+          duration: 0.25,
+          stagger: 0.04,
           ease: "power2.in",
           onComplete: () => setMobileMenuOpen(false),
         });
+      } else {
+        setMobileMenuOpen(false);
       }
     } else {
       setMobileMenuOpen(true);
       setLayoutMenuOpen(false);
-      setTimeout(() => {
+       setTimeout(() => {
         const menuItems = mobileMenuRef.current?.querySelectorAll("button");
-        if (menuItems) {
+        if (menuItems?.length) {
           gsap.fromTo(
             menuItems,
             { x: 50, opacity: 0 },
@@ -499,7 +568,7 @@ export default function PortfolioGallery() {
               opacity: 1,
               duration: 0.4,
               stagger: 0.1,
-              ease: "back.out(1.7)",
+              ease: "power2.in",
             }
           );
         }
@@ -510,80 +579,31 @@ export default function PortfolioGallery() {
   const openLayoutMenu = () => {
     if (layoutMenuOpen) {
       const icons = layoutIconsRef.current.filter(Boolean);
-      gsap.to(icons, {
-        x: -50,
-        opacity: 0,
-        duration: 0.3,
-        stagger: 0.05,
-        ease: "power2.in",
-        onComplete: () => setLayoutMenuOpen(false),
-      });
+      if (icons.length) {
+        gsap.to(icons, {
+          x: -30,
+          opacity: 0,
+          duration: 0.25,
+          stagger: 0.05,
+          ease: "power2.in",
+          onComplete: () => setLayoutMenuOpen(false),
+        });
+      } else {
+        setLayoutMenuOpen(false);
+      }
     } else {
       setLayoutMenuOpen(true);
       setMobileMenuOpen(false);
-      setTimeout(() => {
-        const icons = layoutIconsRef.current.filter(Boolean);
-        gsap.fromTo(
-          icons,
-          { x: 50, opacity: 0 },
-          {
-            x: 0,
-            opacity: 1,
-            duration: 0.4,
-            stagger: 0.1,
-            ease: "back.out(1.7)",
-          }
-        );
-      }, 50);
     }
   };
 
-  const renderItems = () => {
-    const filtered = getFilteredItems();
-    const columns = Array.from({ length: columnLayout }, () => []);
-    const columnHeights = Array(columnLayout).fill(0);
-
-    filtered.forEach((item, i) => {
-      const originalIndex = items.indexOf(item);
-      const aspectRatio = imageHeights[originalIndex] || 1.25;
-      const height = 400 * aspectRatio;
-
-      const itemElement = (
-        <div
-          key={i}
-          className="cursor-pointer"
-          onClick={() => openLightbox(item.img, i)}
-        >
-          <div className="w-full group overflow-hidden m-1">
-            <img
-              src={item.img}
-              alt={item.title}
-              loading="lazy"
-              className="cursor-trigger w-full h-auto object-cover transition-all duration-300 ease-in group-hover:blur-[1px] md:group-hover:scale-105"
-              style={{ display: "block" }}
-              data-cursor-type="expand"
-            />
-          </div>
-        </div>
-      );
-
-      const minHeightIndex = columnHeights.indexOf(Math.min(...columnHeights));
-      columns[minHeightIndex].push(itemElement);
-      columnHeights[minHeightIndex] += height;
-    });
-
-    return columns;
-  };
-
-  const columns = renderItems();
-
   return (
-   <div className={`w-full ${responsive.isMobile || responsive.isTablet ? "h-[calc(100dvh-38px)] mt-[38px]" : "h-[calc(100dvh-64px)] mt-16"} overflow-hidden relative bg-bckg`}>
+    <div
+      className={`w-full ${responsive.isMobile || responsive.isTablet ? "h-[calc(100dvh-38px)] mt-[38px]" : "h-[calc(100dvh-64px)] mt-16"} overflow-hidden relative bg-bckg`}
+    >
       {/* Desktop Filters */}
       <div
-        className={`${
-          responsive.isMobile || responsive.isTablet ? "hidden" : "flex"
-        } fixed top-0 right-0 w-1/2 h-screen flex-col justify-center items-end gap-8 z-10 mix-blend-difference pointer-events-none`}
+        className={`${responsive.isMobile || responsive.isTablet ? "hidden" : "flex"} fixed top-0 right-0 w-1/2 h-screen flex-col justify-center items-end gap-8 z-10 mix-blend-difference pointer-events-none`}
       >
         {filters.map((filter, index) => (
           <FilterButton
@@ -598,115 +618,98 @@ export default function PortfolioGallery() {
 
       {/* Mobile Controls */}
       <div
-        className={`${
-          responsive.isMobile || responsive.isTablet ? "flex" : "hidden"
-        } relative w-full z-[888] bg-black items-top justify-between px-4`}
+        className={`${responsive.isMobile || responsive.isTablet ? "flex" : "hidden"} relative w-full z-[888] bg-black items-center justify-between px-2 py-1`}
       >
-        {/* Layout Controls - Left Side */}
+        {/* Layout */}
         <div
-          ref={layoutButtonRef}
           onClick={openLayoutMenu}
-          className="flex gap-1 items-center"
+          className="flex items-center gap-1 cursor-pointer"
         >
-          <button className="bg-black flex items-center justify-center text-white transition-colors">
-            Layout
-          </button>
+          <span className="text-white">Layout</span>
           {!layoutMenuOpen && (
-            <div
-              ref={(el) => (layoutIconsRef.current[columnLayout - 1] = el)}
+            <Motion.div
+              initial={{ opacity: 0, x: -15 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 15 }}
+              transition={{ duration: 0.25 }}
               className="w-8 h-8 flex items-center justify-center text-white"
             >
               {columnLayout === 1 && <TfiLayoutWidthFull />}
               {columnLayout === 2 && <TfiLayoutColumn2 />}
               {columnLayout === 3 && <TfiLayoutColumn3 />}
-            </div>
+            </Motion.div>
           )}
           {layoutMenuOpen && (
-            <div className="flex">
-              <button
-                ref={(el) => (layoutIconsRef.current[0] = el)}
-                onClick={() => handleLayoutChange(1)}
-                className={`flex items-center justify-center w-8 h-8 transition-colors ${
-                  columnLayout === 1
-                    ? "text-white border-white border-2"
-                    : "bg-violet/90 text-white hover:bg-white/20"
-                }`}
-                style={{ opacity: 0 }}
-              >
-                <TfiLayoutWidthFull />
-              </button>
-              <button
-                ref={(el) => (layoutIconsRef.current[1] = el)}
-                onClick={() => handleLayoutChange(2)}
-                className={`flex items-center justify-center w-8 h-8 transition-colors ${
-                  columnLayout === 2
-                    ? "text-white"
-                    : "bg-white/10 text-white hover:bg-white/20"
-                }`}
-                style={{ opacity: 0 }}
-              >
-                <TfiLayoutColumn2 />
-              </button>
-              <button
-                ref={(el) => (layoutIconsRef.current[2] = el)}
-                onClick={() => handleLayoutChange(3)}
-                className={`flex items-center justify-center w-8 h-8 transition-colors ${
-                  columnLayout === 3
-                    ? "text-white"
-                    : "bg-white/10 text-white hover:bg-white/20"
-                }`}
-                style={{ opacity: 0 }}
-              >
-                <TfiLayoutColumn3 />
-              </button>
+            <div className="flex gap-1">
+              {[1, 2, 3].map((col) => (
+                <button
+                  key={col}
+                  ref={(el) => (layoutIconsRef.current[col - 1] = el)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleLayoutChange(col);
+                  }}
+                  className={`w-9 h-9 flex items-center justify-center transition-all ${
+                    columnLayout === col
+                      ? "text-white scale-110"
+                      : "text-white/60 hover:text-white"
+                  }`}
+                >
+                  {col === 1 && <TfiLayoutWidthFull />}
+                  {col === 2 && <TfiLayoutColumn2 />}
+                  {col === 3 && <TfiLayoutColumn3 />}
+                </button>
+              ))}
             </div>
           )}
         </div>
 
-        {/* Filter Controls - Right Side */}
+        {/* Filter */}
         <div
-          ref={filterButtonRef}
           onClick={openFilterMenu}
-          className="flex items-center gap-2"
+          className="flex items-center gap-1 cursor-pointer"
         >
           {!mobileMenuOpen && (
-            <Motion.div initial={{ opacity: 0, x: 25 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 25 }} className="flex items-center justify-center font-bold text-[#e08c8ce7] text-sm">
+            <Motion.div
+              key={activeFilter}
+              initial={{ opacity: 0, x: 15 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -15 }}
+              transition={{ duration: 0.25 }}
+              className="font-bold text-accent text-sm"
+            >
               {filters.find((f) => f.id === activeFilter)?.label}
             </Motion.div>
           )}
-          <button className="px-2 py-2 bg-black flex items-center justify-center text-white transition-colors">
-            Filter
-          </button>
+          <button className="px-2 py-2 bg-black text-white">Filter</button>
         </div>
       </div>
 
-      {/* Filter Dropdown - Outside the control bar */}
+      {/* Mobile Filter Menu */}
       {mobileMenuOpen && (
         <div
           ref={mobileMenuRef}
-          className="fixed top-20 right-0 flex flex-col items-end w-[135px] bg-black z-30"
+          className="fixed top-[76px] right-0 flex flex-col items-end w-[165px] bg-black/95 backdrop-blur-md z-30 rounded py-2"
         >
           {filters.map((filter) => (
             <button
               key={filter.id}
               onClick={() => handleFilterClick(filter.id)}
-              className={`py-1 px-3 transition-colors ${
-                activeFilter === filter.id
-                  ? "text-[#e08c8ce7]"
-                  : "text-white hover:bg-white/20"
+              className={`w-full text-right px-5 py-2.5 transition-all ${
+                activeFilter === filter.id ? "text-accent" : "text-white"
               }`}
-              style={{ opacity: 0 }}
             >
-              <span className="text-sm">{filter.label}</span>
-              <span className="ml-1 text-xs opacity-60">({filter.count})</span>
+              {filter.label}{" "}
+              <span className="opacity-50">({filter.count})</span>
             </button>
           ))}
         </div>
       )}
 
-      {responsive.isMobile && (mobileMenuOpen || layoutMenuOpen) && (
+      {/* Overlay */}
+      {(mobileMenuOpen || layoutMenuOpen) && (
         <div
-          className="fixed inset-0 z-10 bg-transparent"
+          className="fixed inset-0 z-20 bg-black/0"
           onClick={() => {
             if (mobileMenuOpen) openFilterMenu();
             if (layoutMenuOpen) openLayoutMenu();
@@ -714,42 +717,19 @@ export default function PortfolioGallery() {
         />
       )}
 
+      {/* Gallery */}
       <div
         ref={itemsRef}
-        className={`w-full h-full p-1 flex gap-1 overflow-y-auto scrollable-container `}
+        className="w-full h-full overflow-y-auto scrollable-container"
       >
-        <div
-          className={`${
-            responsive.isMobile || responsive.isTablet ? "w-full" : "w-3/4" 
-          }  mb-16 h-max flex gap-1 max-md:w-full ${
-            columnLayout === 1 ? "max-md:flex-col" : ""
-          }`}
-        >
-          {columns.map((column, index) => (
-            <div
-              key={index}
-              className={`h-max ${
-                columnLayout === 1
-                  ? "flex-1"
-                  : columnLayout === 2
-                  ? "flex-1"
-                  : columnLayout === 3
-                  ? "flex-1"
-                  : ""
-              } ${columnLayout < 3 && index >= columnLayout ? "hidden" : ""}`}
-            >
-              {column}
-            </div>
-          ))}
-        </div>
-        <div className="flex-1"></div>
+        {galleryContent}
       </div>
 
       {/* Lightbox */}
       {lightboxImage && (
         <div
           ref={lightboxRef}
-          className="fixed inset-0 mt-16 z-101 bg-bckg/98 flex items-center justify-center pointer-events-auto overflow-hidden"
+          className="fixed inset-0 z-[999] bg-black/95 flex items-center justify-center pointer-events-auto overflow-hidden"
           style={{ touchAction: "none", overscrollBehavior: "none" }}
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
@@ -783,9 +763,9 @@ export default function PortfolioGallery() {
             className="max-w-[95vw] max-h-[89vh] w-auto h-auto object-contain pointer-events-none relative"
           />
           <div className="absolute -bottom-1 text-white text-lg mix-blend-difference pointer-events-none">
-            {lightboxIndex + 1} / {getFilteredItems().length}
+            {lightboxIndex + 1} / {filteredItems.length}
           </div>
-          
+
           {/* Visual swipe indicators for mobile */}
           {responsive.isMobile && (
             <>
@@ -794,9 +774,6 @@ export default function PortfolioGallery() {
               </div>
               <div className="absolute right-2 top-1/2 -translate-y-1/2 text-white/50 text-[50px] mix-blend-difference pointer-events-none z-20">
                 ›
-              </div>
-              <div className="absolute top-16 left-1/2 -translate-x-1/2 text-white/50 text-lg pointer-events-none z-20">
-                Swipe up to close
               </div>
             </>
           )}

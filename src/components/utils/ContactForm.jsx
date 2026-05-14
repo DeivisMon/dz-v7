@@ -46,27 +46,27 @@ export default function ContactForm() {
               Parašyk man
             </h2>
             <input
-              className="p-1 md:pt-6 border-b border-white/40 focus:outline-none focus:border-white/80 bg-black/20 text-muted text-sm lg:text-lg"
+              className="p-1 md:pt-6 border-b border-white/40 focus:outline-none focus:border-white/80 text-muted text-sm lg:text-lg"
               placeholder="Vardas"
               value={formData.name}
               onChange={(e) => handleInputChange("name", e.target.value)}
             />
             <input
-              className="p-1 md:pt-6 border-b border-white/40 focus:outline-none focus:border-white/80 bg-black/20 text-muted text-sm lg:text-lg"
+              className="p-1 md:pt-6 border-b border-white/40 focus:outline-none focus:border-white/80 text-muted text-sm lg:text-lg"
               type="email"
               placeholder="El.paštas"
               value={formData.email}
               onChange={(e) => handleInputChange("email", e.target.value)}
             />
             <input
-              className="p-1 md:pt-6 border-b border-white/40 focus:outline-none focus:border-white/80 bg-black/20 text-muted text-sm lg:text-lg"
+              className="p-1 md:pt-6 border-b border-white/40 focus:outline-none focus:border-white/80 text-muted text-sm lg:text-lg"
               type="tel"
               placeholder="Telefonas"
               value={formData.phone}
               onChange={(e) => handleInputChange("phone", e.target.value)}
             />
             <textarea
-              className="p-1 md:pt-3 border-b border-white/40 focus:outline-none focus:border-white/80 bg-black/20 text-muted text-sm lg:text-lg resize-none"
+              className="p-1 md:pt-3 border-b border-white/40 focus:outline-none focus:border-white/80 text-muted text-sm lg:text-lg resize-none"
               placeholder="Tavo Žinutė"
               rows={responsive.isShortScreen ? "1" : "2"}
               value={formData.message}
