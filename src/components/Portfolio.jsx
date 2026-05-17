@@ -16,6 +16,7 @@ import {
 } from "react-icons/tfi";
 import { galleryData } from "./galleryData";
 import { useResponsive } from "./hooks/useResopnsive";
+import { useClickOutside } from "./hooks/useClickOutside";
 import ScrollProgressBar from "./utils/ProgressBar";
 import ScrollTop from "./utils/ScrollTop";
 
@@ -176,6 +177,7 @@ export default function PortfolioGallery() {
   const mobileMenuRef = useRef(null);
   const layoutIconsRef = useRef([]);
   const hasAnimatedIn = useRef(false);
+  const menuWrapperRef = useRef(null);
 
   // Touch swipe state for lightbox
   const touchStartX = useRef(0);
@@ -215,6 +217,18 @@ export default function PortfolioGallery() {
       lenis.destroy();
     };
   }, []);
+
+  useClickOutside(
+  [menuWrapperRef],
+  () => {
+    if (mobileMenuOpen) {
+      animateFilterMenuOut(() => setMobileMenuOpen(false));
+    }
+    if (layoutMenuOpen) {
+      animateLayoutMenuOut(() => setLayoutMenuOpen(false));
+    }
+  }
+);
 
   const filters = [
     { id: "all", label: "Visi", count: items.length },
@@ -648,6 +662,7 @@ const openLayoutMenu = useCallback(() => {
 
       {/* Mobile Controls */}
       <div
+        ref={menuWrapperRef}
         className={`${responsive.isMobile || responsive.isTablet ? "flex" : "hidden"} relative w-full z-[888] bg-black items-center justify-between px-2 py-1`}
       >
         {/* Layout */}
@@ -711,7 +726,7 @@ const openLayoutMenu = useCallback(() => {
               {filters.find((f) => f.id === activeFilter)?.label}
             </Motion.div>
           )}
-          <button className="px-2 py-2 bg-black text-white">Filter</button>
+          <button className="px-2 py-2 bg-black text-white">Filtras</button>
         </div>
       </div>
 
