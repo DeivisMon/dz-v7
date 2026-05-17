@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
+import { useResponsive } from "../hooks/useResopnsive";
 
 const ScrollProgressBar = ({
   lenis,
-  height = 6,
   backgroundColor = "bg-white/20",
   progressColor = "bg-white",
   position = "bottom",
@@ -12,6 +12,7 @@ const ScrollProgressBar = ({
   const [progress, setProgress] = useState(0);
   const [active, setActive] = useState(false);
   const idleTimeout = useRef(null);
+  const responsive = useResponsive();
 
   useEffect(() => {
     if (!lenis) return;
@@ -43,8 +44,8 @@ const ScrollProgressBar = ({
       {/* Percentage */}
       {showPercentage && (
         <div
-          className="pointer-events-none -mb-2 relative "
-          style={{ transform: `translateY(${active ? 0 : 25}px)`, transition: 'transform 0.75s cubic-bezier(0.22, -0.5, 0.36, 1)' }}
+          className="pointer-events-none -mb-1 relative "
+          style={{ transform: `translateY(${active ? 0 : 25}px)`, transition: 'transform 0.5s cubic-bezier(0.22, -0.5, 0.36, 1)' }}
         >
           <span className="text-white text-xl font-medium ">
             {Math.round(progress * 100)}%
@@ -53,12 +54,11 @@ const ScrollProgressBar = ({
       )}
 
       {/* Track */}
-      <div className={`relative w-full ${backgroundColor}`} style={{ height, transform: `translateY(${active ? 0 : 10}px)`, transition: 'opacity 0.8s ease, transform 0.5s cubic-bezier(0.22, 1, -0.36, 1)' }}>
+      <div className={`relative w-full ${backgroundColor} ${responsive.isMobile || responsive.isTablet ? "h-1" : "h-2"}`} style={{ transform: `translateY(${active ? 0 : 10}px)`, transition: 'opacity 0.8s ease, transform 0.5s cubic-bezier(0.22, 1, -0.36, 1)' }}>
         {/* Progress bar */}
         <div
-          className={`${progressColor} absolute bottom-0 left-1/2`}
+          className={`${progressColor} ${responsive.isMobile || responsive.isTablet ? "h-1" : "h-2"} absolute bottom-0 left-1/2`}
           style={{
-            height,
             width: "100%",
             transformOrigin: "50% 50%",
             transform: `translateX(-50%) scaleX(${progress})`,

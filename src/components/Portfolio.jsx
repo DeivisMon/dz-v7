@@ -4,6 +4,7 @@ import React, {
   useRef,
   useMemo,
   useCallback,
+  useLayoutEffect,
 } from "react";
 import gsap from "gsap";
 import { motion as Motion } from "framer-motion";
@@ -18,16 +19,18 @@ import { useResponsive } from "./hooks/useResopnsive";
 import ScrollProgressBar from "./utils/ProgressBar";
 import ScrollTop from "./utils/ScrollTop";
 
-function shuffleArray(array) {
-  const arr = [...array];
-  for (let i = arr.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
-  }
-  return arr;
-}
+// function shuffleArray(array) {
+//   const arr = [...array];
+//   for (let i = arr.length - 1; i > 0; i--) {
+//     const j = Math.floor(Math.random() * (i + 1));
+//     [arr[i], arr[j]] = [arr[j], arr[i]];
+//   }
+//   return arr;
+// }
 
-const items = shuffleArray(galleryData);
+// const items = shuffleArray(galleryData);
+
+const items = galleryData;
 
 const FilterButton = ({ filter, isActive, onClick, index }) => {
   const h1Ref = useRef(null);
@@ -316,7 +319,7 @@ export default function PortfolioGallery() {
     <div
       className={`${
         responsive.isMobile || responsive.isTablet ? "w-full" : "w-3/4"
-      } mb-16 h-max flex gap-1 transition-all duration-300 ${
+      } mb-32 h-max flex gap-1 transition-all duration-300 ${
         columnLayout === 1 ? "flex-col " : ""
       }`}
     >
@@ -461,141 +464,168 @@ export default function PortfolioGallery() {
     if (!lightboxImage) hasAnimatedIn.current = false;
   }, [lightboxImage]);
 
-  const handleFilterClick = useCallback(
-    (filterId) => {
-      if (filterId === activeFilter) return;
-      setActiveFilter(filterId);
 
-      if (mobileMenuOpen) {
-        const menuItems = mobileMenuRef.current?.querySelectorAll("button");
-        if (menuItems?.length) {
-          gsap.to(menuItems, {
-            x: 50,
-            opacity: 0,
-            duration: 0.25,
-            stagger: 0.04,
-            onComplete: () => setMobileMenuOpen(false),
-          });
-        } else {
-          setMobileMenuOpen(false);
-        }
-      }
-
-      gsap.to(itemsRef.current, {
-        opacity: 0,
-        y: 40,
-        duration: 0.4,
-        ease: "power2.in",
-        onComplete: () => {
-          setActiveFilter(filterId);
-
-          lenisRef.current?.scrollTo(0, { immediate: true });
-
-          requestAnimationFrame(() => {
-            lenisRef.current?.resize();
-          });
-
-          gsap.to(itemsRef.current, {
-            opacity: 1,
-            y: 0,
-            duration: 0.6,
-            ease: "power3.out",
-          });
-        },
+// Filter Menu
+useLayoutEffect(() => {
+  if (mobileMenuOpen) {
+    const menuItems = mobileMenuRef.current?.querySelectorAll("button");
+    if (menuItems?.length) {
+      gsap.killTweensOf(menuItems);
+      gsap.set(menuItems, { y: -50, opacity: 0 });
+      gsap.to(menuItems, {
+        y: 0,
+        opacity: 1,
+        duration: 0.25,
+        stagger: 0.04,
+        ease: "power2.out",
       });
-    },
-    [activeFilter, mobileMenuOpen],
-  );
+    }
+  }
+}, [mobileMenuOpen]);
 
-  const handleLayoutChange = useCallback(
-    (newColumns) => {
-      if (newColumns === columnLayout) return;
+const animateFilterMenuOut = useCallback((onComplete) => {
+  const menuItems = mobileMenuRef.current?.querySelectorAll("button");
+  if (menuItems?.length) {
+    gsap.killTweensOf(menuItems);
+    gsap.to(menuItems, {
+      y: -50,
+      opacity: 0,
+      duration: 0.25,
+      stagger: 0.04,
+      ease: "power2.in",
+      onComplete: () => {
+        gsap.set(menuItems, { clearProps: "all" });
+        onComplete?.();
+      },
+    });
+  } else {
+    onComplete?.();
+  }
+}, []);
 
+const handleFilterClick = useCallback(
+  (filterId) => {
+    if (filterId === activeFilter) return;
+    setActiveFilter(filterId);
+
+    if (mobileMenuOpen) {
+      animateFilterMenuOut(() => setMobileMenuOpen(false));
+    }
+    gsap.to(itemsRef.current, {
+      opacity: 0,
+      y: 40,
+      duration: 0,
+      ease: "power2.out",
+      onComplete: () => {
+        lenisRef.current?.scrollTo(0, { immediate: true });
+        requestAnimationFrame(() => lenisRef.current?.resize());
+        gsap.to(itemsRef.current, {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power3.inOut", 
+        });
+      },
+    });
+  },
+  [activeFilter, mobileMenuOpen, animateFilterMenuOut],
+);
+
+const openFilterMenu = useCallback(() => {
+  if (mobileMenuOpen) {
+    animateFilterMenuOut(() => setMobileMenuOpen(false));
+  } else {
+    setLayoutMenuOpen(false);
+    setMobileMenuOpen(true);
+  }
+}, [mobileMenuOpen, animateFilterMenuOut]);
+
+
+// Layout Menu
+useLayoutEffect(() => {
+  if (layoutMenuOpen) {
+    const icons = layoutIconsRef.current.filter(Boolean);
+
+    if (icons?.length) {
+      gsap.killTweensOf(icons);
+      gsap.set(icons, { x: -20, opacity: 0 });
+
+      gsap.to(icons, {
+        x: 0,
+        opacity: 1,
+        duration: 0.25,
+        stagger: 0.1,
+        ease: "power2.out",
+      });
+    }
+  }
+}, [layoutMenuOpen]);
+
+const animateLayoutMenuOut = useCallback((onComplete) => {
+  const icons = layoutIconsRef.current.filter(Boolean);
+
+  if (icons?.length) {
+    gsap.killTweensOf(icons);
+    gsap.to(icons, {
+      x: -30,
+      opacity: 0,
+      duration: 0.25,
+      stagger: 0.1,
+      ease: "power2.in",
+      onComplete: () => {
+        gsap.set(icons, { clearProps: "all" });
+        onComplete?.();
+      },
+    });
+  } else {
+    onComplete?.();
+  }
+}, []);
+
+const handleLayoutChange = useCallback(
+  (newColumns) => {
+    if (newColumns === columnLayout) return;
+
+    const runLayoutChange = () => {
       gsap.to(itemsRef.current, {
         opacity: 0,
         y: 40,
-        duration: 0.4,
-        ease: "power2.in",
+        duration: 0,
         onComplete: () => {
           setColumnLayout(newColumns);
-          setLayoutMenuOpen(false);
-
           lenisRef.current?.scrollTo(0, { immediate: true });
-
-          requestAnimationFrame(() => {
-            lenisRef.current?.resize();
-          });
+          requestAnimationFrame(() => lenisRef.current?.resize());
 
           gsap.to(itemsRef.current, {
             opacity: 1,
             y: 0,
-            duration: 0.6,
-            ease: "power3.out",
+            duration: 0.8,
+            ease: "power3.inOut",
           });
         },
       });
-    },
-    [columnLayout],
-  );
+    };
 
-  // Mobile Menu Controls
-  const openFilterMenu = () => {
-    if (mobileMenuOpen) {
-      const menuItems = mobileMenuRef.current?.querySelectorAll("button");
-      if (menuItems?.length) {
-        gsap.to(menuItems, {
-          x: 50,
-          opacity: 0,
-          duration: 0.25,
-          stagger: 0.04,
-          ease: "power2.in",
-          onComplete: () => setMobileMenuOpen(false),
-        });
-      } else {
-        setMobileMenuOpen(false);
-      }
-    } else {
-      setMobileMenuOpen(true);
-      setLayoutMenuOpen(false);
-       setTimeout(() => {
-        const menuItems = mobileMenuRef.current?.querySelectorAll("button");
-        if (menuItems?.length) {
-          gsap.fromTo(
-            menuItems,
-            { x: 50, opacity: 0 },
-            {
-              x: 0,
-              opacity: 1,
-              duration: 0.4,
-              stagger: 0.1,
-              ease: "power2.in",
-            }
-          );
-        }
-      }, 50);
-    }
-  };
-
-  const openLayoutMenu = () => {
     if (layoutMenuOpen) {
-      const icons = layoutIconsRef.current.filter(Boolean);
-      if (icons.length) {
-        gsap.to(icons, {
-          x: -30,
-          opacity: 0,
-          duration: 0.25,
-          stagger: 0.05,
-          ease: "power2.in",
-          onComplete: () => setLayoutMenuOpen(false),
-        });
-      } else {
+      animateLayoutMenuOut(() => {
         setLayoutMenuOpen(false);
-      }
+        runLayoutChange();
+      });
     } else {
-      setLayoutMenuOpen(true);
-      setMobileMenuOpen(false);
+      runLayoutChange();
     }
-  };
+  },
+  [columnLayout, layoutMenuOpen, animateLayoutMenuOut]
+);
+
+const openLayoutMenu = useCallback(() => {
+  if (layoutMenuOpen) {
+    animateLayoutMenuOut(() => setLayoutMenuOpen(false));
+  } else {
+    setMobileMenuOpen(false);
+    setLayoutMenuOpen(true);
+  }
+}, [layoutMenuOpen, animateLayoutMenuOut]);
 
   return (
     <div
@@ -631,7 +661,7 @@ export default function PortfolioGallery() {
               initial={{ opacity: 0, x: -15 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 15 }}
-              transition={{ duration: 0.25 }}
+              transition={{ duration: 0.15 }}
               className="w-8 h-8 flex items-center justify-center text-white"
             >
               {columnLayout === 1 && <TfiLayoutWidthFull />}
@@ -649,7 +679,7 @@ export default function PortfolioGallery() {
                     e.stopPropagation();
                     handleLayoutChange(col);
                   }}
-                  className={`w-9 h-9 flex items-center justify-center transition-all ${
+                  className={`mobile-layout-item w-9 h-9 flex items-center justify-center transition-all ${
                     columnLayout === col
                       ? "text-white scale-110"
                       : "text-white/60 hover:text-white"
@@ -675,7 +705,7 @@ export default function PortfolioGallery() {
               initial={{ opacity: 0, x: 15 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -15 }}
-              transition={{ duration: 0.25 }}
+              transition={{ duration: 0.15 }}
               className="font-bold text-accent text-sm"
             >
               {filters.find((f) => f.id === activeFilter)?.label}
@@ -695,7 +725,7 @@ export default function PortfolioGallery() {
             <button
               key={filter.id}
               onClick={() => handleFilterClick(filter.id)}
-              className={`w-full text-right px-5 py-2.5 transition-all ${
+              className={`mobile-filter-item w-full text-right px-5 py-2.5 transition-all ${
                 activeFilter === filter.id ? "text-accent" : "text-white"
               }`}
             >

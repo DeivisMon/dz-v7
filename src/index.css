@@ -126,6 +126,16 @@ textarea {
   animation: drawLine 1s ease forwards;
 }
 
+.mobile-filter-item {
+  opacity: 0;
+  transform: translateY(-50px);
+}
+
+.mobile-layout-item {
+  opacity: 0;
+  /* transform: translateX(-20px); */
+}
+
 @keyframes drawLine {
   0% {
     transform: scaleX(0);
