@@ -2,6 +2,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
 import { motion as Motion, AnimatePresence } from "framer-motion";
 import AnimatedText from "../utils/AnimatedText";
+import SocialIcons from "../utils/SocialIcons"
 import { useResponsive } from "../hooks/useResopnsive";
 import gsap from "gsap";
 
@@ -48,7 +49,7 @@ export default function NavBar() {
       return;
     }
     setIsMenuOpen(false);
-    setTimeout(() => navigate(path), 1000);
+    setTimeout(() => navigate(path), 500);
   };
 
   // ── Framer Motion variants ──────────────────────────────────────────────
@@ -62,23 +63,22 @@ export default function NavBar() {
 
   // Full-screen overlay: clips in from top-right corner (mirrors original GSAP clip-path)
   const overlay = {
-    initial: { clipPath: "inset(0% 0% 100% 100%)" },
+    initial: { clipPath: "inset(0% 0% 100% 0%)" },
     animate: {
       clipPath: "inset(0% 0% 0% 0%)",
       transition: { duration: 0.75, delay: 0.25, ease: [0.87, 0, 0.13, 1] },
     },
     exit: {
-      clipPath: "inset(0% 0% 100% 100%)",
+      clipPath: "inset(100% 0% 0% 0%)",
       transition: { duration: 0.5, delay: 0.5, ease: [0.53, 0.2, 0.17, 1] },
     },
   };
 
   // Each nav link: slides up in, slides up out
   const linkItem = {
-    initial: { y: -100, x: 100, opacity: 0 },
+    initial: { y: -50, opacity: 0 },
     animate: (i) => ({
       y: 0,
-      x: 0,
       opacity: 1,
       transition: {
         duration: 0.5,
@@ -87,12 +87,11 @@ export default function NavBar() {
       },
     }),
     exit: (i) => ({
-      y: -50,
-      x: 50,
+      y: 50,
       opacity: 0,
       transition: {
         duration: 0.25,
-        delay: i * 0.1,
+        delay: 0.3 - i * 0.1,
         ease: [0.22, 1, 0.36, 1],
       },
     }),
@@ -235,6 +234,9 @@ export default function NavBar() {
                 </Motion.div>
               ))}
             </nav>
+            <div className="fixed bottom-5"> 
+              <SocialIcons/>
+            </div>
           </Motion.div>
         )}
       </AnimatePresence>

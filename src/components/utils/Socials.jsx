@@ -51,7 +51,7 @@ export default function Socials() {
           <Motion.div
             variants={iconVariants}
             className="flex items-center"
-            style={{ fontSize: 16, cursor: "pointer" }}
+            style={{ fontSize: 16 }}
             aria-label={label}
           >
             {label}

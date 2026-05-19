@@ -31,7 +31,7 @@ import ScrollTop from "./utils/ScrollTop";
 
 // const items = shuffleArray(galleryData);
 
-const items = galleryData;
+const items = galleryData.slice(0, 10);
 
 const FilterButton = ({ filter, isActive, onClick, index }) => {
   const h1Ref = useRef(null);
@@ -677,7 +677,7 @@ const openLayoutMenu = useCallback(() => {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 15 }}
               transition={{ duration: 0.15 }}
-              className="w-8 h-8 flex items-center justify-center text-white"
+              className="w-8 h-8 flex items-center justify-center text-accent"
             >
               {columnLayout === 1 && <TfiLayoutWidthFull />}
               {columnLayout === 2 && <TfiLayoutColumn2 />}
@@ -696,8 +696,8 @@ const openLayoutMenu = useCallback(() => {
                   }}
                   className={`mobile-layout-item w-9 h-9 flex items-center justify-center transition-all ${
                     columnLayout === col
-                      ? "text-white scale-110"
-                      : "text-white/60 hover:text-white"
+                      ? "text-accent scale-110 "
+                      : "text-white/60"
                   }`}
                 >
                   {col === 1 && <TfiLayoutWidthFull />}
