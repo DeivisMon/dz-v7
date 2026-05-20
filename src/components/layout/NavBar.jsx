@@ -178,7 +178,7 @@ export default function NavBar() {
         aria-label="Toggle menu"
       >
         <Motion.span
-          className="w-6 h-0.5 bg-white origin-center block"
+          className="w-6 h-0.5 bg-white origin-center block rounded-tr-xl rounded-bl-xl"
           initial={{ opacity: 0, y: 10 }}
           animate={
             isMenuOpen
@@ -198,7 +198,7 @@ export default function NavBar() {
           transition={{ duration: 0.2, delay: 0.15 }}
         />
         <Motion.span
-          className="w-6 h-0.5 bg-white origin-center block"
+          className="w-6 h-0.5 bg-white origin-center block rounded-bl-xl rounded-tr-xl"
           initial={{ opacity: 0, y: -10 }}
           animate={
             isMenuOpen

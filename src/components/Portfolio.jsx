@@ -562,7 +562,7 @@ useLayoutEffect(() => {
 
     if (icons?.length) {
       gsap.killTweensOf(icons);
-      gsap.set(icons, { x: -20, opacity: 0 });
+      gsap.set(icons, { x: -10, opacity: 0 });
 
       gsap.to(icons, {
         x: 0,
@@ -581,7 +581,7 @@ const animateLayoutMenuOut = useCallback((onComplete) => {
   if (icons?.length) {
     gsap.killTweensOf(icons);
     gsap.to(icons, {
-      x: -30,
+      x: -10,
       opacity: 0,
       duration: 0.25,
       stagger: 0.1,
@@ -670,12 +670,12 @@ const openLayoutMenu = useCallback(() => {
           onClick={openLayoutMenu}
           className="flex items-center gap-1 cursor-pointer"
         >
-          <span className="text-white">Layout</span>
+          <span className="text-white">Išdėstymas</span>
           {!layoutMenuOpen && (
             <Motion.div
-              initial={{ opacity: 0, x: -15 }}
+              initial={{ opacity: 0, x: -10 }}
               animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 15 }}
+              exit={{ opacity: 0, x: 10 }}
               transition={{ duration: 0.15 }}
               className="w-8 h-8 flex items-center justify-center text-accent"
             >
@@ -696,7 +696,7 @@ const openLayoutMenu = useCallback(() => {
                   }}
                   className={`mobile-layout-item w-9 h-9 flex items-center justify-center transition-all ${
                     columnLayout === col
-                      ? "text-accent scale-110 "
+                      ? "text-accent scale-110 border-b-2 rounded-xs"
                       : "text-white/60"
                   }`}
                 >
@@ -717,9 +717,9 @@ const openLayoutMenu = useCallback(() => {
           {!mobileMenuOpen && (
             <Motion.div
               key={activeFilter}
-              initial={{ opacity: 0, x: 15 }}
+              initial={{ opacity: 0, x: 10 }}
               animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -15 }}
+              exit={{ opacity: 0, x: -10 }}
               transition={{ duration: 0.15 }}
               className="font-bold text-accent text-sm"
             >
