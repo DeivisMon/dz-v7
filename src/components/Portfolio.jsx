@@ -165,7 +165,7 @@ export default function PortfolioGallery() {
   const [lightboxIndex, setLightboxIndex] = useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [layoutMenuOpen, setLayoutMenuOpen] = useState(false);
-  const [columnLayout, setColumnLayout] = useState(2);
+  const [columnLayout, setColumnLayout] = useState(3);
   const responsive = useResponsive();
 
   // Refs

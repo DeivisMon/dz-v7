@@ -20,7 +20,7 @@ export default function Footer() {
           </div>
         ) : ( null)}
         <div
-          className={`${getPath()} fixed text-muted bg-black/75 w-full -bottom-5 left-1/2 transform -translate-y-1/2 -translate-x-1/2 justify-center text-lg xl:text-md animate-pulse`}
+          className={`${getPath()} fixed text-muted w-full -bottom-5 left-1/2 transform -translate-y-1/2 -translate-x-1/2 justify-center text-lg xl:text-md animate-pulse`}
         >
           {/* <LuArrowBigLeftDash size={24} className="-pb-1" />
           {responsive.isDesktop ? <span>Drag/Scroll</span> : <span>Swipe</span>}
