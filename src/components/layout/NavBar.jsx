@@ -29,7 +29,7 @@ export default function NavBar() {
       gsap.to(underlineRef.current, {
         left: offsetLeft + 5,
         width: offsetWidth - 10,
-        duration: 0.33,
+        duration: .5,
         ease: "expo.inOut",
       });
     }
@@ -52,7 +52,7 @@ export default function NavBar() {
     setTimeout(() => navigate(path), 500);
   };
 
-  // ── Framer Motion variants ──────────────────────────────────────────────
+  // Mobile menu animations
 
   const Animate = (variants) => ({
     initial: "initial",
@@ -61,7 +61,7 @@ export default function NavBar() {
     variants,
   });
 
-  // Full-screen overlay: clips in from top-right corner (mirrors original GSAP clip-path)
+  // Mobile menu overlay: 
   const overlay = {
     initial: { clipPath: "inset(0% 0% 100% 0%)" },
     animate: {
@@ -74,7 +74,7 @@ export default function NavBar() {
     },
   };
 
-  // Each nav link: slides up in, slides up out
+  // Mobile menu links
   const linkItem = {
     initial: { y: -50, opacity: 0 },
     animate: (i) => ({
@@ -99,7 +99,7 @@ export default function NavBar() {
 
   return (
     <>
-      {/* ── Navbar bar ───────────────────────────────────────────────────── */}
+      {/* Navbar */}
       <div
         className={`bg-black navbar fixed z-[1000] ${
           responsive.isMobile || responsive.isTablet ? "top-0 h-[38px]" : "top-0 h-[64px]"
@@ -108,9 +108,9 @@ export default function NavBar() {
         <div className="navbar-container relative w-full flex justify-between items-center">
           <div className="absolute left-0 top-0 xl:-top-3 w-full flex justify-between items-center">
             {/* Logo */}
-            <div className="logo text-[24px] xl:text-[42px] pl-1 xl:pl-8">
+            <div className="logo font-normal text-[24px] xl:text-[42px] pl-1 xl:pl-8">
               <Link
-                className="flex font-bold transition-all duration-500 ease-in-out"
+                className="flex transition-all duration-500 ease-in-out"
                 to="/"
                 onClick={() => handleNavClick("/")}
               >
@@ -146,10 +146,10 @@ export default function NavBar() {
                 <li
                   key={item.path}
                   ref={(el) => (navItemRefs.current[item.path] = el)}
-                  className={`cursor-trigger inline-flex items-center justify-center cursor-none ${
+                  className={`cursor-trigger inline-flex items-center uppercase justify-center cursor-none ${
                     !isActive(item.path)
-                      ? "opacity-80 font-normal text-muted"
-                      : "opacity-100 text-accent font-bold italic"
+                      ? "opacity-80 text-muted"
+                      : "opacity-100 text-accent italic"
                   }`}
                   data-cursor-type="link"
                   onMouseEnter={() => moveUnderlineTo(item.path)}
@@ -178,17 +178,17 @@ export default function NavBar() {
         aria-label="Toggle menu"
       >
         <Motion.span
-          className="w-6 h-0.5 bg-white origin-center block rounded-tr-xl rounded-bl-xl"
+          className="w-6 h-0.25 bg-header origin-center block"
           initial={{ opacity: 0, y: 10 }}
           animate={
             isMenuOpen
-              ? { opacity: 1, x: 0, rotate: 45, y: 8 }
+              ? { opacity: 1, x: 0, rotate: 45, y: 6 }
               : { opacity: 1, x: 0, rotate: 0, y: 0 }
           }
           transition={{ duration: 0.3, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
         />
         <Motion.span
-          className="w-6 h-0.5 bg-white block"
+          className="w-6 h-0.25 bg-white block"
           initial={{ opacity: 0, y: 0 }}
           animate={
             isMenuOpen
@@ -198,7 +198,7 @@ export default function NavBar() {
           transition={{ duration: 0.2, delay: 0.15 }}
         />
         <Motion.span
-          className="w-6 h-0.5 bg-white origin-center block rounded-bl-xl rounded-tr-xl"
+          className="w-6 h-0.25 bg-header origin-center block"
           initial={{ opacity: 0, y: -10 }}
           animate={
             isMenuOpen
@@ -214,13 +214,13 @@ export default function NavBar() {
         {isMenuOpen && (responsive.isMobile || responsive.isTablet) && (
           <Motion.div
             {...Animate(overlay)}
-            className="fixed top-0 left-0 w-full h-[100dvh] bg-black z-[999] flex flex-col justify-center items-center"
+            className="fixed top-0 left-0 w-full h-[100dvh] bg-black/75 backdrop-blur-xl z-[999] flex flex-col justify-center items-center"
           >
             <nav className={`flex flex-col ${responsive.isLandscape ? "gap-4" : "gap-8"} text-center`}>
               {navItems.map((item, i) => (
                 <Motion.div key={item.path} custom={i} {...Animate(linkItem)}>
                   <Link
-                    className={`text-3xl md:text-3xl lg:text-5xl xl:text-6xl font-bold tracking-widest ${
+                    className={`text-3xl md:text-3xl lg:text-5xl xl:text-6xl uppercase tracking-widest ${
                       isActive(item.path) ? "italic text-accent" : "text-muted opacity-80"
                     }`}
                     to={item.path}

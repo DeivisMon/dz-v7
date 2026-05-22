@@ -113,7 +113,7 @@ export default function ScrollTop({ lenis }) {
                 strokeLinejoin="round"
               ></Motion.path>
               <Motion.path
-                initial={{ opacity: 0.5 }}
+                initial={{ opacity: 0.75 }}
                 animate={{ y: [0, 3, 0], opacity: 1 }}
                 transition={{
                   duration: 2.5,

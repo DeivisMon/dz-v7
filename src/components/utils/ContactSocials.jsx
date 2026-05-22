@@ -99,15 +99,15 @@ export default function ContactSocials() {
       className="social-icons flex flex-col justify-center space-y-0 xl:space-y-8"
     >
       {/* Socials with underline hover */}
-      <div className="flex flex-col items-center py-2 md:border-b border-white/40">
+      <div className="flex flex-col items-start py-2 md:border-b border-white/40">
         <h2 className="text-md lg:text-7xl font-thin tracking-[clamp(0.5em,calc(0.05em+0.3vw),0.25em)] text-header">
           Susisiekime
         </h2>
-        <div className="flex flex-col items-center lg:items-start w-full min-w-0 ">
+        <div className="flex items-center justify-between lg:items-start w-full min-w-0 ">
           {icons.map(({ id, label }) => (
             <div
               key={id}
-              className="cursor-trigger group relative w-full px-8"
+              className="cursor-trigger group relative w-full"
               data-cursor-type="link"
               onMouseEnter={() => setHoveredIcon(id)}
               onMouseLeave={() => setHoveredIcon(null)}
@@ -115,7 +115,7 @@ export default function ContactSocials() {
               <div className="flex items-center justify-between py-1 lg:py-2">
                 <Motion.div
                   variants={iconVariants}
-                  className="font-bold text-sm lg:text-2xl tracking-[0.25em] relative"
+                  className="text-sm lg:text-2xl tracking-[0.25em] relative"
                   aria-label={label}
                 >
                   <AnimatedText
@@ -155,7 +155,7 @@ export default function ContactSocials() {
       </div>
 
       {/* Email with underline hover */}
-      <div className="flex flex-col items-start justify-center pl-8 py-2 md:border-b border-white/40">
+      <div className="flex flex-col items-start justify-center py-2 md:border-b border-white/40">
         <h2 className="text-md lg:text-4xl tracking-[clamp(0.5em,calc(0.05em+0.3vw),0.25em)] font-thin lg:mb-4 text-header">
           El.paštas
         </h2>
@@ -206,7 +206,7 @@ export default function ContactSocials() {
       </div>
 
       {/* Phone with underline hover */}
-      <div className="flex flex-col items-start justify-center pl-8">
+      <div className="flex flex-col items-start justify-center">
         <h2 className="text-md lg:text-4xl tracking-[clamp(0.5em,calc(0.05em+0.3vw),0.25em)] font-thin lg:mb-4 text-header">
           Telefonas
         </h2>

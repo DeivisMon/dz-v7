@@ -40,23 +40,23 @@ export default function Socials() {
       initial="hidden"
       animate="show"
       exit="exit"
-      className="social-icons relative hidden text-accent lg:flex items-end gap-6 mix-blend-difference"
+      className="social-icons relative text-muted flex gap-4 mix-blend-difference"
     >
       {icons.map(({ id, label }) => (
         <div
           key={id}
-          className="cursor-trigger group flex items-center"
+          className="cursor-trigger group hidden lg:flex justify-end items-center"
           // data-cursor-type="link"
         >
           <Motion.div
             variants={iconVariants}
-            className="flex items-center"
+            className="flex justify-end"
             style={{ fontSize: 16 }}
             aria-label={label}
           >
             {label}
           </Motion.div>
-          <span className="opacity-0 -rotate-180 translate-y-2 group-hover:translate-y-0 group-hover:opacity-100 group-hover:rotate-0 transition-all duration-300 ease-in-out ">
+          <span className="opacity-0 -rotate-180 translate-y-2 w-4 group-hover:translate-y-0 group-hover:opacity-100 group-hover:rotate-0 transition-all duration-300 ease-in-out ">
             <MdArrowOutward />
           </span>
         </div>
