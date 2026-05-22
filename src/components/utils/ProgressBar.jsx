@@ -54,10 +54,10 @@ const ScrollProgressBar = ({
       )}
 
       {/* Track */}
-      <div className={`relative w-full ${backgroundColor} ${responsive.isMobile || responsive.isTablet ? "h-1" : "h-2"}`} style={{ transform: `translateY(${active ? 0 : 10}px)`, transition: 'opacity 0.8s ease, transform 0.5s cubic-bezier(0.22, 1, -0.36, 1)' }}>
+      <div className={`relative w-full ${backgroundColor} ${responsive.isMobile || responsive.isTablet ? "h-1" : "h-[6px]"}`} style={{ transform: `translateY(${active ? 0 : 10}px)`, transition: 'opacity 0.8s ease, transform 0.5s cubic-bezier(0.22, 1, -0.36, 1)' }}>
         {/* Progress bar */}
         <div
-          className={`${progressColor} ${responsive.isMobile || responsive.isTablet ? "h-1" : "h-2"} absolute bottom-0 left-1/2`}
+          className={`${progressColor} ${responsive.isMobile || responsive.isTablet ? "h-1" : "h-[4px]"} absolute bottom-0 left-1/2`}
           style={{
             width: "100%",
             transformOrigin: "50% 50%",

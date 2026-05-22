@@ -31,7 +31,7 @@ import ScrollTop from "./utils/ScrollTop";
 
 // const items = shuffleArray(galleryData);
 
-const items = galleryData.slice(0, 10);
+const items = galleryData.slice(0, 20);
 
 const FilterButton = ({ filter, isActive, onClick, index }) => {
   const h1Ref = useRef(null);
@@ -774,7 +774,7 @@ const openLayoutMenu = useCallback(() => {
       {lightboxImage && (
         <div
           ref={lightboxRef}
-          className="fixed inset-0 z-[999] bg-black/95 flex items-center justify-center pointer-events-auto overflow-hidden"
+          className="fixed inset-0 z-[999] bg-black/95 backdrop-blur flex items-center justify-center pointer-events-auto overflow-hidden"
           style={{ touchAction: "none", overscrollBehavior: "none" }}
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
